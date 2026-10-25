@@ -1,0 +1,26 @@
+# Credenciales y configuraciones privadas
+.env
+.env.*
+!.env.example
+app/config/database.php
+
+# Archivos de macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Archivos temporales y registros
+*.log
+*.tmp
+*.bak
+
+# Dependencias y herramientas
+vendor/
+node_modules/
+.idea/
+.vscode/
+
+# Respaldos de bases de datos
+*.sql
+*.dump
+*.backup
