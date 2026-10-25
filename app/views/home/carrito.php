@@ -1,302 +1,442 @@
-
 <?php
 $total = (float) ($total ?? 0);
 $productosCarrito = $productosCarrito ?? [];
+$datosPedido = $_SESSION['datos_pedido'] ?? [];
+$erroresPedido = $_SESSION['errores_pedido'] ?? [];
 
 $cantidadProductos = 0;
 
 foreach ($productosCarrito as $producto) {
-    $cantidadProductos += (int) $producto['cantidad'];
+    $cantidadProductos += (int) ($producto['cantidad'] ?? 0);
 }
+
+$esc = static function ($valor): string {
+    return htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
+};
+
+$logueado = !empty($_SESSION['usuario']['id_usuario']);
+$servicioActual = $datosPedido['tipo_servicio'] ?? 'domicilio';
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>FRUTA MADRE | Mi carrito</title>
+    <title>FRUTA MADRE - Carrito y Datos del Pedido</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: #fff8f0;
-            color: #201b0f;
+        :root {
+            --cream: #fff8f0;
+            --paper: #fdf2de;
+            --soft: #f8edd8;
+            --ink: #201b0f;
+            --muted: #41493f;
+            --green: #2f612f;
+            --green-light: #477a45;
+            --pink: #ac2d50;
+            --line: #c1c9bc;
         }
 
-        h1, h2, h3, .brand {
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--cream);
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        h1, h2, h3, .brand, .rotulo {
             font-family: 'Syne', sans-serif;
         }
 
-        button, a {
-            transition: all .2s ease;
+        a, button { transition: all .2s ease; }
+
+        .market-shadow {
+            box-shadow: 3px 3px 0 var(--ink);
+        }
+
+        .section-card {
+            background: white;
+            border: 1px solid rgba(193,201,188,.8);
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 3px 3px 0 var(--ink);
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .section-number {
+            display: flex;
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            background: var(--green);
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            box-shadow: 2px 2px 0 var(--ink);
+        }
+
+        .field {
+            display: block;
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            background: var(--soft);
+            outline: none;
+            font: inherit;
+            color: var(--ink);
+        }
+
+        .field:focus {
+            border-color: var(--green-light);
+            background: white;
+            box-shadow: 0 0 0 3px #477a4520;
+        }
+
+        .field-label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .service-option {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: white;
+            box-shadow: 3px 3px 0 var(--ink);
+            cursor: pointer;
+        }
+
+        .service-option:has(input:checked) {
+            border: 2px solid var(--green);
+            background: #f3f8ee;
+            box-shadow: 4px 4px 0 var(--green);
+        }
+
+        .service-option input { accent-color: var(--green); }
+
+        .qty-button {
+            display: flex;
+            width: 32px;
+            height: 32px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: white;
+            font-weight: 900;
+        }
+
+        .qty-button:hover { background: var(--soft); }
+
+        .date-choice, .time-choice {
+            cursor: pointer;
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            background: var(--soft);
+            padding: 12px;
+            text-align: center;
+        }
+
+        .date-choice:has(input:checked),
+        .time-choice:has(input:checked) {
+            border-color: var(--green);
+            background: var(--green);
+            color: white;
+            box-shadow: 2px 2px 0 var(--ink);
+        }
+
+        .date-choice input, .time-choice input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ticket-divider {
+            border-top: 2px dashed var(--line);
+        }
+
+        [hidden] { display: none !important; }
+
+        @media (max-width: 640px) {
+            .section-card { padding: 18px; }
+            .hero-title { font-size: 39px; line-height: 1.05; }
         }
     </style>
 </head>
 
-<body class="min-h-screen">
+<body>
 
-    <!-- Aviso superior -->
-    <div class="bg-[#2f612f] px-4 py-2 text-center text-xs font-bold uppercase tracking-widest text-white">
-        Entregas exprés · Fruta fresca del día · Chamoy artesanal
+<!-- CENEFA SUPERIOR -->
+<div class="bg-[#2f612f] px-4 py-2 text-center text-xs font-extrabold uppercase tracking-widest text-white">
+    Entregas exprés · Fruta fresca del día · Chamoy artesanal
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-30 border-b border-[#ece1cd] bg-[#fff8f0]/95 shadow-sm backdrop-blur">
+    <div class="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-5 py-4 lg:px-10">
+        <a href="index.php" class="shrink-0">
+            <span class="brand block text-xl font-extrabold tracking-wider">FRUTA MADRE</span>
+            <span class="block text-xs font-extrabold uppercase text-[#ac2d50]">
+                Te damos hasta para llevar
+            </span>
+        </a>
+
+        <nav class="hidden items-center gap-2 lg:flex">
+            <a href="index.php" class="rounded-lg px-4 py-2 hover:bg-[#f8edd8]">Inicio</a>
+            <a href="index.php#catalogo" class="rounded-lg px-4 py-2 hover:bg-[#f8edd8]">Catálogo</a>
+            <a href="index.php#eventos" class="rounded-lg px-4 py-2 hover:bg-[#f8edd8]">Eventos</a>
+        </nav>
+
+        <a href="index.php?accion=carrito"
+           class="flex items-center gap-2 rounded-xl bg-[#f8edd8] px-4 py-3 font-bold market-shadow">
+            <span class="material-symbols-outlined">shopping_bag</span>
+            <span class="hidden sm:inline">Mi carrito</span>
+            <span class="flex h-6 min-w-6 items-center justify-center rounded-full bg-[#ac2d50] px-1 text-xs text-white">
+                <?= $cantidadProductos ?>
+            </span>
+        </a>
     </div>
 
-    <!-- Encabezado -->
-    <header class="sticky top-0 z-20 border-b border-[#ece1cd] bg-[#fff8f0]/95 shadow-sm backdrop-blur">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-5 lg:px-10">
+    <div class="flex h-1.5">
+        <div class="flex-1 bg-[#477a45]"></div>
+        <div class="flex-1 bg-[#fc6a8a]"></div>
+        <div class="flex-1 bg-[#f2e7d2]"></div>
+        <div class="flex-1 bg-[#b55107]"></div>
+    </div>
+</header>
 
-            <a href="index.php" class="block shrink-0">
-                <span class="brand block text-lg font-extrabold tracking-wider text-[#201b0f]">
-                    FRUTA MADRE
-                </span>
-                <span class="block text-xs font-bold uppercase text-[#ac2d50]">
-                    Te damos hasta para llevar
-                </span>
-            </a>
+<main class="mx-auto max-w-[1440px] px-5 py-8 lg:px-10 lg:py-10">
 
-            <nav class="hidden items-center gap-2 lg:flex">
-                <a href="index.php" class="rounded-lg px-4 py-2 hover:bg-[#f8edd8]">
-                    Inicio
-                </a>
-
-                <a href="index.php#catalogo" class="rounded-lg px-4 py-2 hover:bg-[#f8edd8]">
-                    Catálogo
-                </a>
-
-                <a href="index.php" class="rounded-lg px-4 py-2 hover:bg-[#f8edd8]">
-                    Eventos
-                </a>
-            </nav>
-
-            <div class="flex items-center gap-3">
-                <a href="index.php?accion=carrito"
-                   aria-label="Ver carrito"
-                   class="relative flex items-center gap-2 rounded-xl bg-[#f8edd8] px-4 py-3 font-bold shadow-[2px_2px_0px_#201b0f]">
-                    <span class="material-symbols-outlined">shopping_bag</span>
-                    <span class="hidden sm:inline">Mi carrito</span>
-
-                    <span class="flex h-6 min-w-6 items-center justify-center rounded-full bg-[#ac2d50] px-1 text-xs text-white">
-                        <?= $cantidadProductos ?>
-                    </span>
-                </a>
-            </div>
-
-        </div>
-
-        <!-- Cenefa de colores -->
-        <div class="flex h-1.5">
-            <div class="flex-1 bg-[#477a45]"></div>
-            <div class="flex-1 bg-[#fc6a8a]"></div>
-            <div class="flex-1 bg-[#f2e7d2]"></div>
-            <div class="flex-1 bg-[#b55107]"></div>
-        </div>
-    </header>
-
-    <main class="mx-auto min-h-[65vh] max-w-7xl px-5 py-8 lg:px-10 lg:py-12">
-
-        <!-- Ruta de navegación -->
-        <div class="mb-6 flex flex-wrap items-center gap-2 text-sm text-[#41493f]">
+    <!-- MIGAS DE PAN -->
+    <div class="mb-7 flex flex-wrap items-center justify-between gap-3">
+        <nav class="flex items-center gap-2 text-sm text-[#41493f]">
             <a href="index.php" class="hover:text-[#2f612f]">Inicio</a>
             <span class="material-symbols-outlined text-base">chevron_right</span>
-            <span class="font-bold text-[#ac2d50]">Mi carrito</span>
-        </div>
+            <span class="font-bold text-[#ac2d50]">Carrito y datos del pedido</span>
+        </nav>
 
-        <!-- Progreso de compra -->
-        <section class="mb-10 rounded-2xl border border-[#c1c9bc] bg-[#fdf2de] p-4 shadow-[3px_3px_0px_#201b0f]">
-            <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+        <?php if ($logueado): ?>
+            <span class="flex items-center gap-1 rounded-full bg-[#e5f2df] px-3 py-2 text-xs font-bold text-[#2f612f]">
+                <span class="material-symbols-outlined text-base">verified_user</span>
+                Sesión iniciada
+            </span>
+        <?php else: ?>
+            <a href="index.php?accion=login" class="text-sm font-bold text-[#2f612f] underline">
+                Inicia sesión para comprar
+            </a>
+        <?php endif; ?>
+    </div>
 
-                <div class="flex items-center gap-2">
-                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#2f612f] font-bold text-white">
-                        <span class="material-symbols-outlined">check</span>
+    <!-- PROGRESO -->
+    <section class="mb-9 rounded-2xl border border-[#c1c9bc] bg-[#fdf2de] p-4 shadow-[3px_3px_0px_#201b0f]">
+        <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+            <?php
+            $pasos = [
+                ['1', 'Carrito', 'Productos'],
+                ['2', 'Datos', 'Entrega y contacto'],
+                ['3', 'Pago', 'Método de pago'],
+                ['4', 'Confirmación', 'Pedido registrado']
+            ];
+            foreach ($pasos as $i => $paso):
+            ?>
+                <div class="flex items-center gap-2 <?= $i > 1 ? 'opacity-55' : '' ?>">
+                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full
+                        <?= $i === 0 ? 'bg-[#2f612f] text-white' : ($i === 1 ? 'bg-[#ac2d50] text-white' : 'bg-[#ece1cd]') ?>">
+                        <?php if ($i === 0): ?>
+                            <span class="material-symbols-outlined">check</span>
+                        <?php else: ?>
+                            <?= $paso[0] ?>
+                        <?php endif; ?>
                     </span>
                     <div>
-                        <p class="text-xs font-extrabold uppercase">1. Carrito</p>
-                        <p class="text-xs text-[#2f612f]">Actual</p>
+                        <p class="text-xs font-extrabold uppercase"><?= $esc($paso[1]) ?></p>
+                        <p class="text-xs"><?= $esc($paso[2]) ?></p>
                     </div>
                 </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
 
-                <div class="flex items-center gap-2 opacity-60">
-                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#ece1cd] font-bold">2</span>
-                    <div>
-                        <p class="text-xs font-extrabold uppercase">2. Entrega</p>
-                        <p class="text-xs">Siguiente</p>
-                    </div>
-                </div>
+    <!-- HERO -->
+    <div class="mb-9">
+        <span class="mb-3 inline-flex items-center gap-2 rounded-full bg-[#ffdbca] px-3 py-2 text-xs font-extrabold uppercase tracking-wider text-[#903e00]">
+            <span class="material-symbols-outlined text-base">storefront</span>
+            Puesto digital · Pedido en preparación
+        </span>
 
-                <div class="flex items-center gap-2 opacity-60">
-                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#ece1cd] font-bold">3</span>
-                    <div>
-                        <p class="text-xs font-extrabold uppercase">3. Pago</p>
-                        <p class="text-xs">Pendiente</p>
-                    </div>
-                </div>
+        <h1 class="hero-title mb-3 text-5xl font-extrabold uppercase tracking-tight">
+            Tu pedido, marchante
+        </h1>
 
-                <div class="flex items-center gap-2 opacity-60">
-                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#ece1cd] font-bold">4</span>
-                    <div>
-                        <p class="text-xs font-extrabold uppercase">4. Confirmación</p>
-                        <p class="text-xs">Pendiente</p>
-                    </div>
-                </div>
+        <p class="max-w-2xl text-[#41493f]">
+            Revisa tus antojos, dinos cómo los quieres y déjanos los datos para
+            preparar todo fresco y con harto sabor.
+        </p>
+    </div>
 
+    <?php if (!empty($erroresPedido)): ?>
+        <div class="mb-7 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+            <p class="mb-2 font-extrabold">Revisa los siguientes datos:</p>
+            <ul class="list-inside list-disc space-y-1">
+                <?php foreach ($erroresPedido as $error): ?>
+                    <li><?= $esc($error) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <?php unset($_SESSION['errores_pedido']); ?>
+    <?php endif; ?>
+
+    <?php if (empty($productosCarrito)): ?>
+
+        <section class="rounded-2xl border border-[#c1c9bc] bg-white px-6 py-16 text-center shadow-[4px_4px_0px_#201b0f]">
+            <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#ffd9de] text-[#ac2d50]">
+                <span class="material-symbols-outlined text-5xl">shopping_basket</span>
             </div>
+
+            <h2 class="mb-3 text-2xl font-extrabold uppercase">
+                ¿Tu carrito anda más vacío que refri de estudiante?
+            </h2>
+
+            <p class="mx-auto mb-7 max-w-md text-[#41493f]">
+                No te quedes con el antojo. Regresa al catálogo y elige algo rico.
+            </p>
+
+            <a href="index.php"
+               class="inline-flex items-center gap-2 rounded-xl bg-[#2f612f] px-6 py-4 font-bold text-white market-shadow hover:bg-[#477a45]">
+                <span class="material-symbols-outlined">storefront</span>
+                Explorar el catálogo
+            </a>
         </section>
 
-        <!-- Título -->
-        <div class="mb-8">
-            <span class="mb-3 inline-flex items-center gap-2 rounded-full bg-[#ffdbca] px-3 py-2 text-xs font-extrabold uppercase tracking-wider text-[#903e00]">
-                <span class="material-symbols-outlined text-base">shopping_basket</span>
-                Puesto digital · Pedido en preparación
-            </span>
+    <?php else: ?>
 
-            <h1 class="mb-2 text-4xl font-extrabold uppercase tracking-tight sm:text-5xl">
-                Tu pedido
-            </h1>
+        <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
 
-            <p class="max-w-2xl text-[#41493f]">
-                Vamos a revisar tus antojos antes de continuar.
-                Todo va fresco, recién preparado y con harto sabor.
-            </p>
-        </div>
+            <!-- COLUMNA PRINCIPAL -->
+            <div class="flex flex-col gap-7 lg:col-span-7 xl:col-span-8">
 
-        <?php if (empty($productosCarrito)): ?>
-
-            <!-- Carrito vacío -->
-            <section class="rounded-2xl border border-[#c1c9bc] bg-white px-6 py-16 text-center shadow-[4px_4px_0px_#201b0f]">
-
-                <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#ffd9de] text-[#ac2d50]">
-                    <span class="material-symbols-outlined text-5xl">shopping_basket</span>
-                </div>
-
-                <h2 class="mb-3 text-2xl font-extrabold uppercase">
-                    Tu carrito está vacío
-                </h2>
-
-                <p class="mx-auto mb-7 max-w-md text-[#41493f]">
-                    No te quedes con el antojo. Regresa al catálogo y elige algo rico.
-                </p>
-
-                <a href="index.php"
-                   class="inline-flex items-center gap-2 rounded-xl bg-[#2f612f] px-6 py-4 font-bold text-white shadow-[3px_3px_0px_#201b0f] hover:bg-[#477a45]">
-                    <span class="material-symbols-outlined">storefront</span>
-                    Ver catálogo completo
-                </a>
-
-            </section>
-
-        <?php else: ?>
-
-            <!-- Carrito con productos reales -->
-            <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
-
-                <!-- Productos -->
-                <section class="flex flex-col gap-5 lg:col-span-8">
-
-                    <div class="flex flex-wrap items-center justify-between gap-3">
-                        <h2 class="text-2xl font-extrabold uppercase">
-                            Lo que llevas
-                        </h2>
-
-                        <span class="rounded-full bg-[#ffd9de] px-3 py-2 text-xs font-bold text-[#8c1039]">
-                            <?= $cantidadProductos ?>
-                            <?= $cantidadProductos === 1 ? 'producto' : 'productos' ?>
-                        </span>
+                <!-- 1. PRODUCTOS -->
+                <section class="flex flex-col gap-4">
+                    <div class="section-heading">
+                        <span class="section-number">1</span>
+                        <div>
+                            <h2 class="text-2xl font-black uppercase tracking-tight">Lo que llevas</h2>
+                            <p class="text-sm text-[#41493f]">
+                                Tus antojitos seleccionados para este pedido.
+                            </p>
+                        </div>
                     </div>
 
                     <?php foreach ($productosCarrito as $producto): ?>
-
                         <?php
-                        $idProducto = (int) $producto['id_producto'];
-                        $cantidad = (int) $producto['cantidad'];
-                        $precio = (float) $producto['precio'];
-                        $subtotal = (float) $producto['subtotal'];
+                        $idProducto = (int) ($producto['id_producto'] ?? 0);
+                        $cantidad = (int) ($producto['cantidad'] ?? 1);
+                        $precio = (float) ($producto['precio'] ?? 0);
+                        $subtotalProducto = (float) ($producto['subtotal'] ?? ($precio * $cantidad));
+                        $stock = (int) ($producto['stock_disponible'] ?? $cantidad);
                         ?>
 
-                        <article class="flex flex-col gap-4 rounded-2xl border border-[#c1c9bc]/70 bg-white p-5 shadow-[3px_3px_0px_#201b0f] sm:flex-row sm:items-center sm:justify-between">
+                        <article class="flex flex-col gap-4 rounded-2xl border border-[#c1c9bc]/70 bg-white p-4 shadow-[3px_3px_0px_#201b0f] sm:flex-row sm:items-center sm:justify-between">
 
                             <div class="flex min-w-0 items-center gap-4">
-
-                                <div class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#f8edd8]">
+                                <div class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#f8edd8] sm:h-24 sm:w-24">
                                     <?php if (!empty($producto['imagen_url'])): ?>
-                                        <img
-                                            src="<?= htmlspecialchars($producto['imagen_url'], ENT_QUOTES, 'UTF-8') ?>"
-                                            alt="<?= htmlspecialchars($producto['nombre'], ENT_QUOTES, 'UTF-8') ?>"
-                                            class="h-full w-full object-cover"
-                                        >
+                                        <img src="<?= $esc($producto['imagen_url']) ?>"
+                                             alt="<?= $esc($producto['nombre'] ?? 'Producto') ?>"
+                                             class="h-full w-full object-cover">
                                     <?php else: ?>
                                         <span class="text-4xl">🍓</span>
                                     <?php endif; ?>
                                 </div>
 
                                 <div class="min-w-0">
-                                    <p class="mb-1 text-xs font-bold uppercase tracking-wider text-[#2f612f]">
-                                        <?= htmlspecialchars($producto['nombre_categoria'] ?? 'Antojito', ENT_QUOTES, 'UTF-8') ?>
-                                    </p>
-
-                                    <h3 class="text-lg font-extrabold">
-                                        <?= htmlspecialchars($producto['nombre'], ENT_QUOTES, 'UTF-8') ?>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-[#2f612f]">
+                                        <?= $esc($producto['nombre_categoria'] ?? 'Antojito') ?>
+                                    </span>
+                                    <h3 class="font-bold">
+                                        <?= $esc($producto['nombre'] ?? 'Producto') ?>
                                     </h3>
-
                                     <p class="mt-1 text-sm text-[#41493f]">
                                         $<?= number_format($precio, 2) ?> MXN por unidad
                                     </p>
+                                </div>
+                            </div>
 
-                                    <p class="mt-1 text-sm font-semibold">
-                                        Cantidad: <?= $cantidad ?>
-                                    </p>
+                            <div class="flex items-center justify-between gap-3 sm:justify-end">
 
-                                    <form action="index.php?accion=eliminar" method="POST" class="mt-2">
-                                        <input
-                                            type="hidden"
-                                            name="id_producto"
-                                            value="<?= $idProducto ?>"
-                                        >
+                                <!-- Los controles reales de cantidad se conectarán en el siguiente paso -->
+                                <div class="inline-flex items-center gap-1 rounded-xl bg-[#f8edd8] p-1 shadow-[2px_2px_0px_#201b0f]">
+                                    <button type="button"
+                                            class="qty-button"
+                                            data-qty-action="decrease"
+                                            data-product-id="<?= $idProducto ?>"
+                                            aria-label="Disminuir cantidad">−</button>
 
-                                        <button
-                                            type="submit"
-                                            class="inline-flex items-center gap-1 text-sm font-bold text-[#ac2d50] hover:underline"
-                                        >
-                                            <span class="material-symbols-outlined text-base">delete_outline</span>
-                                            Eliminar
-                                        </button>
-                                    </form>
+                                    <span class="w-7 text-center font-extrabold"
+                                          data-qty-display="<?= $idProducto ?>">
+                                        <?= $cantidad ?>
+                                    </span>
+
+                                    <button type="button"
+                                            class="qty-button"
+                                            data-qty-action="increase"
+                                            data-product-id="<?= $idProducto ?>"
+                                            data-stock="<?= $stock ?>"
+                                            aria-label="Aumentar cantidad">+</button>
                                 </div>
 
+                                <div class="min-w-[85px] text-right">
+                                    <span class="block font-extrabold text-[#2f612f]"
+                                          data-subtotal="<?= $idProducto ?>">
+                                        $<?= number_format($subtotalProducto, 2) ?>
+                                    </span>
+                                    <span class="text-[11px] font-bold text-[#41493f]">MXN</span>
+                                </div>
+
+                                <form action="index.php?accion=eliminar" method="POST">
+                                    <input type="hidden" name="id_producto" value="<?= $idProducto ?>">
+                                    <button type="submit"
+                                            class="rounded-xl p-2 text-[#ac2d50] hover:bg-[#ffd9de]"
+                                            aria-label="Eliminar producto"
+                                            title="Eliminar producto">
+                                        <span class="material-symbols-outlined">delete_outline</span>
+                                    </button>
+                                </form>
                             </div>
-
-                            <div class="flex shrink-0 items-center justify-between gap-4 border-t border-dashed border-[#c1c9bc] pt-3 sm:flex-col sm:items-end sm:border-0 sm:pt-0">
-
-                                <span class="text-xs font-bold uppercase text-[#41493f]">Subtotal</span>
-
-                                <p class="text-xl font-extrabold text-[#2f612f]">
-                                    $<?= number_format($subtotal, 2) ?>
-                                    <span class="block text-right text-xs font-semibold text-[#41493f]">MXN</span>
-                                </p>
-
-                            </div>
-
                         </article>
-
                     <?php endforeach; ?>
 
-                    <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
-
+                    <div class="flex flex-wrap items-center justify-between gap-3">
                         <a href="index.php"
                            class="inline-flex items-center gap-2 rounded-xl border-2 border-[#c1c9bc] bg-white px-5 py-3 font-bold hover:bg-[#f8edd8]">
                             <span class="material-symbols-outlined">arrow_back</span>
                             Seguir comprando
                         </a>
 
-                        <form action="index.php?accion=vaciar" method="POST"
+                        <form action="index.php?accion=vaciar"
+                              method="POST"
                               onsubmit="return confirm('¿Seguro que deseas vaciar todo el carrito?');">
                             <button type="submit"
                                     class="inline-flex items-center gap-2 rounded-xl px-4 py-3 font-bold text-[#ac2d50] hover:bg-[#ffd9de]">
@@ -304,323 +444,509 @@ foreach ($productosCarrito as $producto) {
                                 Vaciar carrito
                             </button>
                         </form>
-
                     </div>
-
                 </section>
 
-                <!-- Resumen -->
-                <aside class="lg:sticky lg:top-28 lg:col-span-4">
-                    <div class="rounded-2xl border border-[#c1c9bc]/70 bg-white p-6 shadow-[4px_4px_0px_#201b0f]">
+                <!-- FORMULARIO: las seis secciones pertenecen a un mismo formulario -->
+                <form id="form-datos-pedido"
+                      action="index.php?accion=guardar-datos"
+                      method="POST"
+                      class="flex flex-col gap-7">
 
-                        <h2 class="mb-6 text-2xl font-extrabold uppercase">
-                            Resumen del pedido
-                        </h2>
-
-                        <div class="flex items-center justify-between gap-4 border-b border-dashed border-[#c1c9bc] pb-4">
-                            <span class="text-[#41493f]">Productos</span>
-                            <span class="font-bold"><?= $cantidadProductos ?></span>
+                    <!-- 2. TIPO DE SERVICIO -->
+                    <section class="flex flex-col gap-4">
+                        <div class="section-heading">
+                            <span class="section-number">2</span>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase tracking-tight">¿Cómo lo quieres?</h2>
+                                <p class="text-sm text-[#41493f]">
+                                    Elige si pasas al puesto o necesitas entrega a domicilio.
+                                </p>
+                            </div>
                         </div>
 
-                        <div class="flex items-center justify-between gap-4 border-b border-dashed border-[#c1c9bc] py-4">
-                            <span class="text-[#41493f]">Subtotal</span>
-                            <span class="font-bold">$<?= number_format($total, 2) ?></span>
-                        </div>
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
 
-                        <div class="flex items-center justify-between gap-4 py-5">
-                            <span class="text-lg font-extrabold">Total</span>
-                            <span class="text-2xl font-extrabold text-[#2f612f]">
-                                $<?= number_format($total, 2) ?>
-                                <span class="block text-right text-xs">MXN</span>
-                            </span>
-                        </div>
+                            <label class="service-option">
+                                <input class="sr-only" type="radio"
+                                       name="tipo_servicio" value="recoger"
+                                       <?= $servicioActual === 'recoger' ? 'checked' : '' ?> required>
 
-                        <p class="mb-5 text-sm leading-relaxed text-[#41493f]">
-                            Los costos de entrega, si aplican, se mostrarán cuando elijas el tipo de servicio.
-                        </p>
+                                <div class="flex items-start justify-between">
+                                    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#f8edd8]">
+                                        <span class="material-symbols-outlined">storefront</span>
+                                    </span>
+                                    <span class="material-symbols-outlined text-[#2f612f]">check_circle</span>
+                                </div>
 
-                        
-<a
-    href="index.php?accion=continuar"
-    class="block w-full rounded-xl bg-[#2f612f] px-5 py-4 text-center font-extrabold text-white shadow-[3px_3px_0px_#201b0f] hover:bg-[#477a45]">
-    Continuar con la compra
-</a>
+                                <div>
+                                    <span class="block font-extrabold uppercase">Paso por él</span>
+                                    <span class="mt-1 block text-sm text-[#41493f]">
+                                        Recoger en el establecimiento.
+                                    </span>
+                                    <span class="mt-3 inline-block rounded-md bg-[#e5f2df] px-2 py-1 text-xs font-bold text-[#2f612f]">
+                                        Sin envío a domicilio
+                                    </span>
+                                </div>
+                            </label>
 
+                            <label class="service-option">
+                                <input class="sr-only" type="radio"
+                                       name="tipo_servicio" value="domicilio"
+                                       <?= $servicioActual === 'domicilio' ? 'checked' : '' ?> required>
 
-                        <p class="mt-3 text-center text-xs text-[#72796e]">
-                            Próximo paso: datos de entrega y pedido
-                        </p>
+                                <div class="flex items-start justify-between">
+                                    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#2f612f] text-white">
+                                        <span class="material-symbols-outlined">two_wheeler</span>
+                                    </span>
+                                    <span class="rounded-md bg-[#ac2d50] px-2 py-1 text-[10px] font-black uppercase text-white">
+                                        A domicilio
+                                    </span>
+                                </div>
 
-                    </div>
-                </aside>
-
-            </div>
-
-
-            <!-- Datos del pedido -->
-            <?php
-            $datosPedido = $_SESSION['datos_pedido'] ?? [];
-            $erroresPedido = $_SESSION['errores_pedido'] ?? [];
-            ?>
-
-            <section id="datos-pedido" class="mt-10 rounded-2xl border border-[#c1c9bc] bg-white p-6 shadow-[4px_4px_0px_#201b0f] sm:p-8">
-
-                <div class="mb-6">
-                    <span class="mb-2 inline-flex rounded-full bg-[#ffd9de] px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#8c1039]">
-                        Siguiente paso
-                    </span>
-
-                    <h2 class="text-2xl font-extrabold uppercase sm:text-3xl">
-                        ¿Cómo quieres recibir tu pedido?
-                    </h2>
-
-                    <p class="mt-2 text-sm text-[#41493f]">
-                        Déjanos tus datos para preparar tu pedido correctamente.
-                    </p>
-                </div>
-
-                <?php if (!empty($erroresPedido)): ?>
-                    <div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-                        <p class="mb-2 font-bold">Revisa los siguientes datos:</p>
-                        <ul class="list-inside list-disc space-y-1">
-                            <?php foreach ($erroresPedido as $error): ?>
-                                <li><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                    <?php unset($_SESSION['errores_pedido']); ?>
-                <?php endif; ?>
-
-                <?php if (isset($_GET['datos_guardados'])): ?>
-                    <div class="mb-6 rounded-xl border border-green-200 bg-green-50 p-4 text-sm font-semibold text-green-800">
-                        Tus datos se validaron y se guardaron temporalmente. Todavía falta implementar el pago y confirmar el pedido.
-                    </div>
-                <?php endif; ?>
-
-                <form action="index.php?accion=guardar-datos" method="POST" class="space-y-7">
-
-                    <!-- Tipo de servicio -->
-                    <fieldset>
-                        <legend class="mb-3 font-extrabold">Tipo de servicio</legend>
-
-                        <div class="grid gap-4 sm:grid-cols-2">
-
-                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-[#c1c9bc] p-4 hover:border-[#477a45]">
-                                <input
-                                    type="radio"
-                                    name="tipo_servicio"
-                                    value="domicilio"
-                                    required
-                                    class="mt-1 accent-[#477a45]"
-                                    <?= ($datosPedido['tipo_servicio'] ?? '') === 'domicilio' ? 'checked' : '' ?>
-                                >
-
-                                <span>
-                                    <span class="block font-bold">Entrega a domicilio</span>
+                                <div>
+                                    <span class="block font-extrabold uppercase">Envío local</span>
                                     <span class="mt-1 block text-sm text-[#41493f]">
                                         Recibe tu pedido en la dirección que indiques.
                                     </span>
-                                </span>
-                            </label>
-
-                            <label class="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-[#c1c9bc] p-4 hover:border-[#477a45]">
-                                <input
-                                    type="radio"
-                                    name="tipo_servicio"
-                                    value="recoger"
-                                    required
-                                    class="mt-1 accent-[#477a45]"
-                                    <?= ($datosPedido['tipo_servicio'] ?? '') === 'recoger' ? 'checked' : '' ?>
-                                >
-
-                                <span>
-                                    <span class="block font-bold">Recoger en tienda</span>
-                                    <span class="mt-1 block text-sm text-[#41493f]">
-                                        Pasarás por tu pedido al establecimiento.
+                                    <span class="mt-3 inline-block rounded-md bg-[#f8edd8] px-2 py-1 text-xs font-bold">
+                                        Costo por confirmar
                                     </span>
-                                </span>
+                                </div>
                             </label>
 
+                            <div class="flex flex-col justify-between gap-3 rounded-2xl border border-dashed border-[#c1c9bc] bg-[#fdf2de] p-4">
+                                <span class="material-symbols-outlined text-3xl text-[#2f612f]">eco</span>
+                                <div>
+                                    <span class="block font-extrabold uppercase">Fresco al momento</span>
+                                    <p class="mt-1 text-sm text-[#41493f]">
+                                        Preparamos tu pedido para que llegue en buenas condiciones.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                    </fieldset>
+                    </section>
 
-                    <!-- Datos del cliente -->
-                    <div>
-                        <h3 class="mb-4 text-lg font-extrabold">Datos de contacto</h3>
+                    <!-- 3. DATOS DEL CLIENTE -->
+                    <section class="section-card flex flex-col gap-5">
+                        <div class="section-heading">
+                            <span class="section-number">3</span>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase tracking-tight">Tus datos</h2>
+                                <p class="text-sm text-[#41493f]">
+                                    Para saber a quién entregarle el pedido y cómo contactarte.
+                                </p>
+                            </div>
+                        </div>
 
                         <div class="grid gap-5 sm:grid-cols-2">
-
                             <div>
-                                <label for="nombre" class="mb-2 block text-sm font-bold">
-                                    Nombre completo *
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="nombre"
-                                    name="nombre"
-                                    required
-                                    maxlength="120"
-                                    autocomplete="name"
-                                    value="<?= htmlspecialchars($datosPedido['nombre'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                                    placeholder="Escribe tu nombre"
-                                    class="w-full rounded-xl border border-[#c1c9bc] bg-[#fff8f0] px-4 py-3 outline-none focus:border-[#477a45] focus:ring-2 focus:ring-[#477a45]/20"
-                                >
+                                <label class="field-label" for="nombre">Nombre completo *</label>
+                                <input class="field" id="nombre" name="nombre"
+                                       type="text" maxlength="120" required
+                                       autocomplete="name"
+                                       value="<?= $esc($datosPedido['nombre'] ?? ($_SESSION['usuario']['nombre_completo'] ?? '')) ?>"
+                                       placeholder="Tu nombre completo">
                             </div>
 
                             <div>
-                                <label for="telefono" class="mb-2 block text-sm font-bold">
-                                    Teléfono o WhatsApp *
-                                </label>
-
-                                <input
-                                    type="tel"
-                                    id="telefono"
-                                    name="telefono"
-                                    required
-                                    maxlength="20"
-                                    autocomplete="tel"
-                                    value="<?= htmlspecialchars($datosPedido['telefono'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                                    placeholder="Ej. 9621234567"
-                                    class="w-full rounded-xl border border-[#c1c9bc] bg-[#fff8f0] px-4 py-3 outline-none focus:border-[#477a45] focus:ring-2 focus:ring-[#477a45]/20"
-                                >
+                                <label class="field-label" for="telefono">Teléfono o WhatsApp *</label>
+                                <input class="field" id="telefono" name="telefono"
+                                       type="tel" maxlength="20" required
+                                       autocomplete="tel"
+                                       value="<?= $esc($datosPedido['telefono'] ?? '') ?>"
+                                       placeholder="Ej. 9621234567">
                             </div>
-
                         </div>
-                    </div>
 
-                    <!-- Dirección -->
-                    <div id="direccion-contenedor">
-                        <h3 class="mb-4 text-lg font-extrabold">Dirección de entrega</h3>
-
-                        <div class="space-y-4">
-
-                            <div>
-                                <label for="direccion" class="mb-2 block text-sm font-bold">
-                                    Dirección completa *
-                                </label>
-
-                                <textarea
-                                    id="direccion"
-                                    name="direccion"
-                                    rows="2"
-                                    maxlength="500"
-                                    placeholder="Calle, número, colonia y ciudad"
-                                    class="w-full rounded-xl border border-[#c1c9bc] bg-[#fff8f0] px-4 py-3 outline-none focus:border-[#477a45] focus:ring-2 focus:ring-[#477a45]/20"
-                                ><?= htmlspecialchars($datosPedido['direccion'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
-                            </div>
-
-                            <div>
-                                <label for="referencias" class="mb-2 block text-sm font-bold">
-                                    Referencias para llegar
-                                </label>
-
-                                <textarea
-                                    id="referencias"
-                                    name="referencias"
-                                    rows="2"
-                                    maxlength="500"
-                                    placeholder="Color de la fachada, entre calles u otras referencias"
-                                    class="w-full rounded-xl border border-[#c1c9bc] bg-[#fff8f0] px-4 py-3 outline-none focus:border-[#477a45] focus:ring-2 focus:ring-[#477a45]/20"
-                                ><?= htmlspecialchars($datosPedido['referencias'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
-                            </div>
-
+                        <div>
+                            <label class="field-label" for="correo">Correo electrónico</label>
+                            <input class="field" id="correo" name="correo"
+                                   type="email" autocomplete="email"
+                                   value="<?= $esc($datosPedido['correo'] ?? ($_SESSION['usuario']['correo'] ?? '')) ?>"
+                                   placeholder="tucorreo@ejemplo.com">
+                            <p class="mt-2 text-xs text-[#72796e]">
+                                Este campo se muestra en el diseño; su persistencia deberá integrarse con el controlador.
+                            </p>
                         </div>
-                    </div>
 
-                    <!-- Observaciones -->
-                    <div>
-                        <label for="observaciones" class="mb-2 block text-sm font-bold">
-                            Observaciones del pedido (opcional)
-                        </label>
+                        <?php if (!$logueado): ?>
+                            <div class="rounded-xl border border-[#e8c5a8] bg-[#fff4e8] p-4 text-sm text-[#773200]">
+                                <span class="font-extrabold">Importante:</span>
+                                para guardar tus datos y continuar, primero
+                                <a href="index.php?accion=login" class="font-extrabold underline">inicia sesión</a>.
+                            </div>
+                        <?php endif; ?>
+                    </section>
 
-                        <textarea
-                            id="observaciones"
-                            name="observaciones"
-                            rows="3"
-                            maxlength="1000"
-                            placeholder="Indica alguna preferencia o instrucción especial."
-                            class="w-full rounded-xl border border-[#c1c9bc] bg-[#fff8f0] px-4 py-3 outline-none focus:border-[#477a45] focus:ring-2 focus:ring-[#477a45]/20"
-                        ><?= htmlspecialchars($datosPedido['observaciones'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
-                    </div>
+                    <!-- 4. DIRECCIÓN -->
+                    <section id="direccion-contenedor" class="section-card flex flex-col gap-5">
+                        <div class="section-heading">
+                            <span class="section-number">4</span>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase tracking-tight">¿A dónde lo llevamos?</h2>
+                                <p class="text-sm text-[#41493f]">
+                                    Déjanos una dirección clara para encontrar tu puerta.
+                                </p>
+                            </div>
+                        </div>
 
-                    <div class="flex flex-col gap-3 border-t border-dashed border-[#c1c9bc] pt-6 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <label class="field-label" for="direccion">Calle, número, colonia y ciudad *</label>
+                            <textarea class="field" id="direccion" name="direccion"
+                                      rows="2" maxlength="500"
+                                      placeholder="Calle, número exterior, colonia y ciudad"><?= $esc($datosPedido['direccion'] ?? '') ?></textarea>
+                        </div>
 
-                        <p class="text-xs leading-relaxed text-[#41493f]">
-                            Los campos marcados con * son obligatorios.
-                            Todavía no se realizará ningún cobro.
+                        <div>
+                            <label class="field-label" for="referencias">Referencias para llegar</label>
+                            <textarea class="field" id="referencias" name="referencias"
+                                      rows="2" maxlength="500"
+                                      placeholder="Color de fachada, entre calles u otras referencias"><?= $esc($datosPedido['referencias'] ?? '') ?></textarea>
+                        </div>
+
+                        <div class="rounded-xl bg-[#fdf2de] p-4 text-sm text-[#41493f]">
+                            <span class="material-symbols-outlined mr-1 inline-block align-middle text-[#2f612f]">location_on</span>
+                            El costo y la cobertura de entrega deben confirmarse según la dirección real del negocio.
+                        </div>
+                    </section>
+
+                    <!-- 5. FECHA Y HORARIO -->
+                    <section class="section-card flex flex-col gap-5">
+                        <div class="section-heading">
+                            <span class="section-number">5</span>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase tracking-tight">¿Cuándo te lo llevamos?</h2>
+                                <p class="text-sm text-[#41493f]">
+                                    Puedes indicar una preferencia de fecha y horario.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="field-label" for="fecha_preferida">Fecha preferida</label>
+                            <input class="field" id="fecha_preferida" name="fecha_preferida"
+                                   type="date"
+                                   min="<?= date('Y-m-d') ?>"
+                                   value="<?= $esc($datosPedido['fecha_preferida'] ?? '') ?>">
+                        </div>
+
+                        <div>
+                            <p class="field-label">Horario preferido</p>
+                            <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                <?php
+                                $horarios = [
+                                    '10:00-12:00' => 'Mañana',
+                                    '12:00-14:00' => 'Mediodía',
+                                    '14:00-16:00' => 'Hora de comida',
+                                    '16:00-18:00' => 'Tarde',
+                                    '18:00-20:00' => 'Noche'
+                                ];
+                                foreach ($horarios as $valorHorario => $etiquetaHorario):
+                                ?>
+                                    <label class="time-choice relative">
+                                        <input type="radio" name="horario_preferido"
+                                               value="<?= $esc($valorHorario) ?>"
+                                               <?= ($datosPedido['horario_preferido'] ?? '') === $valorHorario ? 'checked' : '' ?>>
+                                        <span class="block text-sm font-extrabold">
+                                            <?= $esc($valorHorario) ?>
+                                        </span>
+                                        <span class="mt-1 block text-xs">
+                                            <?= $esc($etiquetaHorario) ?>
+                                        </span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-[#72796e]">
+                            La fecha y el horario son preferencias. Todavía deben validarse y guardarse en el sistema antes de considerarse confirmados.
                         </p>
+                    </section>
 
-                        <button
-                            type="submit"
-                            class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#2f612f] px-6 py-4 font-extrabold text-white shadow-[3px_3px_0px_#201b0f] hover:bg-[#477a45]">
-                            Guardar datos y continuar
-                            <span class="material-symbols-outlined">arrow_forward</span>
-                        </button>
+                    <!-- 6. OBSERVACIONES -->
+                    <section class="section-card flex flex-col gap-5">
+                        <div class="section-heading">
+                            <span class="section-number">6</span>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase tracking-tight">¿Algo que debamos saber?</h2>
+                                <p class="text-sm text-[#41493f]">
+                                    ¿Harto limón aparte? ¿Sin chamoy? Dinos aquí mero.
+                                </p>
+                            </div>
+                        </div>
 
-                    </div>
+                        <textarea class="field" id="observaciones" name="observaciones"
+                                  rows="4" maxlength="1000"
+                                  placeholder="Escribe aquí tus preferencias o instrucciones especiales."><?= $esc($datosPedido['observaciones'] ?? '') ?></textarea>
 
+                        <div class="flex flex-col gap-3 border-t border-dashed border-[#c1c9bc] pt-5 sm:flex-row sm:items-center sm:justify-between">
+                            <p class="text-xs leading-relaxed text-[#41493f]">
+                                Los campos marcados con * son obligatorios.
+                            </p>
+
+                            <button type="submit"
+                                    class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#2f612f] px-6 py-4 font-extrabold uppercase text-white shadow-[3px_3px_0px_#201b0f] hover:bg-[#477a45]">
+                                Guardar datos y revisar
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </button>
+                        </div>
+                    </section>
                 </form>
-            </section>
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const opcionesServicio = document.querySelectorAll(
-                        'input[name="tipo_servicio"]'
-                    );
-
-                    const direccionContenedor = document.getElementById(
-                        'direccion-contenedor'
-                    );
-
-                    const direccion = document.getElementById('direccion');
-
-                    
-function actualizarDireccion() {
-    const seleccion = document.querySelector(
-        'input[name="tipo_servicio"]:checked'
-    );
-
-    const esDomicilio =
-        seleccion && seleccion.value === 'domicilio';
-
-    direccionContenedor.hidden = !esDomicilio;
-    direccion.required = Boolean(esDomicilio);
-
-    if (!esDomicilio) {
-        direccion.value = '';
-        document.getElementById('referencias').value = '';
-    }
-}
-
-
-                    opcionesServicio.forEach(function (opcion) {
-                        opcion.addEventListener('change', actualizarDireccion);
-                    });
-
-                    actualizarDireccion();
-                });
-            </script>
-
-        <?php endif; ?>
-
-    </main>
-
-    <!-- Pie de página -->
-    <footer class="mt-10 bg-[#fdf2de]">
-        <div class="mx-auto flex max-w-7xl flex-col justify-between gap-4 px-5 py-8 sm:flex-row sm:items-center lg:px-10">
-
-            <div>
-                <p class="brand font-extrabold tracking-wider">FRUTA MADRE</p>
-                <p class="mt-1 text-sm text-[#ac2d50]">Te damos hasta para llevar.</p>
             </div>
 
-            <p class="text-sm text-[#41493f]">
-                © <?= date('Y') ?> Fruta Madre. Todos los derechos reservados.
-            </p>
+            <!-- COLUMNA DERECHA: TICKET -->
+            <aside class="flex flex-col gap-5 lg:sticky lg:top-28 lg:col-span-5 xl:col-span-4">
 
+                <section class="relative flex flex-col gap-5 overflow-hidden rounded-2xl border border-[#c1c9bc]/70 bg-white p-6 shadow-[4px_4px_0px_#201b0f]">
+
+                    <div class="pointer-events-none absolute -right-4 -top-4 flex h-20 w-20 rotate-12 items-center justify-center rounded-full bg-[#ffd9de]/70">
+                        <span class="text-center text-[10px] font-black uppercase leading-tight text-[#ac2d50]">
+                            MERCADO<br>100%<br>FRESCO
+                        </span>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-3 pr-12">
+                        <h2 class="text-2xl font-black uppercase">Resumen del antojo</h2>
+                        <span class="rounded-full bg-[#2f612f] px-3 py-1 text-xs font-bold text-white">
+                            <?= $cantidadProductos ?> prod.
+                        </span>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="text-sm text-[#41493f]">Subtotal de antojitos:</span>
+                            <span id="summary-subtotal" class="font-extrabold">
+                                $<?= number_format($total, 2) ?> MXN
+                            </span>
+                        </div>
+
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="flex items-center gap-1 text-sm text-[#41493f]">
+                                <span class="material-symbols-outlined text-base text-[#2f612f]">local_shipping</span>
+                                Envío local:
+                            </span>
+                            <span id="summary-shipping" class="text-right text-sm font-bold">
+                                Por confirmar
+                            </span>
+                        </div>
+
+                        <div class="flex items-center justify-between gap-3 text-sm text-[#41493f]">
+                            <span class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-base text-[#2f612f]">eco</span>
+                                Empaque:
+                            </span>
+                            <span class="text-xs font-black uppercase text-[#2f612f]">Por confirmar</span>
+                        </div>
+                    </div>
+
+                    <div class="ticket-divider"></div>
+
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <span class="block text-xs font-bold uppercase text-[#41493f]">Subtotal actual</span>
+                            <span class="text-xs text-[#72796e]">Antes de envío o descuentos</span>
+                        </div>
+                        <div class="text-right">
+                            <span id="summary-total" class="text-3xl font-black tracking-tight text-[#2f612f]">
+                                $<?= number_format($total, 2) ?>
+                            </span>
+                            <span class="block text-xs font-bold">MXN</span>
+                        </div>
+                    </div>
+
+                    <!-- Cupón visual: sin aplicar descuentos ficticios -->
+                    <div class="flex items-center gap-2 rounded-xl border border-[#c1c9bc]/50 bg-[#f8edd8] p-2 shadow-[2px_2px_0px_#201b0f]">
+                        <input id="coupon-code" type="text"
+                               class="w-full min-w-0 bg-transparent px-2 py-2 text-sm font-bold uppercase outline-none"
+                               placeholder="¿Tienes cupón de mercado?"
+                               aria-label="Código de cupón">
+                        <button id="coupon-button" type="button"
+                                class="shrink-0 rounded-lg bg-white px-3 py-2 text-xs font-black uppercase shadow-[1px_1px_0px_#201b0f] hover:bg-[#f2e7d2]">
+                            Aplicar
+                        </button>
+                    </div>
+
+                    <p id="coupon-message" class="hidden text-xs font-semibold text-[#ac2d50]"></p>
+
+                    <button id="main-checkout-cta" type="button"
+                            class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#2f612f] px-5 py-4 font-black uppercase tracking-wide text-white shadow-[4px_4px_0px_#201b0f] hover:bg-[#477a45]">
+                        Revisar datos del pedido
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+
+                    <p class="flex items-start gap-2 text-xs leading-relaxed text-[#41493f]">
+                        <span class="material-symbols-outlined shrink-0 text-base text-[#2f612f]">lock</span>
+                        Tus datos se utilizarán para procesar el pedido. El pedido aún no está confirmado.
+                    </p>
+
+                    <div class="flex flex-col gap-3 rounded-xl border border-[#c1c9bc]/30 bg-[#fdf2de] p-4">
+                        <span class="mb-1 text-xs font-black uppercase">Garantía de barrio FRUTA MADRE:</span>
+
+                        <div class="flex items-center gap-2 text-xs">
+                            <span class="material-symbols-outlined text-base text-[#2f612f]">verified</span>
+                            Fruta fresca preparada al momento.
+                        </div>
+
+                        <div class="flex items-center gap-2 text-xs">
+                            <span class="material-symbols-outlined text-base text-[#2f612f]">verified</span>
+                            Chamoy y salsas artesanales.
+                        </div>
+
+                        <div class="flex items-center gap-2 text-xs">
+                            <span class="material-symbols-outlined text-base text-[#2f612f]">verified</span>
+                            Revisión del pedido antes de confirmarlo.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AYUDA -->
+                <section class="flex items-center justify-between gap-4 rounded-2xl border border-[#c1c9bc]/40 bg-[#fdf2de] p-4 shadow-[3px_3px_0px_#201b0f]">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#ffd9de] text-[#ac2d50] shadow-[1px_1px_0px_#201b0f]">
+                            <span class="material-symbols-outlined">chat</span>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-black uppercase">¿Dudas con tu entrega?</span>
+                            <span class="text-xs text-[#41493f]">Contacta con el puesto.</span>
+                        </div>
+                    </div>
+                    <span class="shrink-0 text-xs font-bold text-[#72796e]">Próximamente</span>
+                </section>
+            </aside>
         </div>
-    </footer>
+    <?php endif; ?>
+</main>
+
+<!-- FOOTER -->
+<footer class="mt-10 border-t border-[#ece1cd] bg-[#fdf2de] text-[#201b0f]">
+    <div class="flex h-1.5">
+        <div class="flex-1 bg-[#b55107]"></div>
+        <div class="flex-1 bg-[#f2e7d2]"></div>
+        <div class="flex-1 bg-[#fc6a8a]"></div>
+        <div class="flex-1 bg-[#477a45]"></div>
+    </div>
+
+    <div class="mx-auto grid max-w-[1440px] grid-cols-1 gap-8 px-5 py-9 sm:grid-cols-2 lg:grid-cols-5 lg:px-10">
+        <div class="lg:col-span-2">
+            <p class="brand text-xl font-extrabold tracking-wider">FRUTA MADRE</p>
+            <p class="mt-2 max-w-sm text-sm text-[#41493f]">
+                Fruta fresca, chamoy artesanal y antojitos preparados al momento.
+                Te damos hasta para llevar.
+            </p>
+        </div>
+
+        <div>
+            <h3 class="mb-3 text-sm font-extrabold uppercase">Explorar</h3>
+            <div class="flex flex-col gap-2 text-sm text-[#41493f]">
+                <a href="index.php" class="hover:text-[#2f612f]">Inicio</a>
+                <a href="index.php#catalogo" class="hover:text-[#2f612f]">Catálogo</a>
+                <a href="index.php#eventos" class="hover:text-[#2f612f]">Eventos</a>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="mb-3 text-sm font-extrabold uppercase">Tu pedido</h3>
+            <div class="flex flex-col gap-2 text-sm text-[#41493f]">
+                <a href="index.php?accion=carrito" class="hover:text-[#2f612f]">Mi carrito</a>
+                <a href="index.php?accion=login" class="hover:text-[#2f612f]">Mi cuenta</a>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="mb-3 text-sm font-extrabold uppercase">Atención</h3>
+            <p class="text-sm text-[#41493f]">
+                Para dudas sobre disponibilidad, entrega o pedidos, utiliza los canales de contacto oficiales del negocio.
+            </p>
+        </div>
+    </div>
+
+    <div class="border-t border-[#c1c9bc]/50 px-5 py-5 text-center text-xs text-[#41493f]">
+        © <?= date('Y') ?> Fruta Madre. Todos los derechos reservados.
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const opcionesServicio = document.querySelectorAll(
+        'input[name="tipo_servicio"]'
+    );
+
+    const contenedorDireccion = document.getElementById(
+        'direccion-contenedor'
+    );
+
+    const direccion = document.getElementById('direccion');
+    const referencias = document.getElementById('referencias');
+
+    function actualizarServicio() {
+        const seleccion = document.querySelector(
+            'input[name="tipo_servicio"]:checked'
+        );
+
+        const domicilio = seleccion && seleccion.value === 'domicilio';
+
+        if (contenedorDireccion) {
+            contenedorDireccion.hidden = !domicilio;
+        }
+
+        if (direccion) {
+            direccion.required = Boolean(domicilio);
+        }
+    }
+
+    opcionesServicio.forEach(function (opcion) {
+        opcion.addEventListener('change', actualizarServicio);
+    });
+
+    actualizarServicio();
+
+    // El botón lateral lleva al formulario de datos.
+    const botonContinuar = document.getElementById('main-checkout-cta');
+    const formulario = document.getElementById('form-datos-pedido');
+
+    if (botonContinuar && formulario) {
+        botonContinuar.addEventListener('click', function () {
+            <?php if (!$logueado): ?>
+                window.location.href = 'index.php?accion=continuar';
+            <?php else: ?>
+                formulario.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            <?php endif; ?>
+        });
+    }
+
+    // No se inventan cupones ni se aplican descuentos que no estén
+    // configurados en el backend.
+    const botonCupon = document.getElementById('coupon-button');
+    const campoCupon = document.getElementById('coupon-code');
+    const mensajeCupon = document.getElementById('coupon-message');
+
+    if (botonCupon && campoCupon && mensajeCupon) {
+        botonCupon.addEventListener('click', function () {
+            mensajeCupon.textContent = campoCupon.value.trim()
+                ? 'La validación de cupones todavía no está conectada.'
+                : 'Escribe un código de cupón primero.';
+
+            mensajeCupon.classList.remove('hidden');
+        });
+    }
+
+    // Fecha mínima: hoy.
+    const campoFecha = document.getElementById('fecha_preferida');
+
+    if (campoFecha) {
+        const hoy = new Date();
+        const fechaLocal = new Date(
+            hoy.getTime() - hoy.getTimezoneOffset() * 60000
+        ).toISOString().split('T')[0];
+
+        campoFecha.min = fechaLocal;
+    }
+});
+</script>
 
 </body>
 </html>

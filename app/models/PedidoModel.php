@@ -278,4 +278,104 @@ class PedidoModel
             throw $e;
         }
     }
+
+public function listarPedidosUsuario(int $idUsuario): array
+{
+    if ($idUsuario <= 0) {
+        return [];
+    }
+
+    $sql = "
+        SELECT
+            p.id_pedido,
+            p.fecha_pedido,
+            p.estado_pedido,
+            p.subtotal,
+            p.total,
+
+            pg.metodo_pago,
+            pg.estado_pago,
+
+            COALESCE(det.cantidad_productos, 0) AS cantidad_productos,
+            COALESCE(det.nombres_productos, '') AS nombres_productos,
+            COALESCE(det.productos_json, '[]') AS productos_json,
+
+            e.estado_entrega,
+            e.fecha_estimada,
+            e.notas_repartidor,
+
+            d.calle_numero,
+            d.colonia,
+            d.ciudad,
+            d.codigo_postal,
+            d.referencias
+
+        FROM pedido p
+
+        LEFT JOIN pago pg
+            ON pg.id_pedido = p.id_pedido
+
+        LEFT JOIN entrega e
+            ON e.id_pedido = p.id_pedido
+
+        LEFT JOIN direccion d
+            ON d.id_direccion = e.id_direccion
+
+        LEFT JOIN LATERAL (
+            SELECT
+                SUM(dp.cantidad) AS cantidad_productos,
+
+                STRING_AGG(
+                    pr.nombre,
+                    ', ' ORDER BY pr.nombre
+                ) AS nombres_productos,
+
+                JSON_AGG(
+                    JSON_BUILD_OBJECT(
+                        'id_producto', pr.id_producto,
+                        'nombre', pr.nombre,
+                        'cantidad', dp.cantidad,
+                        'precio_unitario', dp.precio_unitario,
+                        'subtotal', dp.subtotal_linea
+                    )
+                    ORDER BY pr.nombre
+                ) AS productos_json
+
+            FROM detalle_pedido dp
+
+            INNER JOIN producto pr
+                ON pr.id_producto = dp.id_producto
+
+            WHERE dp.id_pedido = p.id_pedido
+        ) det ON TRUE
+
+        WHERE p.id_usuario = :id_usuario
+
+        ORDER BY p.fecha_pedido DESC, p.id_pedido DESC
+    ";
+
+    $consulta = $this->db->prepare($sql);
+
+    $consulta->execute([
+        'id_usuario' => $idUsuario
+    ]);
+
+    $pedidos = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($pedidos as &$pedido) {
+        $productos = json_decode(
+            $pedido['productos_json'] ?? '[]',
+            true
+        );
+
+        $pedido['productos'] = is_array($productos)
+            ? $productos
+            : [];
+    }
+
+    unset($pedido);
+
+    return $pedidos;
+}
+
 }

@@ -130,28 +130,22 @@ if ($accion === 'registro') {
 } elseif ($accion === 'pagar') {
     $controller->continuarAlPago();
 
+} elseif ($accion === 'mis-pedidos') {
+    $controller->misPedidos();
 
 } elseif ($metodo === 'POST' && $accion === 'confirmar-pedido') {
     $controller->confirmarPedido();
 
 } elseif ($accion === 'pedido-confirmado') {
-    // La vista de confirmación se conectará en el siguiente paso.
+
     $pedido = $_SESSION['pedido_creado'] ?? null;
 
-    if (!$pedido) {
+    if (!$pedido || empty($pedido['id_pedido'])) {
         header('Location: index.php');
         exit;
     }
 
-    echo '<main style="max-width:600px;margin:60px auto;font-family:Arial,sans-serif">
-        <h1>¡Pedido registrado!</h1>
-        <p>Tu número de pedido es: <strong>#'
-        . (int) $pedido['id_pedido'] .
-        '</strong></p>
-        <p>El pedido quedó registrado. El estado del pago debe verificarse
-        según el método elegido.</p>
-        <a href="index.php">Volver al catálogo</a>
-    </main>';
+    require __DIR__ . '/app/views/home/confirmacion.php';
 
 
 
@@ -167,13 +161,18 @@ if ($accion === 'registro') {
     $controller->revisarPedido();
 
 
+
 } elseif ($accion === 'carrito') {
     $controller->carrito();
 
 // CATÁLOGO Y PRODUCTOS
+} elseif ($accion === 'catalogo') {
+    $controller->catalogo();
+
 } elseif (isset($_GET['producto'])) {
     $controller->detalle((int) $_GET['producto']);
 
 } else {
     $controller->index();
 }
+

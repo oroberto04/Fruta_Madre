@@ -28,6 +28,15 @@ class HomeController
         require_once __DIR__ . '/../views/home/index.php';
     }
 
+
+public function catalogo()
+{
+    $productos = $this->catalogoModel->obtenerProductos();
+
+    require __DIR__ . '/../views/home/catalogo.php';
+}
+
+
     public function detalle($id)
     {
         $producto = $this->catalogoModel->obtenerProductoPorId($id);
@@ -401,7 +410,32 @@ public function confirmarPedido(): void
 }
 
 
+public function misPedidos(): void
+{
+    if (empty($_SESSION['usuario']['id_usuario'])) {
+        $_SESSION['despues_login'] = 'index.php?accion=mis-pedidos';
+        header('Location: index.php?accion=login');
+        exit;
+    }
 
+    require_once __DIR__ . '/../models/PedidoModel.php';
+
+    try {
+        $pedidoModel = new PedidoModel();
+
+        $pedidos = $pedidoModel->listarPedidosUsuario(
+            (int) $_SESSION['usuario']['id_usuario']
+        );
+
+        require __DIR__ . '/../views/home/mispedidos.php';
+
+    } catch (Throwable $e) {
+        error_log('Error al consultar pedidos: ' . $e->getMessage());
+
+        http_response_code(500);
+        echo 'No fue posible cargar tus pedidos. Inténtalo más tarde.';
+    }
+}
 
 
 }
