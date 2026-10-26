@@ -166,11 +166,26 @@ if ($accion === 'registro') {
     $controller->carrito();
 
 // CATÁLOGO Y PRODUCTOS
+
+    // CATÁLOGO, EVENTOS Y PRODUCTOS
+
+    // CATÁLOGO, EVENTOS Y PRODUCTOS
 } elseif ($accion === 'catalogo') {
     $controller->catalogo();
 
+} elseif ($accion === 'eventos') {
+    $controller->eventos();
+
+} elseif ($accion === 'reservar-evento') {
+    $controller->reservarEvento();
+
+} elseif ($accion === 'confirmacion-reserva-evento') {
+    $controller->confirmarReservaEvento();
+
 } elseif (isset($_GET['producto'])) {
     $controller->detalle((int) $_GET['producto']);
+
+
 
 } else {
     $controller->index();

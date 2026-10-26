@@ -36,6 +36,114 @@ public function catalogo()
     require __DIR__ . '/../views/home/catalogo.php';
 }
 
+public function eventos()
+{
+    require __DIR__ . '/../views/home/eventos.php';
+}
+
+
+public function reservarEvento(): void
+{
+    if (empty($_SESSION['usuario']['id_usuario'])) {
+        $_SESSION['despues_login'] = 'index.php?accion=eventos';
+        header('Location: index.php?accion=login');
+        exit;
+    }
+
+    require_once __DIR__ . '/../models/ReservaEventoModel.php';
+
+    $reservaModel = new ReservaEventoModel();
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $paquetes = $reservaModel->obtenerPaquetes();
+
+        require __DIR__ . '/../views/home/reservar-evento.php';
+        return;
+    }
+
+    $datos = [
+        'id_usuario' => (int) $_SESSION['usuario']['id_usuario'],
+        'id_paquete' => (int) ($_POST['id_paquete'] ?? 1),
+        'fecha_evento' => trim($_POST['fecha_evento'] ?? ''),
+        'hora_evento' => trim($_POST['hora_evento'] ?? '13:00'),
+        'motivo_evento' => trim($_POST['motivo_evento'] ?? ''),
+        'invitados' => (int) ($_POST['invitados'] ?? 0),
+        'calle' => trim($_POST['calle'] ?? ''),
+        'colonia' => trim($_POST['colonia'] ?? ''),
+        'codigo_postal' => trim($_POST['codigo_postal'] ?? ''),
+        'municipio' => trim($_POST['municipio'] ?? ''),
+        'referencias' => trim($_POST['referencias'] ?? ''),
+        'observaciones' => trim($_POST['notas'] ?? '')
+    ];
+
+    $errores = [];
+
+    $fecha = DateTime::createFromFormat('!Y-m-d', $datos['fecha_evento']);
+    $fechaValida = $fecha && $fecha->format('Y-m-d') === $datos['fecha_evento'];
+
+    if (!$fechaValida || $datos['fecha_evento'] < date('Y-m-d')) {
+        $errores[] = 'Selecciona una fecha válida, igual o posterior a hoy.';
+    }
+
+    if (
+        !preg_match('/^\d{2}:\d{2}$/', $datos['hora_evento']) ||
+        $datos['hora_evento'] > '23:59' ||
+        (int) substr($datos['hora_evento'], 3, 2) > 59
+    ) {
+        $errores[] = 'Selecciona una hora válida.';
+    }
+
+    if ($datos['invitados'] < 1) {
+        $errores[] = 'El número de invitados debe ser mayor que cero.';
+    }
+
+    foreach (['motivo_evento', 'calle', 'colonia', 'municipio'] as $campo) {
+        if ($datos[$campo] === '') {
+            $errores[] = 'Completa el tipo de evento y la dirección.';
+            break;
+        }
+    }
+
+    if ($datos['id_paquete'] < 1) {
+        $errores[] = 'Selecciona un paquete válido.';
+    }
+
+    if (!empty($errores)) {
+        $_SESSION['errores_reserva_evento'] = $errores;
+        $_SESSION['datos_reserva_evento'] = $datos;
+
+        header('Location: index.php?accion=reservar-evento');
+        exit;
+    }
+
+    try {
+        $idReserva = $reservaModel->crearReserva($datos);
+
+        unset(
+            $_SESSION['errores_reserva_evento'],
+            $_SESSION['datos_reserva_evento']
+        );
+
+        $_SESSION['reserva_evento_creada'] = [
+            'id_reserva' => $idReserva
+        ];
+
+        header('Location: index.php?accion=confirmacion-reserva-evento');
+        exit;
+
+    } catch (Throwable $e) {
+        error_log('Error al crear reserva de evento: ' . $e->getMessage());
+
+        $_SESSION['errores_reserva_evento'] = [
+            'No fue posible registrar la reservación. ' .
+            'Revisa la configuración de la reserva e inténtalo nuevamente.'
+        ];
+
+        header('Location: index.php?accion=reservar-evento');
+        exit;
+    }
+}
+
 
     public function detalle($id)
     {
@@ -435,6 +543,43 @@ public function misPedidos(): void
         http_response_code(500);
         echo 'No fue posible cargar tus pedidos. Inténtalo más tarde.';
     }
+}
+
+
+public function confirmarReservaEvento(): void
+{
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+
+    if (empty($_SESSION['usuario']['id_usuario'])) {
+        header('Location: index.php?accion=login');
+        exit;
+    }
+
+    $reservaCreada = $_SESSION['reserva_evento_creada'] ?? null;
+
+    if (empty($reservaCreada['id_reserva'])) {
+        header('Location: index.php?accion=eventos');
+        exit;
+    }
+
+    require_once __DIR__ . '/../models/ReservaEventoModel.php';
+
+    $reservaModel = new ReservaEventoModel();
+
+    $reserva = $reservaModel->obtenerReserva(
+        (int) $reservaCreada['id_reserva'],
+        (int) $_SESSION['usuario']['id_usuario']
+    );
+
+    if (!$reserva) {
+        unset($_SESSION['reserva_evento_creada']);
+        header('Location: index.php?accion=eventos');
+        exit;
+    }
+
+    require __DIR__ . '/../views/home/confirmacion-reserva-evento.php';
 }
 
 
