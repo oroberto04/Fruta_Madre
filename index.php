@@ -37,6 +37,12 @@ if ($accion === 'registro') {
     $auth = new AuthController();
     $auth->cerrarSesion();
 
+} elseif ($accion === 'admin') {
+    require_once __DIR__ . '/app/controllers/AdminController.php';
+
+    $admin = new AdminController();
+    $admin->index();
+
 // CUENTA DEL CLIENTE
 } elseif ($accion === 'cuenta') {
     if (empty($_SESSION['usuario']['id_usuario'])) {
@@ -193,7 +199,12 @@ if ($accion === 'registro') {
 } elseif (isset($_GET['producto'])) {
     $controller->detalle((int) $_GET['producto']);
 
+} elseif ($accion === 'admin') {
 
+    require_once __DIR__ . '/app/controllers/AdminController.php';
+
+    $admin = new AdminController();
+    $admin->index();
 
 } else {
     $controller->index();
