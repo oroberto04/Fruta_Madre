@@ -386,26 +386,40 @@ $servicioActual = $datosPedido['tipo_servicio'] ?? 'domicilio';
 
                             <div class="flex items-center justify-between gap-3 sm:justify-end">
 
-                                <!-- Los controles reales de cantidad se conectarán en el siguiente paso -->
-                                <div class="inline-flex items-center gap-1 rounded-xl bg-[#f8edd8] p-1 shadow-[2px_2px_0px_#201b0f]">
-                                    <button type="button"
-                                            class="qty-button"
-                                            data-qty-action="decrease"
-                                            data-product-id="<?= $idProducto ?>"
-                                            aria-label="Disminuir cantidad">−</button>
+                                <!-- Controles de cantidad conectados al controlador mediante POST -->
 
-                                    <span class="w-7 text-center font-extrabold"
-                                          data-qty-display="<?= $idProducto ?>">
-                                        <?= $cantidad ?>
-                                    </span>
+<div class="inline-flex items-center gap-1 rounded-xl bg-[#f8edd8] p-1 shadow-[2px_2px_0px_#201b0f]">
 
-                                    <button type="button"
-                                            class="qty-button"
-                                            data-qty-action="increase"
-                                            data-product-id="<?= $idProducto ?>"
-                                            data-stock="<?= $stock ?>"
-                                            aria-label="Aumentar cantidad">+</button>
-                                </div>
+    <form action="index.php?accion=actualizar-cantidad" method="POST">
+        <input type="hidden" name="id_producto" value="<?= (int) $idProducto ?>">
+        <input type="hidden" name="cantidad" value="<?= max(1, $cantidad - 1) ?>">
+
+        <button type="submit"
+                class="qty-button"
+                aria-label="Disminuir cantidad"
+                <?= $cantidad <= 1 ? 'disabled' : '' ?>>
+            −
+        </button>
+    </form>
+
+    <span class="w-7 text-center font-extrabold">
+        <?= (int) $cantidad ?>
+    </span>
+
+    <form action="index.php?accion=actualizar-cantidad" method="POST">
+        <input type="hidden" name="id_producto" value="<?= (int) $idProducto ?>">
+        <input type="hidden" name="cantidad" value="<?= min((int) $stock, (int) $cantidad + 1) ?>">
+
+        <button type="submit"
+                class="qty-button"
+                aria-label="Aumentar cantidad"
+                <?= $cantidad >= $stock ? 'disabled' : '' ?>>
+            +
+        </button>
+    </form>
+
+</div>
+
 
                                 <div class="min-w-[85px] text-right">
                                     <span class="block font-extrabold text-[#2f612f]"
@@ -631,6 +645,8 @@ $servicioActual = $datosPedido['tipo_servicio'] ?? 'domicilio';
                                    value="<?= $esc($datosPedido['fecha_preferida'] ?? '') ?>">
                         </div>
 
+
+
                         <div>
                             <p class="field-label">Horario preferido</p>
                             <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -736,7 +752,7 @@ $servicioActual = $datosPedido['tipo_servicio'] ?? 'domicilio';
                                 <span class="material-symbols-outlined text-base text-[#2f612f]">eco</span>
                                 Empaque:
                             </span>
-                            <span class="text-xs font-black uppercase text-[#2f612f]">Por confirmar</span>
+                            <span id="summary-packaging" class="text-xs font-black uppercase text-[#2f612f]">Por confirmar</span>
                         </div>
                     </div>
 
@@ -744,11 +760,11 @@ $servicioActual = $datosPedido['tipo_servicio'] ?? 'domicilio';
 
                     <div class="flex items-center justify-between gap-3">
                         <div>
-                            <span class="block text-xs font-bold uppercase text-[#41493f]">Subtotal actual</span>
-                            <span class="text-xs text-[#72796e]">Antes de envío o descuentos</span>
+                            <span class="block text-xs font-bold uppercase text-[#41493f]">Total estimado</span>
+                            <span id="summary-service" class="text-xs text-[#72796e]">Selecciona cómo recibirlo</span>
                         </div>
                         <div class="text-right">
-                            <span id="summary-total" class="text-3xl font-black tracking-tight text-[#2f612f]">
+                            <span id="summary-total" data-subtotal="<?= $esc(number_format($total, 2, ".", "")) ?>" class="text-3xl font-black tracking-tight text-[#2f612f]">
                                 $<?= number_format($total, 2) ?>
                             </span>
                             <span class="block text-xs font-bold">MXN</span>
@@ -868,82 +884,84 @@ $servicioActual = $datosPedido['tipo_servicio'] ?? 'domicilio';
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const opcionesServicio = document.querySelectorAll(
-        'input[name="tipo_servicio"]'
-    );
+    const form = document.getElementById('form-datos-pedido');
+    const serviceInputs = document.querySelectorAll('input[name="tipo_servicio"]');
+    const addressSection = document.getElementById('direccion-contenedor');
+    const address = document.getElementById('direccion');
+    const summaryShipping = document.getElementById('summary-shipping');
+    const summaryPackaging = document.getElementById('summary-packaging');
+    const summaryService = document.getElementById('summary-service');
+    const summaryTotal = document.getElementById('summary-total');
+    const subtotal = Number(summaryTotal?.dataset.subtotal || 0);
+    const dateInput = document.getElementById('fecha_preferida');
+    const continueButton = document.getElementById('main-checkout-cta');
 
-    const contenedorDireccion = document.getElementById(
-        'direccion-contenedor'
-    );
-
-    const direccion = document.getElementById('direccion');
-    const referencias = document.getElementById('referencias');
-
-    function actualizarServicio() {
-        const seleccion = document.querySelector(
-            'input[name="tipo_servicio"]:checked'
-        );
-
-        const domicilio = seleccion && seleccion.value === 'domicilio';
-
-        if (contenedorDireccion) {
-            contenedorDireccion.hidden = !domicilio;
-        }
-
-        if (direccion) {
-            direccion.required = Boolean(domicilio);
-        }
+    function money(value) {
+        return new Intl.NumberFormat('es-MX', {style: 'currency', currency: 'MXN'}).format(value);
     }
 
-    opcionesServicio.forEach(function (opcion) {
-        opcion.addEventListener('change', actualizarServicio);
-    });
+    function updateCheckout() {
+        const selected = document.querySelector('input[name="tipo_servicio"]:checked');
+        const pickup = selected?.value === 'recoger';
+        if (addressSection) addressSection.hidden = pickup;
+        if (address) {
+            address.required = !pickup;
+            address.disabled = pickup;
+        }
+        if (summaryShipping) summaryShipping.textContent = pickup ? money(0) : 'Por confirmar';
+        if (summaryPackaging) summaryPackaging.textContent = 'Por confirmar';
+        if (summaryService) summaryService.textContent = pickup
+            ? 'Recoger en establecimiento · Sin costo de envío'
+            : 'Envío local · Sujeto a cobertura y tarifa';
+        if (summaryTotal) summaryTotal.textContent = money(subtotal);
+    }
 
-    actualizarServicio();
+    serviceInputs.forEach(input => input.addEventListener('change', updateCheckout));
+    updateCheckout();
 
-    // El botón lateral lleva al formulario de datos.
-    const botonContinuar = document.getElementById('main-checkout-cta');
-    const formulario = document.getElementById('form-datos-pedido');
+    if (dateInput) {
+        const now = new Date();
+        dateInput.min = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    }
 
-    if (botonContinuar && formulario) {
-        botonContinuar.addEventListener('click', function () {
+    if (form) {
+        form.addEventListener('submit', function (event) {
+            const selected = document.querySelector('input[name="tipo_servicio"]:checked');
+            if (!selected) {
+                event.preventDefault(); alert('Selecciona cómo quieres recibir tu pedido.'); return;
+            }
+            if (selected.value === 'domicilio' && !address.value.trim()) {
+                event.preventDefault(); address.focus(); alert('Escribe la dirección completa para la entrega.'); return;
+            }
+            const phone = document.getElementById('telefono');
+            const digits = (phone?.value || '').replace(/\D/g, '');
+            if (digits.length < 10 || digits.length > 15) {
+                event.preventDefault(); phone.focus(); alert('Escribe un teléfono válido de 10 a 15 dígitos.');
+            }
+        });
+    }
+
+    if (continueButton && form) {
+        continueButton.addEventListener('click', function () {
             <?php if (!$logueado): ?>
-                window.location.href = 'index.php?accion=continuar';
+            window.location.href = 'index.php?accion=continuar';
             <?php else: ?>
-                formulario.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            form.scrollIntoView({behavior: 'smooth', block: 'start'});
+            document.getElementById('nombre')?.focus({preventScroll: true});
             <?php endif; ?>
         });
     }
 
-    // No se inventan cupones ni se aplican descuentos que no estén
-    // configurados en el backend.
-    const botonCupon = document.getElementById('coupon-button');
-    const campoCupon = document.getElementById('coupon-code');
-    const mensajeCupon = document.getElementById('coupon-message');
-
-    if (botonCupon && campoCupon && mensajeCupon) {
-        botonCupon.addEventListener('click', function () {
-            mensajeCupon.textContent = campoCupon.value.trim()
-                ? 'La validación de cupones todavía no está conectada.'
-                : 'Escribe un código de cupón primero.';
-
-            mensajeCupon.classList.remove('hidden');
+    const couponButton = document.getElementById('coupon-button');
+    const couponCode = document.getElementById('coupon-code');
+    const couponMessage = document.getElementById('coupon-message');
+    if (couponButton && couponCode && couponMessage) {
+        couponButton.addEventListener('click', function () {
+            couponMessage.textContent = couponCode.value.trim()
+                ? 'Este cupón aún no está configurado. No se aplicó ningún descuento.'
+                : 'Escribe un código de cupón.';
+            couponMessage.classList.remove('hidden');
         });
-    }
-
-    // Fecha mínima: hoy.
-    const campoFecha = document.getElementById('fecha_preferida');
-
-    if (campoFecha) {
-        const hoy = new Date();
-        const fechaLocal = new Date(
-            hoy.getTime() - hoy.getTimezoneOffset() * 60000
-        ).toISOString().split('T')[0];
-
-        campoFecha.min = fechaLocal;
     }
 });
 </script>

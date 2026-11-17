@@ -112,8 +112,8 @@ h1,h2,h3,.font-label-rotulo,.font-headline-lg,.font-headline-sm { font-family:'S
     <nav class="flex flex-wrap items-center gap-space-xs bg-surface-container-low p-space-xs rounded-lg">
       <a href="index.php" class="text-on-surface-variant hover:text-on-surface px-space-md py-2 rounded-lg font-label-md text-label-md transition-colors">Inicio</a>
       <a href="index.php?accion=catalogo" class="bg-primary text-white font-bold rounded-lg shadow-[2px_2px_0px_#201b0f] px-space-md py-2 font-label-md text-label-md">Catálogo</a>
-      <a href="index.php#eventos" class="text-on-surface-variant hover:text-on-surface px-space-md py-2 rounded-lg font-label-md text-label-md transition-colors">Eventos</a>
-      <a href="index.php?accion=login" class="text-on-surface-variant hover:text-on-surface px-space-md py-2 rounded-lg font-label-md text-label-md transition-colors">Mis pedidos</a>
+      <a href="index.php?accion=eventos" class="text-on-surface-variant hover:text-on-surface px-space-md py-2 rounded-lg font-label-md text-label-md transition-colors">Eventos</a>
+      <a href="index.php?accion=mis-pedidos" class="text-on-surface-variant hover:text-on-surface px-space-md py-2 rounded-lg font-label-md text-label-md transition-colors">Mis pedidos</a>
     </nav>
 
     <div class="flex items-center gap-space-sm shrink-0">
@@ -127,7 +127,7 @@ h1,h2,h3,.font-label-rotulo,.font-headline-lg,.font-headline-sm { font-family:'S
         <span class="absolute -top-1 -right-1 bg-secondary text-white text-label-sm w-5 h-5 rounded-full flex items-center justify-center"><?= (int)$cantidadCarrito ?></span>
       </a>
 
-      <a href="index.php?accion=login" aria-label="Mi cuenta" class="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-center">
+      <a href="index.php?accion=cuenta" aria-label="Mi cuenta" class="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-center">
         <span class="material-symbols-outlined text-[22px]">person</span>
       </a>
     </div>
@@ -380,7 +380,7 @@ h1,h2,h3,.font-label-rotulo,.font-headline-lg,.font-headline-sm { font-family:'S
       <ul class="space-y-2 text-body-sm text-on-surface-variant">
         <li><a href="index.php" class="hover:text-primary">Inicio</a></li>
         <li><a href="index.php?accion=catalogo" class="hover:text-primary">Catálogo completo</a></li>
-        <li><a href="index.php#eventos" class="hover:text-primary">Eventos</a></li>
+        <li><a href="index.php?accion=eventos" class="hover:text-primary">Eventos</a></li>
         <li><a href="index.php?accion=carrito" class="hover:text-primary">Mi carrito</a></li>
       </ul>
     </div>

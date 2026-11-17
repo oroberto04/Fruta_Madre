@@ -171,22 +171,25 @@ public function login(): void
         'rol' => $usuario['rol']
     ];
 
-    if (
-        !empty($_SESSION['despues_login']) &&
-        !empty($_SESSION['carrito'])
-    ) {
-        $destino = $_SESSION['despues_login'];
-        unset($_SESSION['despues_login']);
+    if (!empty($_SESSION['despues_login'])) {
 
-        header('Location: ' . $destino);
-    } elseif (
-        !empty($_SESSION['carrito']) &&
-        !empty($_SESSION['datos_pedido'])
-    ) {
-        header('Location: index.php?accion=revisar');
-    } else {
-        header('Location: index.php?accion=cuenta');
-    }
+    $destino = $_SESSION['despues_login'];
+    unset($_SESSION['despues_login']);
+
+    header('Location: ' . $destino);
+
+} elseif (
+    !empty($_SESSION['carrito']) &&
+    !empty($_SESSION['datos_pedido'])
+) {
+
+    header('Location: index.php?accion=revisar');
+
+} else {
+
+    header('Location: index.php?accion=cuenta');
+
+}
 
     exit;
 }

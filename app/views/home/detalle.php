@@ -662,12 +662,19 @@ function setProductSize(button, price, label) {
     updateProductTotal();
 }
 
+
 function changeQuantity(delta) {
     quantity = Math.max(1, Math.min(99, quantity + delta));
+
     document.getElementById('quantity-value').textContent = quantity;
-    updateProductTotal();
-    updatePackageTotal();
+
+    if (currentMode === 'product') {
+        updateProductTotal();
+    } else {
+        updatePackageTotal();
+    }
 }
+
 
 function calculateProductTotal() {
     const extras = [...document.querySelectorAll('.product-extra:checked')]

@@ -115,13 +115,21 @@ if ($accion === 'registro') {
         (int) ($_POST['id_producto'] ?? 0)
     );
 
+
 } elseif ($metodo === 'POST' && $accion === 'eliminar') {
     $controller->eliminarDelCarrito(
         (int) ($_POST['id_producto'] ?? 0)
     );
 
+} elseif ($metodo === 'POST' && $accion === 'actualizar-cantidad') {
+    $controller->actualizarCantidadCarrito(
+        (int) ($_POST['id_producto'] ?? 0),
+        (int) ($_POST['cantidad'] ?? 1)
+    );
+
 } elseif ($metodo === 'POST' && $accion === 'vaciar') {
     $controller->vaciarCarrito();
+
 
 
 } elseif ($accion === 'continuar') {

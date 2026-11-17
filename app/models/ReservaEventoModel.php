@@ -14,7 +14,7 @@ class ReservaEventoModel
     }
 
     /**
-     * Obtiene los paquetes disponibles para reservar eventos.
+     * Obtiene los paquetes disponibles.
      */
     public function obtenerPaquetes(): array
     {
@@ -36,15 +36,38 @@ class ReservaEventoModel
     }
 
     /**
-     * Registra el evento y crea su reservación.
-     * Devuelve el ID de la reservación creada.
+     * Obtiene los extras disponibles para un paquete.
+     */
+    public function obtenerExtrasPorPaquete(int $idPaquete): array
+    {
+        $sql = "
+            SELECT
+                e.id_extra,
+                e.nombre_extra,
+                e.descripcion,
+                e.precio_adicional
+            FROM paquete_extra pe
+            INNER JOIN extra e
+                ON e.id_extra = pe.id_extra
+            WHERE pe.id_paquete = :id_paquete
+            ORDER BY e.id_extra
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['id_paquete' => $idPaquete]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Registra un evento, sus extras y su reservación.
      */
     public function crearReserva(array $datos): int
     {
         $this->db->beginTransaction();
 
         try {
-            // 1. Consultar el paquete y obtener su precio real.
+            // 1. Consultar paquete.
             $sqlPaquete = "
                 SELECT
                     id_paquete,
@@ -57,7 +80,6 @@ class ReservaEventoModel
             ";
 
             $stmtPaquete = $this->db->prepare($sqlPaquete);
-
             $stmtPaquete->execute([
                 'id_paquete' => (int) $datos['id_paquete']
             ]);
@@ -70,7 +92,7 @@ class ReservaEventoModel
                 );
             }
 
-            // 2. Validar el número de invitados.
+            // 2. Validar invitados.
             $invitados = (int) $datos['invitados'];
 
             if ($invitados < 1) {
@@ -88,7 +110,7 @@ class ReservaEventoModel
                 );
             }
 
-            // 3. Construir la dirección del evento.
+            // 3. Construir dirección.
             $direccion = implode(', ', array_filter([
                 trim($datos['calle'] ?? ''),
                 trim($datos['colonia'] ?? ''),
@@ -97,12 +119,28 @@ class ReservaEventoModel
                 trim($datos['referencias'] ?? '')
             ], static fn($valor) => $valor !== ''));
 
-            // 4. Combinar la fecha y la hora.
-            $fechaHora = $datos['fecha_evento']
-                . ' '
-                . $datos['hora_evento'];
+            if ($direccion === '') {
+                throw new RuntimeException(
+                    'Debes proporcionar la dirección del evento.'
+                );
+            }
 
-            // 5. Registrar el evento.
+            // 4. Validar fecha y hora.
+            $fecha = trim($datos['fecha_evento'] ?? '');
+            $hora = trim($datos['hora_evento'] ?? '');
+
+            if (
+                !preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha) ||
+                !preg_match('/^\d{2}:\d{2}$/', $hora)
+            ) {
+                throw new RuntimeException(
+                    'La fecha o la hora del evento no son válidas.'
+                );
+            }
+
+            $fechaHora = $fecha . ' ' . $hora;
+
+            // 5. Registrar evento.
             $sqlEvento = "
                 INSERT INTO evento (
                     id_usuario,
@@ -130,21 +168,107 @@ class ReservaEventoModel
             $stmtEvento->execute([
                 'id_usuario' => (int) $datos['id_usuario'],
                 'id_paquete' => (int) $paquete['id_paquete'],
-                'tipo_evento' => trim($datos['motivo_evento']),
+                'tipo_evento' => trim($datos['motivo_evento'] ?? ''),
                 'fecha_hora' => $fechaHora,
                 'lugar_direccion' => $direccion,
                 'num_invitados' => $invitados,
                 'observaciones' => trim(
-                    $datos['observaciones'] ?? ''
+                    $datos['observaciones']
+                    ?? $datos['notas']
+                    ?? ''
                 )
             ]);
 
             $idEvento = (int) $stmtEvento->fetchColumn();
 
-            // 6. Los eventos no requieren un carrito de compra.
-            $idCarrito = null;
+            // 6. Obtener extras seleccionados.
+            $extras = $datos['extras'] ?? [];
 
-            // 7. Crear la reservación con el precio del paquete.
+            if (!is_array($extras)) {
+                throw new RuntimeException(
+                    'La selección de extras no es válida.'
+                );
+            }
+
+            $idsExtras = array_values(array_unique(array_filter(
+                array_map('intval', $extras),
+                static fn($id) => $id > 0
+            )));
+
+            // 7. Consultar extras permitidos y sus precios reales.
+            $costoExtras = 0;
+
+            if (!empty($idsExtras)) {
+                $placeholders = implode(
+                    ', ',
+                    array_fill(0, count($idsExtras), '?')
+                );
+
+                $sqlExtras = "
+                    SELECT
+                        e.id_extra,
+                        e.precio_adicional
+                    FROM paquete_extra pe
+                    INNER JOIN extra e
+                        ON e.id_extra = pe.id_extra
+                    WHERE pe.id_paquete = ?
+                      AND e.id_extra IN ($placeholders)
+                    FOR SHARE OF e
+                ";
+
+                $stmtExtras = $this->db->prepare($sqlExtras);
+
+                $stmtExtras->execute(array_merge(
+                    [(int) $paquete['id_paquete']],
+                    $idsExtras
+                ));
+
+                $extrasValidos = $stmtExtras->fetchAll(
+                    PDO::FETCH_ASSOC
+                );
+
+                if (count($extrasValidos) !== count($idsExtras)) {
+                    throw new RuntimeException(
+                        'Uno o más extras no pertenecen al paquete seleccionado.'
+                    );
+                }
+
+                // 8. Guardar extras del evento.
+                $sqlEventoExtra = "
+                    INSERT INTO evento_extra (
+                        id_evento,
+                        id_extra,
+                        precio_aplicado
+                    )
+                    VALUES (
+                        :id_evento,
+                        :id_extra,
+                        :precio_aplicado
+                    )
+                ";
+
+                $stmtEventoExtra = $this->db->prepare(
+                    $sqlEventoExtra
+                );
+
+                foreach ($extrasValidos as $extra) {
+                    $precio = (float) $extra['precio_adicional'];
+
+                    $stmtEventoExtra->execute([
+                        'id_evento' => $idEvento,
+                        'id_extra' => (int) $extra['id_extra'],
+                        'precio_aplicado' => $precio
+                    ]);
+
+                    $costoExtras += $precio;
+                }
+            }
+
+            // 9. Calcular costo total.
+            $costoTotal = (float) $paquete['precio_base']
+                + $costoExtras;
+
+            // 10. Crear reservación.
             $sqlReserva = "
                 INSERT INTO reserva (
                     id_evento,
@@ -165,20 +289,19 @@ class ReservaEventoModel
 
             $stmtReserva->execute([
                 'id_evento' => $idEvento,
-                'id_carrito' => $idCarrito,
+                'id_carrito' => null,
                 'estado_reserva' => 'pendiente',
-                'costo_total' => $paquete['precio_base']
+                'costo_total' => $costoTotal
             ]);
 
             $idReserva = (int) $stmtReserva->fetchColumn();
 
-            // 8. Confirmar ambos registros.
+            // 11. Confirmar transacción.
             $this->db->commit();
 
             return $idReserva;
 
         } catch (Throwable $e) {
-            // Si algo falla, deshacer los cambios.
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
@@ -188,7 +311,7 @@ class ReservaEventoModel
     }
 
     /**
-     * Obtiene una reservación y verifica que pertenezca al usuario.
+     * Obtiene una reservación perteneciente al usuario.
      */
     public function obtenerReserva(
         int $idReserva,

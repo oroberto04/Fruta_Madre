@@ -12,6 +12,7 @@ $cantidadProductos = 0;
 foreach ($productosCarrito as $producto) {
     $cantidadProductos += (int) $producto['cantidad'];
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

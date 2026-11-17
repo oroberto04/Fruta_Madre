@@ -1,6 +1,25 @@
 <?php
 $pedidos = $pedidos ?? [];
 
+// Consecutivo personal calculado con los pedidos que entrega el controlador.
+// El ID real de PostgreSQL se conserva para consultas y enlaces.
+$pedidosPorAntiguedad = $pedidos;
+usort($pedidosPorAntiguedad, static function ($a, $b): int {
+    $fechaA = strtotime((string) ($a['fecha_pedido'] ?? '')) ?: 0;
+    $fechaB = strtotime((string) ($b['fecha_pedido'] ?? '')) ?: 0;
+
+    if ($fechaA === $fechaB) {
+        return (int) ($a['id_pedido'] ?? 0) <=> (int) ($b['id_pedido'] ?? 0);
+    }
+
+    return $fechaA <=> $fechaB;
+});
+
+$numerosPedidos = [];
+foreach ($pedidosPorAntiguedad as $indice => $pedidoOrdenado) {
+    $numerosPedidos[(int) ($pedidoOrdenado['id_pedido'] ?? 0)] = $indice + 1;
+}
+
 $esc = static function ($valor): string {
     return htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
 };
@@ -399,6 +418,7 @@ $metodosPago = [
                 <?php foreach ($pedidos as $pedido): ?>
                     <?php
                     $id = (int) $pedido['id_pedido'];
+                    $numeroPedido = $numerosPedidos[$id] ?? $id;
                     $estado = $estadoInfo($pedido['estado_pedido'] ?? '');
                     $esSeleccionado = $pedidoSeleccionado &&
                         (int) $pedidoSeleccionado['id_pedido'] === $id;
@@ -411,7 +431,7 @@ $metodosPago = [
                         data-id="<?= $id ?>"
                         data-grupo="<?= $esc($estado['grupo']) ?>"
                         data-search="<?= $esc(mb_strtolower(
-                            '#' . $id . ' ' . $nombres,
+                            '#' . $numeroPedido . ' ' . $nombres,
                             'UTF-8'
                         )) ?>"
                         onclick="seleccionarPedido(<?= $id ?>)"
@@ -420,7 +440,7 @@ $metodosPago = [
 
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span class="display text-xl font-extrabold">
-                                    #<?= $id ?>
+                                    Pedido #<?= $numeroPedido ?>
                                 </span>
 
                                 <span class="<?= $esc($estado['clase']) ?> flex items-center gap-1 rounded-full px-3 py-1 text-xs font-extrabold">
@@ -476,6 +496,7 @@ $metodosPago = [
                     <?php
                     $pedido = $pedidoSeleccionado;
                     $idPedido = (int) $pedido['id_pedido'];
+                    $numeroPedidoDetalle = $numerosPedidos[$idPedido] ?? $idPedido;
                     $estadoActual = strtolower(trim((string) ($pedido['estado_pedido'] ?? 'pendiente')));
                     $infoEstado = $estadoInfo($estadoActual);
                     $metodo = $metodosPago[$pedido['metodo_pago'] ?? ''] ?? 'No especificado';
@@ -511,7 +532,7 @@ $metodosPago = [
                                         Detalle del encargo
                                     </p>
                                     <h2 class="display text-3xl font-extrabold uppercase">
-                                        Pedido #<?= $idPedido ?>
+                                        Pedido #<?= $numeroPedidoDetalle ?>
                                     </h2>
                                     <p class="mt-2 text-sm text-on-surface-variant">
                                         <?= $esc($fecha($pedido['fecha_pedido'] ?? null)) ?>
@@ -606,7 +627,7 @@ $totalUnidades = (int) ($pedido['cantidad_productos'] ?? 0);
                     Sigue tu antojo
                 </h3>
                 <p class="mt-1 text-sm text-on-surface-variant">
-                    Pedido #<?= $idPedido ?>
+                    Pedido #<?= $numeroPedidoDetalle ?>
                 </p>
             </div>
 
@@ -620,7 +641,7 @@ $totalUnidades = (int) ($pedido['cantidad_productos'] ?? 0);
 
             <?php if ($hayDireccion): ?>
                 <iframe
-                    title="Mapa de entrega del pedido #<?= $idPedido ?>"
+                    title="Mapa de entrega del pedido #<?= $numeroPedidoDetalle ?>"
                     src="https://maps.google.com/maps?q=<?= rawurlencode($direccionCompleta) ?>&output=embed"
                     class="block h-64 w-full border-0 md:h-72"
                     loading="lazy"
