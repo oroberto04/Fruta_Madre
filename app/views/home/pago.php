@@ -3,11 +3,12 @@ $productosCarrito = $productosCarrito ?? [];
 $datosPedido = $datosPedido ?? ($_SESSION['datos_pedido'] ?? []);
 $total = (float) ($total ?? 0);
 
-$metodoSeleccionado = $_SESSION['metodo_pago'] ?? 'tarjeta';
+$metodoSeleccionado = $_SESSION['metodo_pago'] ?? 'efectivo';
 
-if (!in_array($metodoSeleccionado, ['tarjeta', 'efectivo', 'transferencia'], true)) {
-    $metodoSeleccionado = 'tarjeta';
+if (!in_array($metodoSeleccionado, ['efectivo', 'transferencia'], true)) {
+    $metodoSeleccionado = 'efectivo';
 }
+
 
 if (empty($_SESSION['token_confirmacion'])) {
     $_SESSION['token_confirmacion'] = bin2hex(random_bytes(32));
@@ -271,12 +272,15 @@ h1, h2, h3, .display { font-family: 'Syne', sans-serif; }
                         <!-- MÉTODOS -->
                         <div class="mb-5 grid grid-cols-1 gap-2 sm:grid-cols-3" role="group" aria-label="Métodos de pago">
 
-                            <button type="button" id="tab-tarjeta" class="pay-tab active flex flex-col items-start gap-2 rounded-lg p-3 text-left"
-                                    onclick="selectPaymentMethod('tarjeta')">
-                                <span class="material-symbols-outlined text-2xl">credit_card</span>
-                                <strong class="display text-sm uppercase">Tarjeta</strong>
-                                <span class="text-[10px]">Débito o crédito nacional</span>
-                            </button>
+                           <button type="button" id="tab-tarjeta"
+        class="pay-tab flex flex-col items-start gap-2 rounded-lg p-3 text-left opacity-50 cursor-not-allowed"
+        disabled
+        aria-disabled="true"
+        title="Próximamente">
+    <span class="material-symbols-outlined text-2xl">credit_card</span>
+    <strong class="display text-sm uppercase">Tarjeta</strong>
+    <span class="text-[10px]">Próximamente</span>
+</button>
 
                             <button type="button" id="tab-efectivo" class="pay-tab flex flex-col items-start gap-2 rounded-lg p-3 text-left"
                                     onclick="selectPaymentMethod('efectivo')">
@@ -699,7 +703,7 @@ function setSimulationState(estado) {
 document.getElementById('form-pago')?.addEventListener('submit', function (evento) {
     const metodo = document.getElementById('metodo_pago').value;
 
-    if (!['tarjeta', 'efectivo', 'transferencia'].includes(metodo)) {
+    if (!['efectivo', 'transferencia'].includes(metodo)) {
         evento.preventDefault();
         alert('Selecciona un método de pago válido.');
         return;

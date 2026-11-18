@@ -27,11 +27,10 @@ class PedidoModel
 
         $servicio = $datosPedido['tipo_servicio'] ?? '';
 
-        $metodosPermitidos = [
-            'efectivo',
-            'transferencia',
-            'tarjeta'
-        ];
+       $metodosPermitidos = [
+    'efectivo',
+    'transferencia'
+];
 
         if (!in_array($metodoPago, $metodosPermitidos, true)) {
             throw new InvalidArgumentException(
@@ -142,21 +141,54 @@ class PedidoModel
             $subtotal = round($subtotal, 2);
             $total = $subtotal;
 
-            // Crear el pedido.
+                        // Crear el pedido con todos los datos de entrega y contacto.
             $insertarPedido = $this->db->prepare(
                 "INSERT INTO pedido
-                    (id_usuario, fecha_pedido, estado_pedido,
-                     subtotal, total)
+                    (
+                        id_usuario,
+                        fecha_pedido,
+                        estado_pedido,
+                        subtotal,
+                        total,
+                        tipo_servicio,
+                        fecha_preferida,
+                        horario_preferido,
+                        correo_contacto,
+                        observaciones
+                    )
                  VALUES
-                    (:usuario, CURRENT_TIMESTAMP, 'pendiente',
-                     :subtotal, :total)
+                    (
+                        :usuario,
+                        CURRENT_TIMESTAMP,
+                        'pendiente',
+                        :subtotal,
+                        :total,
+                        :servicio,
+                        :fecha,
+                        :horario,
+                        :correo,
+                        :observaciones
+                    )
                  RETURNING id_pedido"
             );
 
             $insertarPedido->execute([
                 'usuario' => $idUsuario,
                 'subtotal' => $subtotal,
-                'total' => $total
+                'total' => $total,
+                'servicio' => $servicio,
+                'fecha' => !empty($datosPedido['fecha_preferida'])
+                    ? $datosPedido['fecha_preferida']
+                    : null,
+                'horario' => !empty($datosPedido['horario_preferido'])
+                    ? $datosPedido['horario_preferido']
+                    : null,
+                'correo' => !empty($datosPedido['correo'])
+                    ? trim($datosPedido['correo'])
+                    : null,
+                'observaciones' => !empty($datosPedido['observaciones'])
+                    ? trim($datosPedido['observaciones'])
+                    : null
             ]);
 
             $idPedido = (int) $insertarPedido->fetchColumn();

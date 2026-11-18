@@ -747,17 +747,16 @@ public function confirmarPedido(): void
 
     $metodoPago = $_POST['metodo_pago'] ?? '';
 
-    $metodosPermitidos = ['efectivo', 'transferencia', 'tarjeta'];
+$metodosPermitidos = [
+    'efectivo',
+    'transferencia'
+];
 
-    if (!in_array($metodoPago, $metodosPermitidos, true)) {
-
-        $_SESSION['error_pedido'] = 'Selecciona un método de pago válido.';
-
-        header('Location: index.php?accion=pagar');
-
-        exit;
-
-    }
+if (!in_array($metodoPago, $metodosPermitidos, true)) {
+    $_SESSION['error_pedido'] = 'Selecciona un método de pago válido. El pago con tarjeta todavía no está disponible.';
+    header('Location: index.php?accion=pagar');
+    exit;
+}
 
     // Preparar los productos usando el carrito de la sesión.
 

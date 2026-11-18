@@ -41,6 +41,127 @@ class AdminController
 
         $resumen = $this->adminModel->obtenerResumen();
 
-        require __DIR__ . '/../views/admin/index.php';
+        require __DIR__ . '/../views/admin/panel.php';
     }
+
+    /**
+     * Muestra todos los pedidos recibidos.
+     */
+    public function pedidos(): void
+    {
+        $this->verificarAdministrador();
+
+        $pedidos = $this->adminModel->obtenerPedidos();
+
+        require __DIR__ . '/../views/admin/pedidos.php';
+    }
+
+    /**
+     * Actualiza el estado de un pedido.
+     */
+    public function actualizarEstadoPedido(): void
+    {
+        $this->verificarAdministrador();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: index.php?accion=admin-pedidos');
+            exit;
+        }
+
+        $idPedido = filter_input(INPUT_POST, 'id_pedido', FILTER_VALIDATE_INT);
+        $estado = trim($_POST['estado_pedido'] ?? '');
+
+        if (!$idPedido || !$this->adminModel->actualizarEstadoPedido($idPedido, $estado)) {
+            $_SESSION['mensaje_admin'] = [
+                'tipo' => 'error',
+                'texto' => 'No se pudo actualizar el estado del pedido.'
+            ];
+        } else {
+            $_SESSION['mensaje_admin'] = [
+                'tipo' => 'success',
+                'texto' => 'El estado del pedido se actualizó correctamente.'
+            ];
+        }
+
+        header('Location: index.php?accion=admin-pedidos');
+        exit;
+    }
+
+    /**
+     * Actualiza el estado de una entrega.
+     */
+    public function actualizarEstadoEntrega(): void
+    {
+        $this->verificarAdministrador();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: index.php?accion=admin-pedidos');
+            exit;
+        }
+
+        $idEntrega = filter_input(INPUT_POST, 'id_entrega', FILTER_VALIDATE_INT);
+        $estado = trim($_POST['estado_entrega'] ?? '');
+
+        if (!$idEntrega || !$this->adminModel->actualizarEstadoEntrega($idEntrega, $estado)) {
+            $_SESSION['mensaje_admin'] = [
+                'tipo' => 'error',
+                'texto' => 'No se pudo actualizar el estado de la entrega.'
+            ];
+        } else {
+            $_SESSION['mensaje_admin'] = [
+                'tipo' => 'success',
+                'texto' => 'El estado de la entrega se actualizó correctamente.'
+            ];
+        }
+
+        header('Location: index.php?accion=admin-pedidos');
+        exit;
+    }
+
+
+    /**
+     * Confirma el pago de un pedido desde el panel administrativo.
+     */
+    public function confirmarPago(): void
+    {
+        $this->verificarAdministrador();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: index.php?accion=admin-pedidos');
+            exit;
+        }
+
+        $idPedido = filter_input(
+            INPUT_POST,
+            'id_pedido',
+            FILTER_VALIDATE_INT
+        );
+
+        if (!$idPedido || $idPedido <= 0) {
+            $_SESSION['mensaje_admin'] = [
+                'tipo' => 'error',
+                'texto' => 'El número de pedido no es válido.'
+            ];
+
+            header('Location: index.php?accion=admin-pedidos');
+            exit;
+        }
+
+        $resultado = $this->adminModel->confirmarPago($idPedido);
+
+        $_SESSION['mensaje_admin'] = $resultado
+            ? [
+                'tipo' => 'success',
+                'texto' => 'El pago del pedido #' . $idPedido . ' fue confirmado.'
+            ]
+            : [
+                'tipo' => 'error',
+                'texto' => 'No se pudo confirmar el pago. Puede que ya esté confirmado o que no exista un pago pendiente.'
+            ];
+
+        header('Location: index.php?accion=admin-pedidos');
+        exit;
+    }
+
+
 }

@@ -310,35 +310,36 @@
 </div>
 <div class="flex flex-col flex-1">
 <div class="flex items-center gap-2 flex-wrap">
-<h3 class="font-display-hero text-xl uppercase font-bold text-on-surface" id="resumen-nombre">Carlos Orozco</h3>
+<h3 class="font-display-hero text-xl uppercase font-bold text-on-surface" id="resumen-nombre"><?= htmlspecialchars($usuario['nombre_completo'] ?? '', ENT_QUOTES, 'UTF-8') ?></h3>
 <span class="bg-secondary text-on-secondary px-2 py-0.5 rounded-full font-label-rotulo text-[11px] uppercase font-bold border border-on-surface">Marchante Frecuente</span>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 mt-2 text-sm text-on-surface-variant font-body-sm">
 <span class="flex items-center gap-1.5">
 <span class="material-symbols-outlined text-[16px] text-primary">mail</span>
-<strong class="font-medium text-on-surface" id="resumen-correo">cliente@ejemplo.com</strong>
+<strong class="font-medium text-on-surface" id="resumen-correo"><?= htmlspecialchars($usuario['correo'] ?? '', ENT_QUOTES, 'UTF-8') ?></strong>
 </span>
 <span class="flex items-center gap-1.5">
 <span class="material-symbols-outlined text-[16px] text-tertiary">call</span>
-<strong class="font-medium text-on-surface" id="resumen-tel">+52 961 000 0000</strong>
+<strong class="font-medium text-on-surface" id="resumen-tel"><?= htmlspecialchars($usuario['telefono'] ?? '', ENT_QUOTES, 'UTF-8') ?></strong>
 </span>
 </div>
 </div>
 </div>
 <!-- FORMULARIO DE EDICIÓN EN VIVO INTEGRADO -->
-<form class="flex flex-col gap-space-md pt-2" id="form-perfil">
+
+<form class="flex flex-col gap-space-md pt-2" id="form-perfil" action="index.php?accion=actualizar-perfil" method="POST">
 <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
 <div class="flex flex-col gap-1">
 <label class="font-label-rotulo text-xs uppercase font-extrabold text-on-surface" for="input-nombre">Nombre Completo</label>
-<input class="bg-surface-container-lowest px-3 py-2 rounded-lg border-2 border-on-surface text-on-surface font-body-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-[2px_2px_0px_#211d1a]" id="input-nombre" type="text" value="Carlos Orozco"/>
+<input class="bg-surface-container-lowest px-3 py-2 rounded-lg border-2 border-on-surface text-on-surface font-body-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-[2px_2px_0px_#211d1a]" id="input-nombre" name="nombre_completo" type="text" value="<?= htmlspecialchars($usuario['nombre_completo'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required/>
 </div>
 <div class="flex flex-col gap-1">
 <label class="font-label-rotulo text-xs uppercase font-extrabold text-on-surface" for="input-correo">Correo Electrónico</label>
-<input class="bg-surface-container-lowest px-3 py-2 rounded-lg border-2 border-on-surface text-on-surface font-body-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-[2px_2px_0px_#211d1a]" id="input-correo" type="email" value="cliente@ejemplo.com"/>
+<input class="bg-surface-container-lowest px-3 py-2 rounded-lg border-2 border-on-surface text-on-surface font-body-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-[2px_2px_0px_#211d1a]" id="input-correo" name="correo" type="email" value="<?= htmlspecialchars($usuario['correo'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required/>
 </div>
 <div class="flex flex-col gap-1">
 <label class="font-label-rotulo text-xs uppercase font-extrabold text-on-surface" for="input-telefono">Teléfono WhatsApp</label>
-<input class="bg-surface-container-lowest px-3 py-2 rounded-lg border-2 border-on-surface text-on-surface font-body-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-[2px_2px_0px_#211d1a]" id="input-telefono" type="tel" value="+52 961 000 0000"/>
+<input class="bg-surface-container-lowest px-3 py-2 rounded-lg border-2 border-on-surface text-on-surface font-body-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-[2px_2px_0px_#211d1a]" id="input-telefono" name="telefono" type="tel" value="<?= htmlspecialchars($usuario['telefono'] ?? '', ENT_QUOTES, 'UTF-8') ?>"/>
 </div>
 </div>
 <div class="flex items-center justify-end gap-space-sm pt-2">
@@ -351,7 +352,28 @@
                   </button>
 </div>
 </form>
-<div class="hidden p-space-sm rounded-lg bg-primary text-on-primary border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex items-center justify-between font-label-rotulo text-xs uppercase tracking-wide" id="alerta-perfil">
+<?php
+$mensajePerfil = $_SESSION['mensaje_perfil'] ?? null;
+unset($_SESSION['mensaje_perfil']);
+?>
+
+<?php if ($mensajePerfil): ?>
+<div class="p-space-sm rounded-lg <?= $mensajePerfil['tipo'] === 'success' ? 'bg-primary text-on-primary' : 'bg-secondary text-on-secondary' ?> border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex items-center justify-between font-label-rotulo text-xs uppercase tracking-wide" id="alerta-perfil">
+
+    <span class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">
+            <?= $mensajePerfil['tipo'] === 'success' ? 'check_circle' : 'error' ?>
+        </span>
+
+        <?= htmlspecialchars($mensajePerfil['texto'], ENT_QUOTES, 'UTF-8') ?>
+    </span>
+
+    <button class="text-on-primary" onclick="this.parentElement.remove()" type="button">
+        <span class="material-symbols-outlined text-[16px]">close</span>
+    </button>
+
+</div>
+<?php endif; ?>
 <span class="flex items-center gap-2">
 <span class="material-symbols-outlined text-[18px]">check_circle</span>
                   ¡Tus datos quedaron actualizados y bien afinados!
@@ -361,7 +383,9 @@
 </button>
 </div>
 </section>
+
 <!-- B) SECCIÓN MIS DIRECCIONES -->
+
 <section class="w-full bg-surface-container-lowest p-space-md lg:p-space-lg rounded-xl border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] flex flex-col gap-space-md" id="seccion-direcciones">
 <div class="flex flex-wrap items-center justify-between gap-space-sm border-b-2 border-dashed border-on-surface/20 pb-space-sm">
 <div class="flex items-center gap-space-sm">
@@ -758,6 +782,7 @@
 </div>
 </main>
 <!-- FOOTER INSTITUCIONAL OFICIAL -->
+
 <footer class="w-full bg-surface-container-low text-on-surface border-t-2 border-on-surface">
 <div class="h-2 w-full flex">
 <div class="flex-1 bg-tertiary"></div>
@@ -824,18 +849,6 @@
       const inputCorreo = document.getElementById('input-correo');
       const inputTel = document.getElementById('input-telefono');
       const btnCancelar = document.getElementById('btn-cancelar-perfil');
-
-      formPerfil?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        resumenNombre.textContent = inputNombre.value;
-        resumenCorreo.textContent = inputCorreo.value;
-        resumenTel.textContent = inputTel.value;
-
-        alerta.classList.remove('hidden');
-        setTimeout(() => {
-          alerta.classList.add('hidden');
-        }, 4000);
-      });
 
       btnCancelar?.addEventListener('click', () => {
         inputNombre.value = resumenNombre.textContent.trim();
