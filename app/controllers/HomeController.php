@@ -73,9 +73,11 @@ public function reservarEvento(): void
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         $paquetes = $reservaModel->obtenerPaquetes();
 
-        // Cargar los extras disponibles para el paquete seleccionado.
-        $idPaquete = 1;
-        $extrasDisponibles = $reservaModel->obtenerExtrasPorPaquete($idPaquete);
+        // Usar el paquete real seleccionado; no forzar el ID 1.
+        $idPaquete = (int) ($_GET['id_paquete'] ?? $_SESSION['datos_reserva_evento']['id_paquete'] ?? 0);
+        $ids = array_map(static fn($p) => (int)$p['id_paquete'], $paquetes);
+        if (!in_array($idPaquete, $ids, true)) $idPaquete = $ids[0] ?? 0;
+        $extrasDisponibles = $idPaquete > 0 ? $reservaModel->obtenerExtrasPorPaquete($idPaquete) : [];
 
         require __DIR__ . '/../views/home/reservar-evento.php';
         return;
@@ -100,7 +102,7 @@ public function reservarEvento(): void
 
     $datos = [
         'id_usuario' => (int) $_SESSION['usuario']['id_usuario'],
-        'id_paquete' => (int) ($_POST['id_paquete'] ?? 1),
+        'id_paquete' => (int) ($_POST['id_paquete'] ?? 0),
         'fecha_evento' => trim($_POST['fecha_evento'] ?? ''),
         'hora_evento' => trim($_POST['hora_evento'] ?? '13:00'),
         'motivo_evento' => trim($_POST['motivo_evento'] ?? ''),
@@ -122,6 +124,13 @@ public function reservarEvento(): void
 
     if (!$fechaValida || $datos['fecha_evento'] < date('Y-m-d')) {
         $errores[] = 'Selecciona una fecha válida, igual o posterior a hoy.';
+    }
+    // Una fecha de hoy con hora pasada tampoco es reservable.
+    if ($fechaValida && preg_match('/^\d{2}:\d{2}$/', $datos['hora_evento'])
+        && $datos['hora_evento'] <= '23:59'
+        && (int) substr($datos['hora_evento'], 3, 2) <= 59
+        && $datos['fecha_evento'] . ' ' . $datos['hora_evento'] < date('Y-m-d H:i')) {
+        $errores[] = 'La hora del evento ya pasó. Selecciona una fecha y hora futuras.';
     }
 
     if (
@@ -749,7 +758,8 @@ public function confirmarPedido(): void
 
 $metodosPermitidos = [
     'efectivo',
-    'transferencia'
+    'transferencia',
+    'mercadopago_prueba'
 ];
 
 if (!in_array($metodoPago, $metodosPermitidos, true)) {
@@ -757,6 +767,16 @@ if (!in_array($metodoPago, $metodosPermitidos, true)) {
     header('Location: index.php?accion=pagar');
     exit;
 }
+
+    // No crear un pedido TEST si falta la credencial de pruebas.
+    if ($metodoPago === 'mercadopago_prueba') {
+        require_once __DIR__ . '/../services/MercadoPagoPruebas.php';
+        if (!MercadoPagoPruebas::habilitado()) {
+            $_SESSION['error_pedido'] = 'Mercado Pago de pruebas requiere configurar MP_ACCESS_TOKEN_TEST.';
+            header('Location: index.php?accion=pagar');
+            exit;
+        }
+    }
 
     // Preparar los productos usando el carrito de la sesión.
 
@@ -808,7 +828,12 @@ if (!in_array($metodoPago, $metodosPermitidos, true)) {
 
         ];
 
-        header('Location: index.php?accion=pedido-confirmado');
+        unset($_SESSION['pago_mp_estado'], $_SESSION['pago_mp_detalle']);
+        if ($metodoPago === 'mercadopago_prueba') {
+            header('Location: index.php?accion=iniciar-pago-mp-prueba', true, 303);
+        } else {
+            header('Location: index.php?accion=pedido-confirmado', true, 303);
+        }
 
         exit;
 

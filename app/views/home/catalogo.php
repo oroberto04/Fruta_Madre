@@ -499,6 +499,18 @@ function resetFilters() {
 }
 
 document.getElementById('resetFilters').addEventListener('click', resetFilters);
+
+// Read category and search requested by home navigation.
+const navParams = new URLSearchParams(window.location.search);
+const requestedCategory = (navParams.get('categoria') || '').toLocaleLowerCase('es').trim();
+const requestedSearch = (navParams.get('buscar') || '').trim();
+if (requestedSearch) searchInput.value = requestedSearch;
+if (requestedCategory) {
+  const selected = [...document.querySelectorAll('.category-pill')]
+    .find(p => (p.dataset.category || '').includes(requestedCategory));
+  if (selected) selected.click();
+  else activeCategory = requestedCategory;
+}
 applyFilters();
 </script>
 </body>

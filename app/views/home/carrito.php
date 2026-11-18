@@ -205,8 +205,8 @@ $servicioActual = $datosPedido['tipo_servicio'] ?? 'domicilio';
 
         <nav class="hidden items-center gap-2 lg:flex">
             <a href="index.php" class="rounded-lg px-4 py-2 hover:bg-[#f8edd8]">Inicio</a>
-            <a href="index.php#catalogo" class="rounded-lg px-4 py-2 hover:bg-[#f8edd8]">Catálogo</a>
-            <a href="index.php#eventos" class="rounded-lg px-4 py-2 hover:bg-[#f8edd8]">Eventos</a>
+            <a href="index.php?accion=catalogo" class="rounded-lg px-4 py-2 hover:bg-[#f8edd8]">Catálogo</a>
+            <a href="index.php?accion=eventos" class="rounded-lg px-4 py-2 hover:bg-[#f8edd8]">Eventos</a>
         </nav>
 
         <a href="index.php?accion=carrito"
@@ -856,8 +856,8 @@ $servicioActual = $datosPedido['tipo_servicio'] ?? 'domicilio';
             <h3 class="mb-3 text-sm font-extrabold uppercase">Explorar</h3>
             <div class="flex flex-col gap-2 text-sm text-[#41493f]">
                 <a href="index.php" class="hover:text-[#2f612f]">Inicio</a>
-                <a href="index.php#catalogo" class="hover:text-[#2f612f]">Catálogo</a>
-                <a href="index.php#eventos" class="hover:text-[#2f612f]">Eventos</a>
+                <a href="index.php?accion=catalogo" class="hover:text-[#2f612f]">Catálogo</a>
+                <a href="index.php?accion=eventos" class="hover:text-[#2f612f]">Eventos</a>
             </div>
         </div>
 

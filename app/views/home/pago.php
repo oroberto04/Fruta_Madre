@@ -5,7 +5,7 @@ $total = (float) ($total ?? 0);
 
 $metodoSeleccionado = $_SESSION['metodo_pago'] ?? 'efectivo';
 
-if (!in_array($metodoSeleccionado, ['efectivo', 'transferencia'], true)) {
+if (!in_array($metodoSeleccionado, ['efectivo', 'transferencia', 'mercadopago_prueba'], true)) {
     $metodoSeleccionado = 'efectivo';
 }
 
@@ -29,6 +29,8 @@ foreach ($productosCarrito as $producto) {
 }
 
 $servicio = $datosPedido['tipo_servicio'] ?? 'recoger';
+require_once __DIR__ . '/../../services/MercadoPagoPruebas.php';
+$mpPruebasConfigurado = MercadoPagoPruebas::habilitado();
 ?>
 
 <!DOCTYPE html>
@@ -131,8 +133,8 @@ h1, h2, h3, .display { font-family: 'Syne', sans-serif; }
         <nav class="hidden items-center gap-1 rounded-lg bg-surface-container-low p-1 xl:flex">
             <a href="index.php" class="rounded-lg px-4 py-2 text-sm font-bold hover:bg-surface-container">Inicio</a>
             <a href="index.php?accion=catalogo" class="rounded-lg px-4 py-2 text-sm font-bold hover:bg-surface-container">Catálogo</a>
-            <a href="index.php?accion=catalogo" class="rounded-lg px-4 py-2 text-sm font-bold hover:bg-surface-container">Eventos</a>
-            <a href="index.php?accion=cuenta" class="rounded-lg px-4 py-2 text-sm font-bold hover:bg-surface-container">Mis pedidos</a>
+            <a href="index.php?accion=eventos" class="rounded-lg px-4 py-2 text-sm font-bold hover:bg-surface-container">Eventos</a>
+            <a href="index.php?accion=mis-pedidos" class="rounded-lg px-4 py-2 text-sm font-bold hover:bg-surface-container">Mis pedidos</a>
         </nav>
 
         <div class="flex items-center gap-2">
@@ -272,14 +274,12 @@ h1, h2, h3, .display { font-family: 'Syne', sans-serif; }
                         <!-- MÉTODOS -->
                         <div class="mb-5 grid grid-cols-1 gap-2 sm:grid-cols-3" role="group" aria-label="Métodos de pago">
 
-                           <button type="button" id="tab-tarjeta"
-        class="pay-tab flex flex-col items-start gap-2 rounded-lg p-3 text-left opacity-50 cursor-not-allowed"
-        disabled
-        aria-disabled="true"
-        title="Próximamente">
+                           <button type="button" id="tab-mercadopago_prueba"
+        class="pay-tab flex flex-col items-start gap-2 rounded-lg p-3 text-left <?= $mpPruebasConfigurado ? '' : 'opacity-50 cursor-not-allowed' ?>"
+        <?= $mpPruebasConfigurado ? 'onclick="selectPaymentMethod(\'mercadopago_prueba\')"' : 'disabled aria-disabled="true"' ?>>
     <span class="material-symbols-outlined text-2xl">credit_card</span>
-    <strong class="display text-sm uppercase">Tarjeta</strong>
-    <span class="text-[10px]">Próximamente</span>
+    <strong class="display text-sm uppercase">Mercado Pago</strong>
+    <span class="text-[10px]">Pago de prueba · sin cobros reales</span>
 </button>
 
                             <button type="button" id="tab-efectivo" class="pay-tab flex flex-col items-start gap-2 rounded-lg p-3 text-left"
@@ -299,7 +299,7 @@ h1, h2, h3, .display { font-family: 'Syne', sans-serif; }
                         </div>
 
                         <!-- PANEL TARJETA -->
-                        <div id="panel-tarjeta" class="pay-panel active flex-col gap-4">
+                        <div id="panel-mercadopago_prueba" class="pay-panel hidden flex-col gap-4">
 
                             <div class="flex items-center justify-between rounded-lg bg-surface-container-low p-3">
                                 <span class="display text-[10px] font-extrabold uppercase">Tarjetas aceptadas:</span>
@@ -316,14 +316,14 @@ h1, h2, h3, .display { font-family: 'Syne', sans-serif; }
                                     <strong class="display text-sm uppercase">Pago electrónico seguro</strong>
                                 </div>
                                 <p class="text-xs leading-5 text-on-surface-variant">
-                                    La integración con una pasarela bancaria todavía está pendiente.
-                                    No introduzcas números de tarjeta ni CVV en esta versión.
+                                    Mercado Pago funciona exclusivamente con credenciales TEST. Serás redirigido al Checkout Pro de pruebas.
+                                    Usa solamente cuentas y tarjetas de prueba. Nunca introduzcas datos bancarios reales.
                                 </p>
                             </div>
 
                             <div class="flex items-start gap-2 rounded-lg bg-surface-container p-3 text-xs leading-5 text-on-surface-variant">
                                 <span class="material-symbols-outlined text-primary">security</span>
-                                <p>Cuando integremos una pasarela, los datos de la tarjeta se capturarán de forma segura y no se almacenarán en la base de datos de Fruta Madre.</p>
+                                <p>Fruta Madre no almacena números de tarjeta ni CVV. Las pruebas se procesan en la plataforma de Mercado Pago.</p>
                             </div>
                         </div>
 
@@ -703,7 +703,7 @@ function setSimulationState(estado) {
 document.getElementById('form-pago')?.addEventListener('submit', function (evento) {
     const metodo = document.getElementById('metodo_pago').value;
 
-    if (!['efectivo', 'transferencia'].includes(metodo)) {
+    if (!['efectivo', 'transferencia', 'mercadopago_prueba'].includes(metodo)) {
         evento.preventDefault();
         alert('Selecciona un método de pago válido.');
         return;

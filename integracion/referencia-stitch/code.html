@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><title>Gestión Administrativa - FRUTA MADRE</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Syne:wght@400..800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-lowest":"#ffffff","surface-container-low":"#fdf2de","surface-container":"#f8edd8","surface-container-high":"#f2e7d2","surface-container-highest":"#ece1cd","surface":"#fff8f0","surface-dim":"#e3d9c5","surface-bright":"#fff8f0","background":"#fff8f0","on-surface":"#211d1a","on-surface-variant":"#41493f","on-background":"#211d1a","primary":"#477a45","primary-container":"#477a45","on-primary":"#ffffff","on-primary-container":"#d0ffc8","secondary":"#d94f70","secondary-container":"#ffd9de","on-secondary":"#ffffff","on-secondary-container":"#6b0027","tertiary":"#e97832","tertiary-container":"#e97832","on-tertiary":"#ffffff","on-tertiary-container":"#fff0e9","outline":"#72796e","outline-variant":"#c1c9bc","error":"#ba1a1a","error-container":"#ffdad6","on-error":"#ffffff","on-error-container":"#93000a","inverse-surface":"#302923","inverse-on-surface":"#fff4df","amarillo-maiz":"#e8b93f"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem","2xl":"1rem",full:"9999px"},spacing:{"gutter-desktop":"2rem","space-sm":"0.5rem","margin-desktop":"3rem","space-xs":"0.25rem",gutter:"1.25rem","space-xl":"2.5rem","space-md":"1rem",margin:"1.25rem","space-lg":"1.5rem"},fontFamily:{"display-hero":["Syne","sans-serif"],"headline-lg":["Syne","sans-serif"],"headline-md":["Syne","sans-serif"],"headline-sm":["Syne","sans-serif"],"label-rotulo":["Syne","sans-serif"],"body-lg":["DM Sans","sans-serif"],"body-md":["DM Sans","sans-serif"],"body-sm":["DM Sans","sans-serif"],"label-md":["DM Sans","sans-serif"],"label-sm":["DM Sans","sans-serif"]}}}}</script><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest z-50 flex flex-col justify-between border-r-2 border-on-surface shadow-[2px_0px_0px_#211d1a]"><div class="flex flex-col flex-1 min-h-0"><div class="h-20 px-space-md flex items-center gap-space-sm bg-surface-container-low border-b-2 border-on-surface"><img alt="FRUTA MADRE Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1W0q5rsMHajuhP3xliGM4ENIiIXYTajmRgvYwHU3mD6RbhEJ5J2-fIl5UaybVd_COqPwuK5CKGypw3IWxlfFTLUUC8Ga9K1e3W-wQqQIKre8hpcnDPDDlQxaE0X5au8QORDV9Ktw-44n2sHR0f0miZl00x_QcRrpGzizUh0ImPQSoteXpbyDjbmV_5NQghiScqmtUmF2BDSQpH7-q0y8HS-58EiwwtNmOlsdLqTePCU7JlvyHVbFyHlQw"/><div class="flex flex-col leading-none"><span class="font-display-hero text-headline-sm tracking-tight text-on-surface uppercase font-bold">FRUTA MADRE</span><span class="font-label-rotulo text-[10px] text-secondary uppercase font-extrabold tracking-widest mt-0.5">PUESTO MATRIZ • CTRL</span></div></div><div class="px-space-md py-space-sm"><div class="bg-surface-container-low px-space-sm py-1.5 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex items-center justify-between"><span class="font-label-rotulo text-[11px] text-on-surface uppercase tracking-wider font-extrabold">ESTADO: MERCADO ABIERTO</span><span class="h-2.5 w-2.5 rounded-full bg-primary border border-on-surface animate-pulse"></span></div></div><div class="flex-1 overflow-y-auto px-space-sm py-space-xs"><nav class="space-y-1.5"><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container font-label-rotulo text-xs uppercase tracking-wide border border-transparent hover:border-on-surface transition-all" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px] text-tertiary">space_dashboard</span><span>Dashboard</span></a><a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container font-label-rotulo text-xs uppercase tracking-wide border border-transparent hover:border-on-surface transition-all" data-path="pedidos" href="#"><div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-[20px] text-secondary">receipt_long</span><span>Pedidos</span></div><span class="bg-secondary text-on-secondary font-label-rotulo text-[11px] px-2 py-0.5 rounded-full border border-on-surface font-black">12</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container font-label-rotulo text-xs uppercase tracking-wide border border-transparent hover:border-on-surface transition-all" data-path="reservas" href="#"><span class="material-symbols-outlined text-[20px] text-amarillo-maiz">event_available</span><span>Reservas</span></a><a aria-current="page" class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-primary text-on-primary font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all" data-path="productos" href="#"><div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-[20px]">nutrition</span><span>Productos</span></div><span class="material-symbols-outlined text-[18px]">check_circle</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container font-label-rotulo text-xs uppercase tracking-wide border border-transparent hover:border-on-surface transition-all" data-path="categorias" href="#"><span class="material-symbols-outlined text-[20px] text-tertiary">category</span><span>Categorías</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container font-label-rotulo text-xs uppercase tracking-wide border border-transparent hover:border-on-surface transition-all" data-path="paquetes" href="#"><span class="material-symbols-outlined text-[20px] text-primary">inventory_2</span><span>Paquetes</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container font-label-rotulo text-xs uppercase tracking-wide border border-transparent hover:border-on-surface transition-all" data-path="carritos-botaneros" href="#"><span class="material-symbols-outlined text-[20px] text-amarillo-maiz">qr_code</span><span>Carritos Botaneros</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container font-label-rotulo text-xs uppercase tracking-wide border border-transparent hover:border-on-surface transition-all" data-path="clientes" href="#"><span class="material-symbols-outlined text-[20px] text-secondary">groups</span><span>Clientes</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container font-label-rotulo text-xs uppercase tracking-wide border border-transparent hover:border-on-surface transition-all" data-path="inventario" href="#"><span class="material-symbols-outlined text-[20px] text-tertiary">warehouse</span><span>Inventario</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container font-label-rotulo text-xs uppercase tracking-wide border border-transparent hover:border-on-surface transition-all" data-path="reportes" href="#"><span class="material-symbols-outlined text-[20px] text-primary">monitoring</span><span>Reportes</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container font-label-rotulo text-xs uppercase tracking-wide border border-transparent hover:border-on-surface transition-all" data-path="configuracion" href="#"><span class="material-symbols-outlined text-[20px] text-on-surface-variant">settings</span><span>Configuración</span></a></nav></div></div><div class="p-space-sm bg-surface-container-low border-t-2 border-on-surface"><button class="w-full flex items-center justify-between p-2.5 rounded-lg bg-error-container/50 text-error hover:bg-error-container border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] font-label-rotulo text-xs uppercase tracking-wider transition-all" data-path="cerrar-sesion" type="button"><div class="flex items-center gap-2 font-bold"><span class="material-symbols-outlined text-[18px]">logout</span><span>Cerrar sesión</span></div><span class="text-[10px] font-body-md opacity-80 lowercase">salir</span></button></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-20 bg-surface/95 backdrop-blur-md border-b-2 border-on-surface z-40 px-gutter-desktop flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5 font-label-sm text-xs uppercase"><span class="text-on-surface-variant font-medium">Puesto Matriz</span><span class="text-on-surface-variant/40">/</span><span class="text-primary font-black tracking-wider">Operaciones</span></div><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[20px]">search</span><input class="bg-surface-container-lowest text-on-surface font-body-sm text-sm pl-10 pr-space-md py-1.5 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary w-64 lg:w-80" placeholder="Buscar pedido, fruta o cliente..." type="text"/></div></div><div class="flex items-center gap-space-md"><button class="relative p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute -top-1 -right-1 h-3 w-3 bg-secondary rounded-full border border-on-surface"></span></button><div class="flex items-center gap-2.5 bg-surface-container-low px-3 py-1.5 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a]"><div class="flex flex-col text-right leading-tight"><span class="font-display-hero text-xs text-on-surface font-bold uppercase">Don Rodrigo</span><span class="font-label-rotulo text-[10px] text-secondary font-black uppercase tracking-wider">Superadmin</span></div><div class="w-8 h-8 rounded-full bg-amarillo-maiz text-on-surface font-label-rotulo font-black flex items-center justify-center border border-on-surface"><span class="material-symbols-outlined text-[18px]">person</span></div></div></div></header><main class="w-full pt-28 px-gutter-desktop pb-margin-desktop bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- ENCABEZADO PRINCIPAL DE CONTROL MATRIZ -->
+<section class="flex flex-col gap-space-md pb-space-lg border-b-2 border-dashed border-on-surface/20">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary text-on-secondary font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a]">
+<span class="material-symbols-outlined text-[14px]">tune</span>
+              PUESTO DIGITAL • CONTROL MATRIZ
+            </span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low text-on-surface font-label-sm text-xs font-bold border border-on-surface">
+<span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+              Sincronización en vivo
+            </span>
+</div>
+<h1 class="font-display-hero text-headline-lg lg:text-display-hero text-on-surface uppercase tracking-tight leading-none mt-space-xs">Gestión Administrativa</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mt-1">
+          Centro operativo maestro para catalogar, ajustar precios al vuelo, supervisar existencias en piso de venta y orquestar la oferta gastronómica de Fruta Madre.
+        </p>
+</div>
+<!-- Quick KPI Strip con estética de Mi Cuenta -->
+<div class="flex items-center gap-space-sm bg-surface-container-low p-space-sm rounded-2xl border-2 border-on-surface shadow-[3px_3px_0px_#211d1a]">
+<div class="px-space-md py-space-xs rounded-xl bg-surface-container-lowest border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex flex-col items-center min-w-[100px]">
+<span class="font-label-rotulo text-[11px] text-outline uppercase font-bold tracking-wider">Catálogo Activo</span>
+<span class="font-display-hero text-2xl text-primary font-black">42</span>
+</div>
+<div class="px-space-md py-space-xs rounded-xl bg-surface-container-lowest border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex flex-col items-center min-w-[100px]">
+<span class="font-label-rotulo text-[11px] text-tertiary uppercase font-bold tracking-wider">Bajo Stock</span>
+<span class="font-display-hero text-2xl text-tertiary font-black">03</span>
+</div>
+<div class="px-space-md py-space-xs rounded-xl bg-surface-container-lowest border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex flex-col items-center min-w-[100px]">
+<span class="font-label-rotulo text-[11px] text-secondary uppercase font-bold tracking-wider">En Piso Hoy</span>
+<span class="font-display-hero text-2xl text-secondary font-black">$18.4k</span>
+</div>
+</div>
+</div>
+<!-- PESTAÑAS CONMUTABLES HORIZONTALES (MÓDULOS REUTILIZABLES) -->
+<div class="flex items-center gap-2 overflow-x-auto py-2 scrollbar-none">
+<!-- Tab 1: Productos (ACTIVO) -->
+<button class="flex items-center gap-space-xs px-4 py-2 rounded-xl bg-primary text-on-primary font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] transition-all whitespace-nowrap font-bold">
+<span>🍉 Productos</span>
+<span class="bg-amarillo-maiz text-on-surface px-2 py-0.5 rounded-full text-xs font-black border border-on-surface">42</span>
+</button>
+<!-- Tab 2: Categorías -->
+<button class="flex items-center gap-space-xs px-4 py-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all whitespace-nowrap">
+<span>🗂️ Categorías</span>
+<span class="bg-surface-container-high text-on-surface px-2 py-0.5 rounded-full text-xs font-bold border border-on-surface">6</span>
+</button>
+<!-- Tab 3: Paquetes -->
+<button class="flex items-center gap-space-xs px-4 py-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all whitespace-nowrap">
+<span>🎉 Paquetes</span>
+<span class="bg-surface-container-high text-on-surface px-2 py-0.5 rounded-full text-xs font-bold border border-on-surface">8</span>
+</button>
+<!-- Tab 4: Carritos -->
+<button class="flex items-center gap-space-xs px-4 py-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all whitespace-nowrap">
+<span>🛺 Carritos</span>
+<span class="bg-surface-container-high text-on-surface px-2 py-0.5 rounded-full text-xs font-bold border border-on-surface">5</span>
+</button>
+<!-- Tab 5: Pedidos -->
+<button class="flex items-center gap-space-xs px-4 py-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all whitespace-nowrap">
+<span>🛵 Pedidos</span>
+<span class="bg-secondary text-on-secondary px-2 py-0.5 rounded-full text-xs font-bold border border-on-surface">18</span>
+</button>
+<!-- Tab 6: Reservas -->
+<button class="flex items-center gap-space-xs px-4 py-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all whitespace-nowrap">
+<span>📅 Reservas</span>
+<span class="bg-surface-container-high text-on-surface px-2 py-0.5 rounded-full text-xs font-bold border border-on-surface">12</span>
+</button>
+<!-- Tab 7: Clientes -->
+<button class="flex items-center gap-space-xs px-4 py-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all whitespace-nowrap">
+<span>👥 Clientes</span>
+<span class="bg-surface-container-high text-on-surface px-2 py-0.5 rounded-full text-xs font-bold border border-on-surface">342</span>
+</button>
+<!-- Tab 8: Inventario -->
+<button class="flex items-center gap-space-xs px-4 py-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all whitespace-nowrap">
+<span>📦 Inventario</span>
+<span class="bg-tertiary text-on-tertiary px-2 py-0.5 rounded-full text-xs font-bold border border-on-surface">52</span>
+</button>
+<!-- Tab 9: Reportes -->
+<button class="flex items-center gap-space-xs px-4 py-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px] text-primary">query_stats</span>
+<span>Reportes</span>
+</button>
+</div>
+</section>
+<!-- BARRA DE HERRAMIENTAS Y ACCIONES OPERATIVAS -->
+<section class="bg-surface-container-lowest p-space-md rounded-2xl border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] my-space-md flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-sm flex-1 min-w-[300px]">
+<!-- Input de Búsqueda contextual -->
+<div class="relative flex-1 min-w-[240px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full pl-10 pr-space-md py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-sm border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Buscar producto por nombre, SKU o ingrediente..." type="text"/>
+</div>
+<!-- Selector de Categoría -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-body-sm text-sm pl-space-md pr-8 py-2 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary">
+<option>Todas las categorías (Frutas, Botanas, Dulces, Bebidas, Carritos)</option>
+<option>Fruta Preparada</option>
+<option>Botanas &amp; Charolas</option>
+<option>Salsas &amp; Chamoy</option>
+<option>Dulces &amp; Gomitas</option>
+<option>Repostería &amp; Nieve</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[18px]">expand_more</span>
+</div>
+<!-- Filtro de Estado -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-body-sm text-sm pl-space-md pr-8 py-2 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary">
+<option>Estado: Todos los estados</option>
+<option>🟢 Disponible</option>
+<option>🟡 Poco Stock</option>
+<option>🔴 Agotado</option>
+<option>⚪ Inactivo</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[18px]">filter_alt</span>
+</div>
+<!-- Ordenar -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-body-sm text-sm pl-space-md pr-8 py-2 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary">
+<option>Ordenar por: Más vendidos</option>
+<option>Precio: Menor a Mayor</option>
+<option>Precio: Mayor a Menor</option>
+<option>Stock en mostrador</option>
+<option>Margen de Ganancia</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[18px]">sort</span>
+</div>
+</div>
+<!-- Botón de acción principal -->
+<div class="flex items-center gap-space-sm">
+<span class="font-body-sm text-sm text-on-surface-variant hidden xl:inline">Mostrando <strong class="text-on-surface">6 de 42</strong> productos</span>
+<button class="flex items-center gap-2 bg-primary hover:bg-primary-container text-on-primary px-space-md py-2 rounded-lg font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] transition-all hover:translate-x-0.5 hover:translate-y-0.5 font-bold" type="button">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<div class="flex flex-col text-left leading-none">
+<span>+ NUEVO PRODUCTO</span>
+<span class="font-label-sm text-[10px] text-on-primary-container opacity-90 lowercase font-normal">registrar al vuelo</span>
+</div>
+</button>
+</div>
+</section>
+<!-- CONTENEDOR PRINCIPAL DIVIDIDO EN 2 PANELES PRODUCTIVOS -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter-desktop items-start">
+<!-- LADO IZQUIERDO: TABLA ADMINISTRATIVA DINÁMICA (7 COLS EN XL) -->
+<div class="xl:col-span-7 flex flex-col gap-space-md">
+<div class="bg-surface-container-lowest rounded-2xl border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] overflow-hidden">
+<!-- Table Control Strip -->
+<div class="bg-surface-container-low px-space-md py-space-sm flex items-center justify-between border-b-2 border-on-surface">
+<div class="flex items-center gap-space-xs text-on-surface font-label-rotulo text-xs uppercase tracking-wider font-extrabold">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-primary border border-on-surface"></span>
+<span>CATÁLOGO PRINCIPAL • LISTA DE PRECIOS MATRIZ</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="p-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Imprimir comandas">
+<span class="material-symbols-outlined text-[18px]">print</span>
+</button>
+<button class="p-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Exportar CSV">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-b-2 border-on-surface">
+<th class="py-space-sm px-space-sm text-center w-10">
+<input class="w-4 h-4 rounded border-2 border-on-surface text-primary focus:ring-primary accent-primary" type="checkbox"/>
+</th>
+<th class="py-space-sm px-space-sm">Foto &amp; Producto</th>
+<th class="py-space-sm px-space-sm">Categoría</th>
+<th class="py-space-sm px-space-sm text-right">P. Venta</th>
+<th class="py-space-sm px-space-sm text-right">Costo</th>
+<th class="py-space-sm px-space-sm text-center">Stock</th>
+<th class="py-space-sm px-space-sm text-center">Estado</th>
+<th class="py-space-sm px-space-sm text-center">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y-2 divide-on-surface/15 font-body-sm text-sm text-on-surface">
+<!-- FILA 1 (ACTIVA / EN EDICIÓN) -->
+<tr class="bg-primary/10 hover:bg-primary/15 transition-colors">
+<td class="py-space-sm px-space-sm text-center">
+<input checked="" class="w-4 h-4 rounded border-2 border-on-surface text-primary focus:ring-primary accent-primary" type="checkbox"/>
+</td>
+<td class="py-space-sm px-space-sm">
+<div class="flex items-center gap-space-sm">
+<img class="w-12 h-12 rounded-xl object-cover border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] shrink-0" data-alt="A juicy Mexican street-style mango on a wooden stick, carved in a vibrant flower shape, drizzled in deep red spicy chamoy syrup, lime, and chili powder. Studio food photography on a terracotta background with dramatic warm sunlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMaOgT2by9h7yJebPOQDDJNDuuxO7A_gltR-NB3Dy6NNwXHxgNWIemfQ3s36HAu2Ly8Al_4dNiJAAt5oNfMKfsMYBA12CliERnb_YllU2SaBRhAy5J870-UwxLHR8SM2OMpDyheUhUsc-X3DTfi5IDAByCEQPPtOMiDDgAVtpqjskD_6wyYwFjYT5lxZns5y8dr12pIipNwkl3NAfowI3aZ9ZiisCNTfVpfiZsLbKWibg5l1jL-Rr5"/>
+<div class="flex flex-col min-w-0">
+<span class="font-display-hero text-sm font-bold text-on-surface truncate">Mango Loco en Vara</span>
+<span class="font-body-sm text-xs text-outline font-medium">SKU: #FM-PRD-0012</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-sm">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-rotulo text-[11px] uppercase font-bold border border-on-surface whitespace-nowrap">Fruta Preparada</span>
+</td>
+<td class="py-space-sm px-space-sm text-right font-display-hero text-sm text-primary font-black">
+                  $85.00
+                </td>
+<td class="py-space-sm px-space-sm text-right text-on-surface-variant font-medium">
+                  $28.00
+                </td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="font-display-hero text-sm font-bold">48</span>
+<span class="text-[10px] block text-outline font-label-rotulo uppercase">pzas piso</span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary text-on-primary font-label-rotulo text-[10px] uppercase font-bold border border-on-surface">
+<span class="w-1.5 h-1.5 rounded-full bg-amarillo-maiz"></span>
+                    Disponible
+                  </span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<div class="flex items-center justify-center gap-1.5">
+<button class="p-1 rounded-lg bg-primary text-on-primary border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Editar producto">
+<span class="material-symbols-outlined text-[18px]">edit_square</span>
+</button>
+<button class="p-1 rounded-lg bg-error-container text-on-error-container border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Dar de baja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- FILA 2 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-sm text-center">
+<input class="w-4 h-4 rounded border-2 border-on-surface text-primary focus:ring-primary accent-primary" type="checkbox"/>
+</td>
+<td class="py-space-sm px-space-sm">
+<div class="flex items-center gap-space-sm">
+<img class="w-12 h-12 rounded-xl object-cover border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] shrink-0" data-alt="A festive Mexican snack platter filled with fresh cucumber rounds, jicama sticks, Japanese peanuts, tamarind candy strips, seasoned with chili and artisanal dark plum chamoy sauce. High contrast appetizing food photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtN9u-Aub05EMj6Nz5IpQD8htOY0o_ZOWbxjkRWnPsQr4ULbZNEzR4dkETIiQygbq1Cm_I5JW0PDuPing8CXeiWSJ7JIHwCmikrd8VtPw7hZgds_SQohbAHCbkrZDT8XZlC9XYYPbbVdzRDmz3jKW4EkDFzHXzygQaeY1ZA23PTfR3t0_1uanZDJF9QeUT1NZj5OZhpet8EiBXxJMNrs3eaOadJK7OLl8bwRxr32oDPh4yyaFxfry4"/>
+<div class="flex flex-col min-w-0">
+<span class="font-display-hero text-sm font-bold text-on-surface truncate">Charola Suprema Chamoy</span>
+<span class="font-body-sm text-xs text-outline font-medium">SKU: #FM-PRD-0044</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-sm">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-rotulo text-[11px] uppercase font-bold border border-on-surface whitespace-nowrap">Botanas &amp; Charolas</span>
+</td>
+<td class="py-space-sm px-space-sm text-right font-display-hero text-sm text-primary font-black">
+                  $240.00
+                </td>
+<td class="py-space-sm px-space-sm text-right text-on-surface-variant font-medium">
+                  $95.00
+                </td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="font-display-hero text-sm font-bold">14</span>
+<span class="text-[10px] block text-outline font-label-rotulo uppercase">preparadas</span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary text-on-primary font-label-rotulo text-[10px] uppercase font-bold border border-on-surface">
+<span class="w-1.5 h-1.5 rounded-full bg-amarillo-maiz"></span>
+                    Disponible
+                  </span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<div class="flex items-center justify-center gap-1.5">
+<button class="p-1 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Editar producto">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded-lg bg-error-container text-on-error-container border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Dar de baja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- FILA 3 (POCO STOCK) -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-sm text-center">
+<input class="w-4 h-4 rounded border-2 border-on-surface text-primary focus:ring-primary accent-primary" type="checkbox"/>
+</td>
+<td class="py-space-sm px-space-sm">
+<div class="flex items-center gap-space-sm">
+<img class="w-12 h-12 rounded-xl object-cover border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] shrink-0" data-alt="Glass bottle filled with dark artisanal plum Mexican chamoy sauce, sealed with natural cork and labeled with rustic typography. Warm ambient sunlight highlights rich crimson and deep red syrup textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsBLy7sXzpwyQ1se3bdS5pycymzVQN2Rn1zSKkbtlUzBZR7sFKf5BtwOLnx1_xGrlub1RaMCX-kdLNYYLzialonqIjWtPDMYLbN3EpxYJcMH-hY025YcaYy4TqXwvHhd6AfYKclMfBurncIFoCj3RRmsnCuqU1uwOA6k3tStLT7dfkcCHDWR3KDlmE7AP3CTahwJsWH7c5uNhw4xTtqs2TyDVik9X8tM4Gb6yv80eRH6ApfxqHZu8P"/>
+<div class="flex flex-col min-w-0">
+<span class="font-display-hero text-sm font-bold text-on-surface truncate">Chamoy Ciruela Artesanal 1L</span>
+<span class="font-body-sm text-xs text-outline font-medium">SKU: #FM-PRD-0008</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-sm">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-rotulo text-[11px] uppercase font-bold border border-on-surface whitespace-nowrap">Salsas de la Casa</span>
+</td>
+<td class="py-space-sm px-space-sm text-right font-display-hero text-sm text-primary font-black">
+                  $130.00
+                </td>
+<td class="py-space-sm px-space-sm text-right text-on-surface-variant font-medium">
+                  $42.00
+                </td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="font-display-hero text-sm font-bold text-tertiary">04</span>
+<span class="text-[10px] block text-tertiary font-label-rotulo uppercase font-extrabold">¡Alerta!</span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-tertiary text-on-tertiary font-label-rotulo text-[10px] uppercase font-bold border border-on-surface">
+<span class="w-1.5 h-1.5 rounded-full bg-amarillo-maiz"></span>
+                    Poco Stock
+                  </span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<div class="flex items-center justify-center gap-1.5">
+<button class="p-1 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Editar producto">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded-lg bg-error-container text-on-error-container border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Dar de baja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- FILA 4 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-space-sm px-space-sm text-center">
+<input class="w-4 h-4 rounded border-2 border-on-surface text-primary focus:ring-primary accent-primary" type="checkbox"/>
+</td>
+<td class="py-space-sm px-space-sm">
+<div class="flex items-center gap-space-sm">
+<img class="w-12 h-12 rounded-xl object-cover border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] shrink-0" data-alt="One liter tall clear fruit cup overflowing with juicy Mexican fruits: red watermelon cubes, pineapple spears, crunchy jicama sticks, and fresh cucumber, dusted in tajin chili and lime drops. Crisp natural daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3B37ZzBoR9Ubnqyc6sZTMJ4MKAjfwqIT6iT28-MC4l1l3ycjFZ1ilSEE8uxQuoVQ-vogMt6LbUiWoijDPge-Zagl2nuK_fcb47_3TBZTiWfQkb8v6Imc_n4NYZGjBXuIfRoC6MUHZkByUtajsH6rdyPGH6gFkyqv7cT7fMgxtv5C-_CfuMP_hMR2S76iGjGZzDQzzpfziiurgXcxJvW2ev0rYAqCkHKaAf6Oi0_HoSAZ-cXUeATRA"/>
+<div class="flex flex-col min-w-0">
+<span class="font-display-hero text-sm font-bold text-on-surface truncate">Vaso Fruta Madre 1L</span>
+<span class="font-body-sm text-xs text-outline font-medium">SKU: #FM-PRD-0001</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-sm">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-rotulo text-[11px] uppercase font-bold border border-on-surface whitespace-nowrap">Fruta Preparada</span>
+</td>
+<td class="py-space-sm px-space-sm text-right font-display-hero text-sm text-primary font-black">
+                  $75.00
+                </td>
+<td class="py-space-sm px-space-sm text-right text-on-surface-variant font-medium">
+                  $22.00
+                </td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="font-display-hero text-sm font-bold">65</span>
+<span class="text-[10px] block text-outline font-label-rotulo uppercase">vasos</span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary text-on-primary font-label-rotulo text-[10px] uppercase font-bold border border-on-surface">
+<span class="w-1.5 h-1.5 rounded-full bg-amarillo-maiz"></span>
+                    Disponible
+                  </span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<div class="flex items-center justify-center gap-1.5">
+<button class="p-1 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Editar producto">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded-lg bg-error-container text-on-error-container border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Dar de baja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- FILA 5 (AGOTADO) -->
+<tr class="bg-error/10 hover:bg-error/15 transition-colors">
+<td class="py-space-sm px-space-sm text-center">
+<input class="w-4 h-4 rounded border-2 border-on-surface text-primary focus:ring-primary accent-primary" type="checkbox"/>
+</td>
+<td class="py-space-sm px-space-sm">
+<div class="flex items-center gap-space-sm">
+<img class="w-12 h-12 rounded-xl object-cover border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] shrink-0" data-alt="Assorted colorful Mexican gummy bears, worms, and rings covered in red chili chamoy coating and powdered sugar, piled in a clear craft treat pouch. Vibrant fiesta food photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJp7JMgaqNJghdZQnKIAGjbqFJ_1zA523ZNWt0Q780pa7OX8A2T_PD8ahrBBuyWjRGmRSj_8YIq1Ielp8SFu0JS0Q0DTd4UlIs8-3CGEl8Hww-K6PDdVF5P-cidqdRnfmam2z8IrW6oTUmocmwaLRXJhrNaRz75pWCmR8q4Iu-sMgyi0B5wIHzkdQiCMgP7b-mP5Ur0bUj-Mcx_rKMD_AzvSzZ0TnFlQAgKDgMuVQuqDruHrQzu5_Y"/>
+<div class="flex flex-col min-w-0">
+<span class="font-display-hero text-sm font-bold text-on-surface truncate">Gomitas Enchiladas Mix 250g</span>
+<span class="font-body-sm text-xs text-outline font-medium">SKU: #FM-PRD-0029</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-sm">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-rotulo text-[11px] uppercase font-bold border border-on-surface whitespace-nowrap">Dulces &amp; Gomitas</span>
+</td>
+<td class="py-space-sm px-space-sm text-right font-display-hero text-sm text-primary font-black">
+                  $65.00
+                </td>
+<td class="py-space-sm px-space-sm text-right text-on-surface-variant font-medium">
+                  $20.00
+                </td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="font-display-hero text-sm font-bold text-error">0</span>
+<span class="text-[10px] block text-error font-label-rotulo uppercase font-extrabold">Reabastecer</span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary text-on-secondary font-label-rotulo text-[10px] uppercase font-bold border border-on-surface">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-container-lowest"></span>
+                    Agotado
+                  </span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<div class="flex items-center justify-center gap-1.5">
+<button class="p-1 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Editar producto">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded-lg bg-error-container text-on-error-container border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Dar de baja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- FILA 6 (INACTIVO) -->
+<tr class="opacity-60 hover:opacity-90 hover:bg-surface-container-low transition-all">
+<td class="py-space-sm px-space-sm text-center">
+<input class="w-4 h-4 rounded border-2 border-on-surface text-primary focus:ring-primary accent-primary" type="checkbox"/>
+</td>
+<td class="py-space-sm px-space-sm">
+<div class="flex items-center gap-space-sm">
+<img class="w-12 h-12 rounded-xl object-cover border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] shrink-0" data-alt="Miniature individual Mexican Tres Leches cake topped with freshly chopped strawberries, mango, and a mint sprig, placed on a festive yellow and pink wax paper. Artisanal bakery styling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs3Uj7fuPMF9OA_yQAwdg2CqwUlcxSjPSdwJn7CP3rDvy8EbN61tY0WYtfnF_xvr9AybaME6_BvZDtsWHGSVXwNZgf2mHbBx_iLrh6E9WUdy8Fs0jJD8Sa6QA5yZENV9v2p-mmZIhlU8hRNVwFB1rQdqnOwldc5ZIwCEJiQ88A2STghu3u2OTFbCLFzLf5WDXugLrzZ_96g6ky92JV0HIFD4H9hwQWj2Sxtm4GpOkU0GHfQJFtGGMq"/>
+<div class="flex flex-col min-w-0">
+<span class="font-display-hero text-sm font-bold text-on-surface truncate">Pastel Tres Leches Fruta</span>
+<span class="font-body-sm text-xs text-outline font-medium">SKU: #FM-PRD-0051</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-sm">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-rotulo text-[11px] uppercase font-bold border border-on-surface whitespace-nowrap">Repostería</span>
+</td>
+<td class="py-space-sm px-space-sm text-right font-display-hero text-sm text-primary font-black">
+                  $95.00
+                </td>
+<td class="py-space-sm px-space-sm text-right text-on-surface-variant font-medium">
+                  $38.00
+                </td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="font-display-hero text-sm font-bold text-outline">—</span>
+<span class="text-[10px] block text-outline font-label-rotulo uppercase">Pausado</span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-dim text-on-surface-variant font-label-rotulo text-[10px] uppercase font-bold border border-on-surface">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                    Inactivo
+                  </span>
+</td>
+<td class="py-space-sm px-space-sm text-center">
+<div class="flex items-center justify-center gap-1.5">
+<button class="p-1 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Editar producto">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded-lg bg-error-container text-on-error-container border border-on-surface shadow-[1px_1px_0px_#211d1a] transition-all" title="Dar de baja">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- PAGINADOR DEL MÓDULO -->
+<div class="p-space-sm bg-surface-container-low border-t-2 border-on-surface flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-rotulo text-xs uppercase text-on-surface-variant font-bold">Filas:</span>
+<select class="bg-surface-container-lowest text-on-surface font-body-sm text-xs px-2 py-1 rounded-lg border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] focus:outline-none">
+<option>10 por página</option>
+<option>25 por página</option>
+<option>50 por página</option>
+</select>
+</div>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">chevron_left</span>
+<span>Anterior</span>
+</button>
+<button class="w-7 h-7 rounded-lg bg-primary text-on-primary font-label-rotulo text-xs uppercase font-black border-2 border-on-surface shadow-[1px_1px_0px_#211d1a]">1</button>
+<button class="w-7 h-7 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase font-bold border-2 border-on-surface">2</button>
+<button class="w-7 h-7 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase font-bold border-2 border-on-surface">3</button>
+<button class="w-7 h-7 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase font-bold border-2 border-on-surface">4</button>
+<button class="w-7 h-7 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase font-bold border-2 border-on-surface">5</button>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] flex items-center gap-1">
+<span>Siguiente</span>
+<span class="material-symbols-outlined text-[15px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Resumen del Carrito Botanero Vinculado -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-secondary text-on-secondary border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">qr_code</span>
+</div>
+<div>
+<span class="font-display-hero text-sm uppercase font-extrabold text-secondary block">¿Modificando opciones para eventos?</span>
+<p class="font-body-sm text-sm text-on-surface-variant">Cualquier cambio se reflejará al armar cotizaciones para paquetes y carritos botaneros.</p>
+</div>
+</div>
+<button class="px-space-md py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] hover:translate-x-0.5 hover:translate-y-0.5 transition-all whitespace-nowrap font-bold">
+          Ver Paquetes Activos
+        </button>
+</div>
+</div>
+<!-- LADO DERECHO: CAJÓN / PANEL DE FORMULARIO ACTIVO (5 COLS EN XL) -->
+<div class="xl:col-span-5 flex flex-col">
+<div class="bg-surface-container-lowest rounded-2xl border-2 border-on-surface shadow-[4px_4px_0px_#211d1a] overflow-hidden sticky top-28">
+<!-- Cabecera de Formulario -->
+<div class="bg-primary px-space-md py-space-sm text-on-primary flex items-center justify-between border-b-2 border-on-surface">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-amarillo-maiz">edit_note</span>
+<span class="font-label-rotulo text-[11px] uppercase tracking-wider text-amarillo-maiz font-extrabold">PANEL DE EDICIÓN RÁPIDA</span>
+</div>
+<span class="font-display-hero text-lg uppercase font-bold leading-tight mt-0.5">Mango Loco en Vara</span>
+<span class="font-body-sm text-xs text-on-primary-container font-medium">Editando SKU: #FM-PRD-0012</span>
+</div>
+<button class="p-1 rounded-lg bg-surface-container-lowest text-on-surface border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] hover:bg-surface-container transition-all" title="Cerrar panel">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Cuerpo del Formulario con scroll vertical -->
+<form class="p-space-md flex flex-col gap-space-md max-h-[calc(100vh-280px)] overflow-y-auto">
+<!-- Campo 1: Nombre -->
+<div class="flex flex-col gap-1">
+<label class="font-label-rotulo text-xs uppercase font-extrabold text-on-surface">Nombre del Producto *</label>
+<input class="bg-surface-container-lowest text-on-surface font-body-md text-sm px-3 py-2 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary" type="text" value="Mango Loco en Vara"/>
+</div>
+<!-- Campo 2: Categoría & Subcategoría en Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label-rotulo text-xs uppercase font-extrabold text-on-surface">Categoría *</label>
+<select class="bg-surface-container-lowest text-on-surface font-body-sm text-sm px-3 py-2 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary">
+<option selected="">Fruta Preparada</option>
+<option>Botanas &amp; Charolas</option>
+<option>Salsas de la Casa</option>
+<option>Dulces &amp; Gomitas</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-rotulo text-xs uppercase font-extrabold text-on-surface">Subcategoría</label>
+<input class="bg-surface-container-lowest text-on-surface font-body-sm text-sm px-3 py-2 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary" type="text" value="Mangos &amp; Varas"/>
+</div>
+</div>
+<!-- Campo 3: Precios y Margen -->
+<div class="p-space-md rounded-xl bg-surface-container-low border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex flex-col gap-space-sm">
+<span class="font-label-rotulo text-xs uppercase text-primary font-black tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">payments</span>
+              Finanzas • Precio y Costeo
+            </span>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label-rotulo text-[11px] uppercase text-on-surface-variant font-bold">Precio Venta ($ MXN)</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold text-sm">$</span>
+<input class="w-full bg-surface-container-lowest text-on-surface font-display-hero text-lg pl-7 pr-2 py-1.5 rounded-lg border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary font-bold" type="text" value="85.00"/>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-rotulo text-[11px] uppercase text-on-surface-variant font-bold">Costo Unitario ($ MXN)</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold text-sm">$</span>
+<input class="w-full bg-surface-container-lowest text-on-surface font-display-hero text-lg pl-7 pr-2 py-1.5 rounded-lg border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary font-bold" type="text" value="28.00"/>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between text-xs bg-surface-container-lowest px-3 py-1.5 rounded-lg border border-on-surface/20">
+<span class="text-on-surface-variant font-medium">Margen Bruto Estimado:</span>
+<span class="text-primary font-black font-display-hero text-sm">67.0% ($57.00 MXN)</span>
+</div>
+</div>
+<!-- Campo 4: Stock y Alerta Mínima -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label-rotulo text-xs uppercase font-extrabold text-on-surface">Stock en Mostrador</label>
+<input class="bg-surface-container-lowest text-on-surface font-display-hero text-base px-3 py-2 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary font-bold" type="number" value="48"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-rotulo text-xs uppercase font-extrabold text-on-surface">Alerta Mínimo</label>
+<input class="bg-surface-container-lowest text-on-surface font-display-hero text-base px-3 py-2 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary font-bold" type="number" value="10"/>
+</div>
+</div>
+<!-- Campo 5: Estado / Disponibilidad -->
+<div class="flex flex-col gap-1">
+<label class="font-label-rotulo text-xs uppercase font-extrabold text-on-surface">Disponibilidad en Catálogo</label>
+<div class="grid grid-cols-2 gap-2">
+<label class="flex items-center gap-2 p-2 rounded-lg bg-primary text-on-primary cursor-pointer font-label-rotulo text-xs uppercase font-bold border-2 border-on-surface shadow-[2px_2px_0px_#211d1a]">
+<input checked="" class="w-4 h-4 rounded-full border-2 border-white text-amarillo-maiz focus:ring-0 accent-amarillo-maiz" name="status_opt" type="radio"/>
+<span>🟢 Disponible</span>
+</label>
+<label class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface cursor-pointer font-label-rotulo text-xs uppercase font-bold border-2 border-on-surface shadow-[2px_2px_0px_#211d1a]">
+<input class="w-4 h-4 rounded-full border-2 border-on-surface text-tertiary focus:ring-0 accent-tertiary" name="status_opt" type="radio"/>
+<span>🟡 Poco Stock</span>
+</label>
+<label class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface cursor-pointer font-label-rotulo text-xs uppercase font-bold border-2 border-on-surface shadow-[2px_2px_0px_#211d1a]">
+<input class="w-4 h-4 rounded-full border-2 border-on-surface text-error focus:ring-0 accent-error" name="status_opt" type="radio"/>
+<span>🔴 Agotado</span>
+</label>
+<label class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface cursor-pointer font-label-rotulo text-xs uppercase font-bold border-2 border-on-surface shadow-[2px_2px_0px_#211d1a]">
+<input class="w-4 h-4 rounded-full border-2 border-on-surface text-outline focus:ring-0 accent-outline" name="status_opt" type="radio"/>
+<span>⚪ Inactivo</span>
+</label>
+</div>
+</div>
+<!-- Campo 6: Imagen del Producto & Dropzone -->
+<div class="flex flex-col gap-1">
+<label class="font-label-rotulo text-xs uppercase font-extrabold text-on-surface">Fotografía Oficial del Producto</label>
+<div class="flex items-center gap-space-sm p-space-sm bg-surface-container-low rounded-xl border-2 border-on-surface shadow-[2px_2px_0px_#211d1a]">
+<img class="w-16 h-16 rounded-xl object-cover border-2 border-on-surface shadow-sm shrink-0" data-alt="Close up mouth-watering photo of Mexican mango carved in flower shape with red chamoy and tajin seasonings, sharp focus against warm wooden table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-6TNFsCVMh2SJqd6R1Dtu0_BTnHa84UdVkASlro0y1j8_O-cwJHgf8hkYopaCWCJPPIoLGGN7kJ-u94iQnY_CUZ56vZgmPZY0AOC37-A2w3ldYVtnm7amvFNenr4j3rg6j2_fOwnTDXXvr94NGrGgNbXkw_VpLyL2t_b5LNawDR2vynrHXcz7PZdvVSlCKozFObnNORQTLmGsd-AxksJJFOPeinGPmTIMndSuVL_jSby0vveo8sdT"/>
+<div class="flex flex-col flex-1 min-w-0">
+<span class="font-display-hero text-xs font-bold text-on-surface truncate">mango-loco-vara-hd.jpg</span>
+<span class="font-body-sm text-[11px] text-outline font-medium">1.2 MB • 1200 x 1200 px</span>
+<div class="flex items-center gap-2 mt-1.5">
+<button class="px-2.5 py-1 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-[11px] uppercase font-bold border border-on-surface shadow-[1px_1px_0px_#211d1a]" type="button">
+                    Reemplazar imagen
+                  </button>
+<button class="px-2.5 py-1 rounded-lg text-error hover:bg-error-container font-label-rotulo text-[11px] uppercase font-bold border border-error/30" type="button">
+                    Quitar
+                  </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Campo 7: Descripción / Ingredientes -->
+<div class="flex flex-col gap-1">
+<label class="font-label-rotulo text-xs uppercase font-extrabold text-on-surface">Descripción e Ingredientes</label>
+<textarea class="bg-surface-container-lowest text-on-surface font-body-sm text-sm p-3 rounded-lg border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] focus:outline-none focus:ring-2 focus:ring-primary" rows="3">Mango criollo floreado en vara de madera, bañado en chamoy casero de jamaica y ciruela, espolvoreado con chilito piquín y miguelito.</textarea>
+</div>
+<!-- Campo 8: Configuración para Eventos -->
+<div class="p-space-sm rounded-xl bg-surface-container-low border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex items-start gap-space-xs">
+<input checked="" class="mt-0.5 w-5 h-5 rounded border-2 border-on-surface text-secondary focus:ring-secondary accent-secondary" id="check_carrito" type="checkbox"/>
+<label class="font-body-sm text-sm text-on-surface cursor-pointer" for="check_carrito">
+<span class="font-display-hero text-xs uppercase font-bold block">Apto para incluir en Carrito Botanero</span>
+<span class="text-on-surface-variant text-xs">Permite a los clientes elegir este producto en paquetes de fiestas, bodas y pachangas.</span>
+</label>
+</div>
+<!-- Microcopy de advertencia operativa -->
+<div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-low text-tertiary border border-tertiary/40 font-label-rotulo text-xs uppercase font-bold">
+<span class="material-symbols-outlined text-[18px]">info</span>
+<span>Échale ojo antes de guardar. Los cambios de precio se reflejan de inmediato en mostrador y pedidos en línea.</span>
+</div>
+</form>
+<!-- Barra inferior fija del formulario -->
+<div class="bg-surface-container-low px-space-md py-space-sm flex flex-wrap items-center justify-between gap-space-sm border-t-2 border-on-surface">
+<button class="px-space-md py-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all font-bold" type="button">
+            Cancelar
+          </button>
+<div class="flex items-center gap-2">
+<button class="px-space-sm py-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] transition-all font-bold" type="button">
+              Guardar y Nuevo
+            </button>
+<button class="px-space-md py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] flex items-center gap-1.5 hover:translate-x-0.5 hover:translate-y-0.5 transition-all font-bold" type="button">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Guardar Cambios</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SECCIÓN MODULAR DE ADAPTACIÓN (DEMOSTRACIÓN DE REUTILIZABILIDAD DE LA INTERFAZ) -->
+<section class="mt-space-xl flex flex-col gap-space-md pt-space-lg border-t-2 border-dashed border-on-surface/20">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-amarillo-maiz text-on-surface font-label-rotulo text-xs uppercase tracking-wider border border-on-surface shadow-[1px_1px_0px_#211d1a] font-black">ARQUITECTURA UNIFICADA</span>
+<span class="font-body-sm text-sm text-on-surface-variant font-medium">Una sola plantilla maestra, cero fricción operativa</span>
+</div>
+<h2 class="font-display-hero text-headline-md uppercase text-on-surface mt-1">Adaptabilidad Multimódulo Fruta Madre</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+        Al conmutar las pestañas superiores, la tabla y el cajón lateral transforman sus columnas y formularios sin alterar el flujo del encargado del puesto:
+      </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Modulo Card 1: Inventario -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] flex flex-col justify-between gap-space-md">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2.5 py-0.5 rounded-full bg-tertiary text-on-tertiary font-label-rotulo text-[11px] uppercase font-bold border border-on-surface">📦 Módulo Inventario</span>
+<span class="font-label-rotulo text-[11px] text-outline uppercase font-bold">52 insumos</span>
+</div>
+<span class="font-display-hero text-lg uppercase font-bold text-on-surface block">Materia Prima &amp; Stock</span>
+<p class="font-body-sm text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+            Columnas adaptadas: <em>Insumo, Proveedor, Existencia (Kg/L), Merma, Costo Promedio y Alerta Reabastecimiento.</em>
+</p>
+</div>
+<div class="bg-surface-container-low px-space-sm py-2 rounded-lg border border-on-surface/20 flex items-center justify-between hover:bg-surface-container transition-all cursor-pointer">
+<span class="font-label-rotulo text-xs uppercase text-primary font-black">+ Registrar Movimiento</span>
+<span class="material-symbols-outlined text-primary text-[18px]">arrow_forward</span>
+</div>
+</div>
+<!-- Modulo Card 2: Pedidos -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] flex flex-col justify-between gap-space-md">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2.5 py-0.5 rounded-full bg-secondary text-on-secondary font-label-rotulo text-[11px] uppercase font-bold border border-on-surface">🛵 Módulo Pedidos</span>
+<span class="font-label-rotulo text-[11px] text-outline uppercase font-bold">18 en cola</span>
+</div>
+<span class="font-display-hero text-lg uppercase font-bold text-on-surface block">Comandas &amp; Delivery</span>
+<p class="font-body-sm text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+            Columnas adaptadas: <em>Folio Comanda, Cliente, Método de Pago, Total MXN, Repartidor y Estado (En barra / En camino).</em>
+</p>
+</div>
+<div class="bg-surface-container-low px-space-sm py-2 rounded-lg border border-on-surface/20 flex items-center justify-between hover:bg-surface-container transition-all cursor-pointer">
+<span class="font-label-rotulo text-xs uppercase text-secondary font-black">Ver Comandero en Vivo</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">arrow_forward</span>
+</div>
+</div>
+<!-- Modulo Card 3: Reservas / Carritos -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] flex flex-col justify-between gap-space-md">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2.5 py-0.5 rounded-full bg-primary text-on-primary font-label-rotulo text-[11px] uppercase font-bold border border-on-surface">🛺 Módulo Reservas</span>
+<span class="font-label-rotulo text-[11px] text-outline uppercase font-bold">12 eventos</span>
+</div>
+<span class="font-display-hero text-lg uppercase font-bold text-on-surface block">Pachangas &amp; Fiestas</span>
+<p class="font-body-sm text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+            Columnas adaptadas: <em>Folio Evento, Paquete Contratado, Fecha &amp; Horario, Anticipo, Saldo y Operador Asignado.</em>
+</p>
+</div>
+<div class="bg-surface-container-low px-space-sm py-2 rounded-lg border border-on-surface/20 flex items-center justify-between hover:bg-surface-container transition-all cursor-pointer">
+<span class="font-label-rotulo text-xs uppercase text-primary font-black">Agenda de Carritos</span>
+<span class="material-symbols-outlined text-primary text-[18px]">arrow_forward</span>
+</div>
+</div>
+<!-- Modulo Card 4: Reportes -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] flex flex-col justify-between gap-space-md">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2.5 py-0.5 rounded-full bg-amarillo-maiz text-on-surface font-label-rotulo text-[11px] uppercase font-bold border border-on-surface">📈 Módulo Reportes</span>
+<span class="font-label-rotulo text-[11px] text-outline uppercase font-bold">Corte X • Z</span>
+</div>
+<span class="font-display-hero text-lg uppercase font-bold text-on-surface block">Métricas y Ganancias</span>
+<p class="font-body-sm text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+            Métricas adaptadas: <em>Ticket promedio, producto rey, merma del día, comparativa mensual y balance de flujo en caja.</em>
+</p>
+</div>
+<div class="bg-surface-container-low px-space-sm py-2 rounded-lg border border-on-surface/20 flex items-center justify-between hover:bg-surface-container transition-all cursor-pointer">
+<span class="font-label-rotulo text-xs uppercase text-tertiary font-black">Exportar Corte Diario</span>
+<span class="material-symbols-outlined text-tertiary text-[18px]">arrow_forward</span>
+</div>
+</div>
+</div>
+</section>
+<!-- MODAL DE CONFIRMACIÓN OPERATIVA INTEGRADO (DIÁLOGO VISIBLE Y PREVENCIÓN DE ERRORES) -->
+<section class="mt-space-lg grid grid-cols-1 lg:grid-cols-3 gap-space-md items-start">
+<!-- Modal de Seguridad / Confirmación de Baja -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl border-2 border-on-surface shadow-[4px_4px_0px_#211d1a] flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-error font-label-rotulo text-xs uppercase font-black">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+<span>Confirmación Operativa</span>
+</div>
+<span class="font-display-hero text-base uppercase font-bold text-on-surface">¿Seguro que quieres eliminar este producto?</span>
+<p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+        Estás a punto de dar de baja <strong>"Gomitas Enchiladas Mix 250g"</strong>. Si sólo te quedaste temporalmente sin fruta o golosina, te recomendamos cambiar el estado a <em>"Agotado"</em> para conservar recetas y no romper combos activos de los carritos.
+      </p>
+<div class="flex items-center justify-end gap-space-sm mt-2 pt-2 border-t border-on-surface/15">
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[1px_1px_0px_#211d1a] font-bold">
+          Cancelar
+        </button>
+<button class="px-space-md py-1.5 rounded-lg bg-error hover:opacity-90 text-on-error font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex items-center gap-1.5 font-bold">
+<span class="material-symbols-outlined text-[16px]">delete_forever</span>
+<span>Sí, dar de baja</span>
+</button>
+</div>
+</div>
+<!-- ESTADO VACÍO (Muestra de UI para categorías sin registros) -->
+<div class="bg-surface-container-low p-space-md rounded-2xl border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] flex flex-col items-center justify-center text-center gap-space-xs min-h-[220px]">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-[26px]">inventory_2</span>
+</div>
+<span class="font-display-hero text-sm font-bold uppercase text-on-surface mt-1">Sin registros en esta categoría</span>
+<p class="font-body-sm text-xs text-on-surface-variant max-w-xs">
+        No hay productos asignados a <em>"Bebidas y Frappés"</em> en el turno actual.
+      </p>
+<button class="mt-2 px-space-md py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Agregar producto al vuelo</span>
+</button>
+</div>
+<!-- ESTADO DE ERROR OPERATIVO (Muestra de Resiliencia) -->
+<div class="bg-surface-container-low p-space-md rounded-2xl border-2 border-on-surface shadow-[3px_3px_0px_#211d1a] flex flex-col items-center justify-center text-center gap-space-xs min-h-[220px]">
+<div class="w-12 h-12 rounded-full bg-secondary text-on-secondary border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[26px]">sync_problem</span>
+</div>
+<span class="font-display-hero text-sm font-bold uppercase text-secondary mt-1">Fallo de sincronización en caja</span>
+<p class="font-body-sm text-xs text-on-surface-variant max-w-xs">
+        No se pudo refrescar el inventario en tiempo real con la báscula de piso.
+      </p>
+<button class="mt-2 px-space-md py-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-rotulo text-xs uppercase tracking-wider border-2 border-on-surface shadow-[2px_2px_0px_#211d1a] flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+<span>Reintentar conexión</span>
+</button>
+</div>
+</section>
+<!-- Script interactivo mínimo para demostración de estados y micro-interacciones -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Toggle interactivo visual rápido para filas de tabla
+      const rows = document.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        row.addEventListener('click', (e) => {
+          if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT' && !e.target.closest('button')) {
+            rows.forEach(r => r.classList.remove('bg-primary/10'));
+            row.classList.add('bg-primary/10');
+          }
+        });
+      });
+    });
+  </script>
+</div></main></div></body></html>

@@ -12,7 +12,34 @@ $accion = $_GET['accion'] ?? null;
 $metodo = $_SERVER['REQUEST_METHOD'];
 
 // AUTENTICACIÓN
-if ($accion === 'registro') {
+// STITCH ADMIN FUNCIONAL 36 + 37
+if ($accion === 'imagen-producto-stitch') {
+    require_once __DIR__ . '/app/controllers/ImagenesStitchController.php';
+    ImagenesStitchController::mostrar();
+} elseif (in_array($accion, ['admin-productos','admin-productos-guardar','admin-productos-desactivar','admin-productos-exportar'], true)) {
+    require_once __DIR__ . '/app/controllers/ProductosStitchController.php';
+    $stitch = new ProductosStitchController();
+    if ($accion === 'admin-productos') $stitch->index();
+    elseif ($accion === 'admin-productos-guardar' && $metodo === 'POST') $stitch->guardar();
+    elseif ($accion === 'admin-productos-desactivar' && $metodo === 'POST') $stitch->desactivar();
+    elseif ($accion === 'admin-productos-exportar') $stitch->exportar();
+    else { http_response_code(405); exit('Método no permitido.'); }
+} elseif (in_array($accion, [
+    'admin-categorias-stitch','admin-paquetes-stitch','admin-carritos-stitch','admin-reservas-stitch',
+    'admin-clientes-stitch','admin-inventario-stitch','admin-reportes-stitch',
+    'admin-categoria-guardar-stitch','admin-paquete-guardar-stitch','admin-carrito-guardar-stitch',
+    'admin-inventario-guardar-stitch','admin-reserva-guardar-stitch','admin-reportes-csv'
+],true)) {
+    require_once __DIR__ . '/app/controllers/OperacionesStitchController.php';
+    $operaciones = new OperacionesStitchController();
+    $tipos = ['admin-categoria-guardar-stitch'=>'categoria','admin-paquete-guardar-stitch'=>'paquete',
+        'admin-carrito-guardar-stitch'=>'carrito','admin-inventario-guardar-stitch'=>'inventario',
+        'admin-reserva-guardar-stitch'=>'reserva'];
+    if (isset($tipos[$accion]) && $metodo === 'POST') $operaciones->guardar($tipos[$accion]);
+    elseif ($accion === 'admin-reportes-csv') $operaciones->reporteCSV();
+    elseif (isset($tipos[$accion])) {http_response_code(405);exit('Método no permitido.');}
+    else $operaciones->index($accion);
+} elseif ($accion === 'registro') {
     require_once __DIR__ . '/app/controllers/AuthController.php';
     $auth = new AuthController();
 
@@ -234,6 +261,15 @@ if ($accion === 'registro') {
 
 } elseif ($metodo === 'POST' && $accion === 'confirmar-pedido') {
     $controller->confirmarPedido();
+
+// MERCADO PAGO: solamente Checkout Pro con credenciales TEST.
+} elseif ($accion === 'iniciar-pago-mp-prueba') {
+    require_once __DIR__ . '/app/controllers/MercadoPagoPruebasController.php';
+    (new MercadoPagoPruebasController())->iniciar();
+
+} elseif ($accion === 'resultado-pago-mp-prueba') {
+    require_once __DIR__ . '/app/controllers/MercadoPagoPruebasController.php';
+    (new MercadoPagoPruebasController())->resultado();
 
 } elseif ($accion === 'pedido-confirmado') {
 

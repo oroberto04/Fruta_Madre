@@ -29,7 +29,8 @@ class PedidoModel
 
        $metodosPermitidos = [
     'efectivo',
-    'transferencia'
+    'transferencia',
+    'mercadopago_prueba'
 ];
 
         if (!in_array($metodoPago, $metodosPermitidos, true)) {

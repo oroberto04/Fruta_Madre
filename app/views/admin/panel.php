@@ -77,6 +77,17 @@ $pedidos = (int) ($resumen['pedidos'] ?? 0);
 
 
     <main class="max-w-7xl mx-auto px-5 py-10">
+<!-- NAVEGACION STITCH 36/37 -->
+<nav class="mb-8 flex flex-wrap gap-2" aria-label="Módulos administrativos de Fruta Madre">
+ <a href="index.php?accion=admin-productos" class="bg-[#477a45] text-white px-4 py-2 rounded-lg border-2 border-[#211d1a] font-bold">🍉 Productos Stitch</a>
+ <a href="index.php?accion=admin-categorias-stitch" class="bg-white px-4 py-2 rounded-lg border-2 border-[#211d1a] font-bold">🍓 Categorías</a>
+ <a href="index.php?accion=admin-paquetes-stitch" class="bg-white px-4 py-2 rounded-lg border-2 border-[#211d1a] font-bold">🎉 Paquetes</a>
+ <a href="index.php?accion=admin-carritos-stitch" class="bg-white px-4 py-2 rounded-lg border-2 border-[#211d1a] font-bold">🛺 Carritos</a>
+ <a href="index.php?accion=admin-reservas-stitch" class="bg-white px-4 py-2 rounded-lg border-2 border-[#211d1a] font-bold">📅 Reservas</a>
+ <a href="index.php?accion=admin-clientes-stitch" class="bg-white px-4 py-2 rounded-lg border-2 border-[#211d1a] font-bold">👥 Clientes</a>
+ <a href="index.php?accion=admin-inventario-stitch" class="bg-white px-4 py-2 rounded-lg border-2 border-[#211d1a] font-bold">📦 Inventario</a>
+ <a href="index.php?accion=admin-reportes-stitch" class="bg-white px-4 py-2 rounded-lg border-2 border-[#211d1a] font-bold">📈 Reportes</a>
+</nav>
 
         <section class="mb-9">
 
@@ -216,7 +227,7 @@ $pedidos = (int) ($resumen['pedidos'] ?? 0);
                 </p>
 
                 <span class="inline-block mt-5 text-gray-400 font-bold text-sm uppercase">
-                    Módulo pendiente
+                    <a href="index.php?accion=admin-productos" class="text-[#477a45] underline">Administrar productos</a>
                 </span>
 
             </div>
@@ -239,7 +250,7 @@ $pedidos = (int) ($resumen['pedidos'] ?? 0);
                 </p>
 
                 <span class="inline-block mt-5 text-gray-400 font-bold text-sm uppercase">
-                    Módulo pendiente
+                    <a href="index.php?accion=admin-categorias-stitch" class="text-[#477a45] underline">Administrar categorías</a>
                 </span>
 
             </div>
@@ -262,7 +273,7 @@ $pedidos = (int) ($resumen['pedidos'] ?? 0);
                 </p>
 
                 <span class="inline-block mt-5 text-gray-400 font-bold text-sm uppercase">
-                    Módulo pendiente
+                    <a href="index.php?accion=admin-clientes-stitch" class="text-[#477a45] underline">Consultar clientes</a>
                 </span>
 
             </div>
@@ -281,11 +292,11 @@ $pedidos = (int) ($resumen['pedidos'] ?? 0);
                 </h4>
 
                 <p class="text-sm text-gray-600 mt-2">
-                    Consulta las existencias y movimientos de inventario.
+                    Consulta existencias y actualiza el stock disponible de los productos.
                 </p>
 
                 <span class="inline-block mt-5 text-gray-400 font-bold text-sm uppercase">
-                    Módulo pendiente
+                    <a href="index.php?accion=admin-inventario-stitch" class="text-[#477a45] underline">Gestionar inventario</a>
                 </span>
 
             </div>
@@ -308,7 +319,7 @@ $pedidos = (int) ($resumen['pedidos'] ?? 0);
                 </p>
 
                 <span class="inline-block mt-5 text-gray-400 font-bold text-sm uppercase">
-                    Módulo pendiente
+                    <a href="index.php?accion=admin-reportes-stitch" class="text-[#477a45] underline">Ver reportes</a>
                 </span>
 
             </div>

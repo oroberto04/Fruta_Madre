@@ -139,6 +139,12 @@ class ReservaEventoModel
             }
 
             $fechaHora = $fecha . ' ' . $hora;
+            // Validar también en el modelo: no confiar solo en el controlador.
+            $fechaValida = DateTimeImmutable::createFromFormat('!Y-m-d H:i', $fechaHora);
+            if (!$fechaValida || $fechaValida->format('Y-m-d H:i') !== $fechaHora
+                || $fechaValida < new DateTimeImmutable('now')) {
+                throw new RuntimeException('Selecciona una fecha y hora futuras válidas.');
+            }
 
             // 5. Registrar evento.
             $sqlEvento = "

@@ -172,7 +172,7 @@ class AdminModel
 
             // Verificar que el pedido exista.
             $sqlExiste = "
-                SELECT id_pedido
+                SELECT id_pedido, estado_pedido
                 FROM pedido
                 WHERE id_pedido = :id_pedido
                 FOR UPDATE
@@ -183,9 +183,36 @@ class AdminModel
                 ':id_pedido' => $idPedido
             ]);
 
-            if (!$stmtExiste->fetch(PDO::FETCH_ASSOC)) {
+            $pedidoActual = $stmtExiste->fetch(PDO::FETCH_ASSOC);
+            if (!$pedidoActual) {
                 $this->db->rollBack();
                 return false;
+            }
+
+            // Una cancelación es terminal: no reactivar pedidos cuyo stock ya se liberó.
+            if ($pedidoActual['estado_pedido'] === 'cancelado' && $estado !== 'cancelado') {
+                $this->db->rollBack();
+                return false;
+            }
+            if ($pedidoActual['estado_pedido'] === 'cancelado' && $estado === 'cancelado') {
+                $this->db->commit();
+                return true;
+            }
+
+            // Devolver el inventario exactamente una vez, en la misma transacción.
+            if ($estado === 'cancelado') {
+                $devolver = $this->db->prepare(
+                    'UPDATE producto p
+                     SET stock_disponible = p.stock_disponible + d.cantidad
+                     FROM (
+                         SELECT id_producto, SUM(cantidad)::integer AS cantidad
+                         FROM detalle_pedido
+                         WHERE id_pedido = :id_pedido
+                         GROUP BY id_producto
+                     ) d
+                     WHERE p.id_producto = d.id_producto'
+                );
+                $devolver->execute([':id_pedido' => $idPedido]);
             }
 
             // Actualizar el estado del pedido.
@@ -309,6 +336,8 @@ class AdminModel
             WHERE pg.id_pedido = p.id_pedido
               AND pg.id_pedido = :id_pedido
               AND pg.estado_pago = 'pendiente'
+              AND pg.metodo_pago <> 'mercadopago_prueba'
+              AND p.estado_pedido <> 'cancelado'
         ";
 
         try {

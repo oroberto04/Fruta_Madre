@@ -16,7 +16,8 @@ $metodoPago = $pedido['metodo_pago'] ?? '';
 $metodos = [
     'efectivo' => 'Efectivo',
     'transferencia' => 'Transferencia bancaria',
-    'tarjeta' => 'Tarjeta'
+    'tarjeta' => 'Tarjeta',
+    'mercadopago_prueba' => 'Mercado Pago (solo pruebas)'
 ];
 
 $nombreMetodo = $metodos[$metodoPago] ?? 'No especificado';
@@ -41,6 +42,14 @@ switch ($metodoPago) {
         $estadoDescripcion =
             'Tu pedido quedó registrado, pero esta aplicación todavía no procesa cobros con tarjeta.';
         $estadoIcono = '💳';
+        break;
+
+    case 'mercadopago_prueba':
+        $estadoTitulo = ($_SESSION['pago_mp_estado'] ?? '') === 'aprobado_prueba'
+            ? 'Pago de prueba aprobado' : 'Pedido registrado: prueba pendiente';
+        $estadoDescripcion = $_SESSION['pago_mp_detalle'] ??
+            'Tu pedido está registrado. Mercado Pago solo procesará operaciones simuladas con credenciales TEST.';
+        $estadoIcono = ($_SESSION['pago_mp_estado'] ?? '') === 'aprobado_prueba' ? '✓' : '⌛';
         break;
 
     default:
@@ -324,7 +333,10 @@ switch ($metodoPago) {
                 <span>Estado del pago</span>
                 <strong>
                     <?php
-                    if ($metodoPago === 'efectivo') {
+                    if ($metodoPago === 'mercadopago_prueba') {
+                        echo ($_SESSION['pago_mp_estado'] ?? '') === 'aprobado_prueba'
+                            ? 'Aprobado en TEST (sin cobro real)' : 'Pendiente de prueba';
+                    } elseif ($metodoPago === 'efectivo') {
                         echo 'Pago al recibir o recoger';
                     } elseif (
                         $metodoPago === 'transferencia' ||
@@ -345,6 +357,11 @@ switch ($metodoPago) {
         </p>
 
         <div class="acciones">
+            <?php if ($metodoPago === 'mercadopago_prueba' && ($_SESSION['pago_mp_estado'] ?? '') !== 'aprobado_prueba'): ?>
+                <a class="boton principal" href="index.php?accion=iniciar-pago-mp-prueba&amp;id_pedido=<?= $idPedido ?>">
+                    Abrir Mercado Pago de pruebas
+                </a>
+            <?php endif; ?>
             <a class="boton principal" href="index.php">
                 Volver al catálogo
             </a>
