@@ -421,6 +421,11 @@ $metodosPago = [
                     $id = (int) $pedido['id_pedido'];
                     $numeroPedido = $id;
                     $estado = $estadoInfo($pedido['estado_pedido'] ?? '');
+$pagoAprobado = in_array(
+    strtolower(trim((string) ($pedido['estado_pago'] ?? ''))),
+    ['aprobado', 'aprobado_prueba', 'approved', 'accredited'],
+    true
+);
                     $esSeleccionado = $pedidoSeleccionado &&
                         (int) $pedidoSeleccionado['id_pedido'] === $id;
                     $nombres = trim((string) ($pedido['nombres_productos'] ?? ''));
@@ -438,6 +443,12 @@ $metodosPago = [
                         onclick="seleccionarPedido(<?= $id ?>)"
                     >
                         <div class="flex flex-col gap-3">
+    <?php if ($pagoAprobado): ?>
+        <span class="inline-flex w-fit items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-extrabold text-green-800">
+            <span class="material-symbols-outlined text-sm">verified</span>
+            Pago aprobado
+        </span>
+    <?php endif; ?>
 
                             <div class="flex flex-wrap items-center justify-between gap-2">
                                 <span class="display text-xl font-extrabold">
