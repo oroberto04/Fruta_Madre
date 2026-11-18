@@ -1,0 +1,261 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Identificar a los Superusuarios (Desarrolladores del proyecto)
+    function esSuperUsuario() {
+      return request.auth != null && request.auth.uid in [
+        'UID_DESARROLLADOR_1',
+        'UID_DESARROLLADOR_2',
+        'UID_DESARROLLADOR_3',
+        'UID_DESARROLLADOR_4'
+      ];
+    }
+
+    // 2. Administradores de la app (DueÃ±os de la cafeterÃ­a)
+    function esAdmin() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol == 'admin';
+    }
+
+    // 3. Operadores de la app (Empleados de la cafeterÃ­a)
+    function esOperador() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol == 'operador';
+    }
+
+    // --- ACCESO ABSOLUTO PARA DESARROLLADORES ---
+    match /{document=**} {
+      allow read, write: if esSuperUsuario();
+    }
+
+    // --- REGLAS NORMALES PARA LA APP ---
+
+    // Configuracion global de NutriCampus
+    match /configuracion/{documentoId} {
+      allow read: if true;
+      allow create, update, delete: if esAdmin();
+    }
+
+    // Promociones publicas visibles en Inicio; solo admin las administra.
+    match /promociones/{promocionId} {
+      allow read: if esAdmin() || resource.data.activo == true;
+      allow create, update, delete: if esAdmin();
+    }
+
+    // ColecciÃ³n USUARIOS
+    match /usuarios/{userId} {
+      // Cada cliente ve su perfil; administración puede consultar los perfiles
+      // que necesita para atender pedidos, sin exponer el directorio a todos.
+      allow read: if request.auth != null &&
+        (request.auth.uid == userId || esAdmin() || esOperador());
+      allow create: if request.auth != null &&
+        request.auth.uid == userId &&
+        request.resource.data.rol == 'cliente';
+      // Nadie puede cambiar su propio rol, verificación ni estado de cuenta.
+      allow update: if esAdmin() || (
+        request.auth != null &&
+        request.auth.uid == userId &&
+        request.resource.data.rol == resource.data.rol &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'nombre', 'nombre_completo', 'telefono', 'fotoPerfil', 'actualizado_en'
+        ])
+      );
+      allow delete: if esAdmin();
+    }
+
+    // Direcciones privadas del usuario. No permitir acceso a otros clientes.
+    match /usuarios/{userId}/direcciones/{direccionId} {
+      allow read, create, update, delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ColecciÃ³n PLATILLOS (MenÃº)
+    match /platillos/{platilloId} {
+      allow read: if true;
+      // DueÃ±os y empleados pueden modificar el menÃº (ej. marcar agotado)
+      allow write: if esAdmin() || esOperador();
+    }
+
+    // ColecciÃ³n PEDIDOS
+    match /pedidos/{pedidoId} {
+      // Clientes pueden crear y ver sus pedidos
+      allow read: if request.auth != null &&
+        (resource.data.usuarioId == request.auth.uid || esAdmin() || esOperador());
+      // La creación de pedidos debe seguir las mismas validaciones que
+      // el cliente. Los importes reales se vuelven a comprobar en el backend.
+      allow create: if request.auth != null &&
+        request.resource.data.usuarioId == request.auth.uid &&
+        request.resource.data.estado == 'pendiente_pago' &&
+        request.resource.data.keys().hasOnly([
+          'usuarioId','items','total','estado','entrega','creado'
+        ]) &&
+        request.resource.data.creado == request.time &&
+        request.resource.data.items is list &&
+        request.resource.data.items.size() > 0 &&
+        request.resource.data.items.size() <= 100 &&
+        request.resource.data.total is number &&
+        request.resource.data.total > 0 &&
+        request.resource.data.total <= 100000 &&
+        request.resource.data.entrega is map &&
+        request.resource.data.entrega.get('nombre', '') is string &&
+        request.resource.data.entrega.get('nombre', '').size() >= 2 &&
+        request.resource.data.entrega.get('nombre', '').size() <= 100 &&
+        request.resource.data.entrega.get('telefono', '') is string &&
+        request.resource.data.entrega.get('telefono', '').size() == 10 &&
+        request.resource.data.entrega.get('telefono', '').matches('^[0-9]{10}') &&
+        request.resource.data.entrega.get('metodoPago', '') in ['mercadopago', 'efectivo'] &&
+        request.resource.data.entrega.get('tipoEntrega', '') in ['domicilio', 'recoger'] &&
+        (
+          (request.resource.data.entrega.get('tipoEntrega', '') == 'domicilio' &&
+            request.resource.data.entrega.get('direccion', '') is string &&
+            request.resource.data.entrega.get('direccion', '').size() >= 8)
+          ||
+          (request.resource.data.entrega.get('tipoEntrega', '') == 'recoger' &&
+            request.resource.data.entrega.get('puntoRecogidaDireccion', '') is string &&
+            request.resource.data.entrega.get('puntoRecogidaDireccion', '').size() >= 8)
+        );
+      // El cliente no puede modificar estado, precio, entrega ni comprobantes.
+      // El personal solo puede avanzar en secuencia o estimar tiempo.
+      // La confirmación de un cobro y los reembolsos pertenecen al backend.
+      function pagoConfirmadoParaPreparar() {
+        return (
+          resource.data.entrega.get('metodoPago', '') == 'efectivo' &&
+          resource.data.get('pagoStatus', '') == 'pendiente_efectivo'
+        ) || (
+          resource.data.entrega.get('metodoPago', '') == 'mercadopago' &&
+          resource.data.get('pagoStatus', '') == 'approved' &&
+          resource.data.get('pagoId', '') is string &&
+          resource.data.get('pagoId', '') != ''
+        );
+      }
+
+      function noHayCancelacionPendiente() {
+        return !(
+          resource.data.get('solicitudCancelacion', {}) is map &&
+          resource.data.get('solicitudCancelacion', {}).get('estado', '') in [
+            'pendiente', 'procesando', 'requiere_revision'
+          ]
+        );
+      }
+
+      function avancePermitido() {
+        return (
+          resource.data.estado in ['pendiente', 'pagado'] &&
+          request.resource.data.estado == 'preparacion'
+        ) || (
+          resource.data.estado == 'preparacion' &&
+          request.resource.data.estado == 'listo'
+        ) || (
+          resource.data.estado == 'listo' &&
+          request.resource.data.estado == 'camino'
+        ) || (
+          resource.data.estado == 'camino' &&
+          request.resource.data.estado == 'entregado'
+        );
+      }
+
+      allow update: if (esAdmin() || esOperador()) &&
+        pagoConfirmadoParaPreparar() &&
+        noHayCancelacionPendiente() && (
+          (
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['estado']) &&
+            avancePermitido()
+          ) || (
+            resource.data.estado in ['pagado', 'preparacion', 'listo', 'camino'] &&
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+              'estimadoPara', 'minutosEstimados', 'estimadoActualizado'
+            ]) &&
+            request.resource.data.estimadoPara is timestamp &&
+            request.resource.data.minutosEstimados is int &&
+            request.resource.data.minutosEstimados >= 5 &&
+            request.resource.data.minutosEstimados <= 180
+          )
+        );
+      // Conservar comprobantes y seguimiento: cancelar mueve a historial,
+      // no elimina el documento de Firestore ni los datos del cobro.
+      allow delete: if false;
+    }
+
+
+    // ColecciÃ³n CATEGORÃAS
+    match /categorias/{categoriaId} {
+      // Los usuarios pueden consultar las categorÃ­as del menÃº.
+      allow read: if true;
+
+      // Solo administradores y operadores pueden modificarlas.
+      allow write: if esAdmin();
+    }
+
+
+    // ColecciÃ³n MODIFICADORES
+    match /modificadores/{modId} {
+      allow read: if true;
+      allow write: if esAdmin() || esOperador();
+    }
+    // Solicitudes de ayuda persistentes: cada usuario solo consulta las suyas.
+    // Administración puede responder, sin modificar el autor ni el mensaje.
+    match /soporte/{ticketId} {
+      allow read: if request.auth != null &&
+        (esAdmin() || resource.data.usuarioId == request.auth.uid);
+      allow create: if request.auth != null &&
+        request.resource.data.keys().hasOnly([
+          'usuarioId', 'correo', 'asunto', 'mensaje', 'estado', 'creado'
+        ]) &&
+        request.resource.data.usuarioId == request.auth.uid &&
+        request.resource.data.correo is string &&
+        request.resource.data.correo.size() <= 200 &&
+        request.resource.data.asunto is string &&
+        request.resource.data.asunto.size() >= 5 &&
+        request.resource.data.asunto.size() <= 100 &&
+        request.resource.data.mensaje is string &&
+        request.resource.data.mensaje.size() >= 10 &&
+        request.resource.data.mensaje.size() <= 1500 &&
+        request.resource.data.estado == 'abierto' &&
+        request.resource.data.creado == request.time;
+      allow update: if esAdmin() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'respuesta', 'estado', 'respondidoPor', 'respondidoEn'
+        ]) &&
+        request.resource.data.estado == 'respondido' &&
+        request.resource.data.respuesta is string &&
+        request.resource.data.respuesta.size() >= 4 &&
+        request.resource.data.respuesta.size() <= 1500 &&
+        request.resource.data.respondidoPor == request.auth.uid &&
+        request.resource.data.respondidoEn == request.time;
+      allow delete: if false;
+    }
+
+    // Promociones de inicio: lectura pública y edición exclusiva de administradores.
+    match /promociones/{promocionId} {
+      allow read: if true;
+      allow create, update, delete: if esAdmin();
+    }
+    match /promociones_inicio/{promocionId} {
+      allow read: if true;
+      allow create, update, delete: if esAdmin();
+    }
+
+    // ColecciÃ³n NOTIFICACIONES
+    match /notificaciones/{notificacionId} {
+      allow read: if request.auth != null &&
+        resource.data.usuarioId == request.auth.uid;
+
+      allow create: if (esAdmin() || esOperador()) &&
+        request.resource.data.usuarioId is string &&
+        request.resource.data.pedidoId is string &&
+        request.resource.data.titulo is string &&
+        request.resource.data.mensaje is string &&
+        request.resource.data.leida == false &&
+        request.resource.data.creado == request.time;
+
+      allow update: if request.auth != null &&
+        resource.data.usuarioId == request.auth.uid &&
+        request.resource.data.diff(resource.data)
+          .affectedKeys().hasOnly(['leida']) &&
+        request.resource.data.leida is bool;
+
+      allow delete: if false;
+    }
+
+  }
+}

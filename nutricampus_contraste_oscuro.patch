@@ -1,0 +1,448 @@
+--- a/lib/views/personalizar_screen.dart
++++ b/lib/views/personalizar_screen.dart
+@@ -11,7 +11,6 @@
+ import '../viewmodels/menu_viewmodel.dart';
+ import '../widgets/dish_card.dart';
+ 
+-const Color _fondo = Color(0xFFFCFAF6);
+ const Color _naranja = Color(0xFFE65316);
+ const Color _texto = Color(0xFF171A18);
+ const Color _gris = Color(0xFF747A7E);
+@@ -137,7 +136,7 @@
+     Color color = _texto,
+   }) {
+     return Material(
+-      color: Colors.white,
++      color: AppThemeColors.adaptiveSurface,
+       shape: const CircleBorder(),
+       child: InkWell(
+         customBorder: const CircleBorder(),
+@@ -164,7 +163,7 @@
+           color: AppThemeColors.adaptiveSurface,
+           borderRadius: BorderRadius.circular(17),
+           border: Border.all(
+-            color: activa ? _naranja : _borde,
++            color: activa ? _naranja : AppThemeColors.adaptiveBorder,
+             width: activa ? 1.5 : 1,
+           ),
+           boxShadow: [
+@@ -301,7 +300,7 @@
+     required VoidCallback accion,
+   }) {
+     return Material(
+-      color: Colors.white,
++      color: AppThemeColors.adaptiveSurface,
+       borderRadius: BorderRadius.circular(11),
+       child: InkWell(
+         onTap: habilitado ? accion : null,
+@@ -410,8 +409,8 @@
+                       offset: const Offset(0, -24),
+                       child: Container(
+                         padding: const EdgeInsets.fromLTRB(20, 27, 20, 185),
+-                        decoration: const BoxDecoration(
+-                          color: _fondo,
++                        decoration: BoxDecoration(
++                          color: AppThemeColors.adaptiveBackground,
+                           borderRadius: BorderRadius.vertical(
+                             top: Radius.circular(30),
+                           ),
+--- a/lib/views/login_screen.dart
++++ b/lib/views/login_screen.dart
+@@ -5,11 +5,8 @@
+ 
+ import '../viewmodels/auth_viewmodel.dart';
+ 
+-const Color _crema = Color(0xFFFAF7F2);
+ const Color _naranja = Color(0xFFD95C14);
+-const Color _azulMarino = Color(0xFF12233D);
+ const Color _grisTexto = Color(0xFF717F8D);
+-const Color _textoSecundario = Color(0xFF556370);
+ const Color _borde = Color(0xFFE8E5DF);
+ const Color _bordeCampo = Color(0xFFDDD9CE);
+ 
+@@ -83,7 +80,7 @@
+     final vm = context.watch<AuthViewModel>();
+ 
+     return Scaffold(
+-      backgroundColor: _crema,
++      backgroundColor: AppThemeColors.adaptiveBackground,
+       body: SafeArea(
+         child: LayoutBuilder(
+           builder: (context, constraints) {
+@@ -109,9 +106,9 @@
+                               minWidth: 40,
+                               minHeight: 40,
+                             ),
+-                            icon: const Icon(
++                            icon: Icon(
+                               Icons.arrow_back,
+-                              color: Color(0xFF374151),
++                              color: AppThemeColors.adaptiveText,
+                               size: 27,
+                             ),
+                           ),
+@@ -135,11 +132,11 @@
+                               ),
+                             ),
+                             const SizedBox(height: 12),
+-                            const Text(
++                            Text(
+                               'Tu cuenta, tus pedidos,\ntus favoritos.',
+                               textAlign: TextAlign.center,
+                               style: TextStyle(
+-                                color: _textoSecundario,
++                                color: AppThemeColors.adaptiveMuted,
+                                 fontSize: 13,
+                                 height: 1.4,
+                                 letterSpacing: -0.2,
+@@ -197,16 +194,16 @@
+                               textInputAction: TextInputAction.next,
+                               autocorrect: false,
+                               enableSuggestions: false,
+-                              style: const TextStyle(
+-                                color: Color(0xFF374151),
++                              style: TextStyle(
++                                color: AppThemeColors.adaptiveText,
+                                 fontSize: 14,
+                               ),
+                               decoration: _decoracion(
+                                 pista: 'tucorreo@ejemplo.com',
+-                                prefijo: const Icon(
++                                prefijo: Icon(
+                                   Icons.mail_outline,
+                                   size: 18,
+-                                  color: _grisTexto,
++                                  color: AppThemeColors.adaptiveMuted,
+                                 ),
+                               ),
+                               validator: (valor) {
+@@ -233,16 +230,16 @@
+                               onFieldSubmitted: (_) {
+                                 if (!vm.cargando) _enviar();
+                               },
+-                              style: const TextStyle(
+-                                color: Color(0xFF374151),
++                              style: TextStyle(
++                                color: AppThemeColors.adaptiveText,
+                                 fontSize: 14,
+                               ),
+                               decoration: _decoracion(
+                                 pista: 'Tu contraseña',
+-                                prefijo: const Icon(
++                                prefijo: Icon(
+                                   Icons.lock_outline,
+                                   size: 18,
+-                                  color: _grisTexto,
++                                  color: AppThemeColors.adaptiveMuted,
+                                 ),
+                                 sufijo: IconButton(
+                                   onPressed: () {
+@@ -396,7 +393,7 @@
+                           onPressed: _iniciarConGoogle,
+                           style: OutlinedButton.styleFrom(
+                             backgroundColor: AppThemeColors.adaptiveSurface,
+-                            foregroundColor: const Color(0xFF374151),
++                            foregroundColor: AppThemeColors.adaptiveText,
+                             side: const BorderSide(color: _bordeCampo),
+                             elevation: 1,
+                             shadowColor: Colors.black12,
+@@ -475,7 +472,7 @@
+ 
+   @override
+   Widget build(BuildContext context) {
+-    return const Column(
++    return Column(
+       mainAxisAlignment: MainAxisAlignment.center,
+       children: [
+         Icon(Icons.eco_outlined, color: Color(0xFF45A536), size: 44),
+@@ -493,7 +490,7 @@
+               TextSpan(
+                 text: 'Campus',
+                 style: TextStyle(
+-                  color: _azulMarino,
++                  color: AppThemeColors.adaptiveText,
+                   fontWeight: FontWeight.w800,
+                 ),
+               ),
+--- a/lib/views/direccion_entrega_screen.dart
++++ b/lib/views/direccion_entrega_screen.dart
+@@ -2,12 +2,9 @@
+ 
+ import 'package:flutter/material.dart';
+ 
+-const Color _fondo = Color(0xFFFAF7F2);
+ const Color _naranja = Color(0xFFD95C24);
+-const Color _oscuro = Color(0xFF1C2430);
+ const Color _gris = Color(0xFF717D8A);
+ const Color _borde = Color(0xFFE8E4DE);
+-const Color _superficie = Colors.white;
+ 
+ class DireccionEntregaScreen extends StatefulWidget {
+   const DireccionEntregaScreen({super.key});
+@@ -111,21 +108,21 @@
+                             padding: EdgeInsets.zero,
+                             alignment: Alignment.centerLeft,
+                             tooltip: 'Volver atrás',
+-                            icon: const Icon(
++                            icon: Icon(
+                               Icons.arrow_back_ios_new,
+-                              color: _oscuro,
++                              color: AppThemeColors.adaptiveText,
+                               size: 23,
+                             ),
+                           ),
+                         ),
+-                        const Expanded(
++                        Expanded(
+                           child: Padding(
+-                            padding: EdgeInsets.only(right: 20),
++                            padding: const EdgeInsets.only(right: 20),
+                             child: Text(
+                               'Dirección y entrega',
+                               textAlign: TextAlign.center,
+                               style: TextStyle(
+-                                color: _oscuro,
++                                color: AppThemeColors.adaptiveText,
+                                 fontSize: 20,
+                                 fontWeight: FontWeight.w700,
+                                 letterSpacing: -0.4,
+@@ -175,11 +172,11 @@
+                       // Encabezado de direcciones.
+                       Row(
+                         children: [
+-                          const Expanded(
++                          Expanded(
+                             child: Text(
+                               'Mis direcciones',
+                               style: TextStyle(
+-                                color: _oscuro,
++                                color: AppThemeColors.adaptiveText,
+                                 fontSize: 18,
+                                 fontWeight: FontWeight.w700,
+                               ),
+@@ -236,10 +233,10 @@
+ 
+                       const SizedBox(height: 12),
+ 
+-                      const Text(
++                      Text(
+                         'Referencia de entrega',
+                         style: TextStyle(
+-                          color: _oscuro,
++                          color: AppThemeColors.adaptiveText,
+                           fontSize: 15,
+                           fontWeight: FontWeight.w700,
+                         ),
+@@ -257,7 +254,7 @@
+                             fontSize: 14,
+                           ),
+                           filled: true,
+-                          fillColor: _superficie,
++                          fillColor: AppThemeColors.adaptiveSurface,
+                           contentPadding: const EdgeInsets.symmetric(
+                             horizontal: 16,
+                             vertical: 20,
+@@ -292,7 +289,7 @@
+                       Container(
+                         padding: const EdgeInsets.all(20),
+                         decoration: BoxDecoration(
+-                          color: _superficie,
++                          color: AppThemeColors.adaptiveSurface,
+                           borderRadius: BorderRadius.circular(20),
+                           border: Border.all(
+                             color: (AppThemeColors.darkActive
+@@ -311,7 +308,7 @@
+                             Text(
+                               'Recoger en tienda',
+                               style: TextStyle(
+-                                color: _oscuro,
++                                color: AppThemeColors.adaptiveText,
+                                 fontSize: 17,
+                                 fontWeight: FontWeight.w700,
+                               ),
+@@ -341,7 +338,7 @@
+             // Botón inferior fijo.
+             Container(
+               padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+-              decoration: const BoxDecoration(color: _fondo),
++              decoration: BoxDecoration(color: AppThemeColors.adaptiveBackground),
+               child: SizedBox(
+                 width: double.infinity,
+                 height: 58,
+@@ -437,7 +434,7 @@
+   @override
+   Widget build(BuildContext context) {
+     return Material(
+-      color: _superficie,
++      color: AppThemeColors.adaptiveSurface,
+       borderRadius: BorderRadius.circular(24),
+       child: InkWell(
+         onTap: onTap,
+@@ -449,7 +446,7 @@
+             border: Border.all(
+               color: seleccionada
+                   ? _naranja.withAlpha(75)
+-                  : const Color(0xFFF0F0F3),
++                  : AppThemeColors.adaptiveBorder,
+               width: seleccionada ? 2 : 1,
+             ),
+             boxShadow: const [
+@@ -475,8 +472,8 @@
+                   children: [
+                     Text(
+                       direccion.nombre,
+-                      style: const TextStyle(
+-                        color: _oscuro,
++                      style: TextStyle(
++                        color: AppThemeColors.adaptiveText,
+                         fontSize: 15,
+                         fontWeight: FontWeight.w700,
+                       ),
+@@ -554,9 +551,9 @@
+   Widget build(BuildContext context) {
+     return AlertDialog(
+       backgroundColor: AppThemeColors.adaptiveBackground,
+-      title: const Text(
++      title: Text(
+         'Agregar dirección',
+-        style: TextStyle(color: _oscuro, fontWeight: FontWeight.w700),
++        style: TextStyle(color: AppThemeColors.adaptiveText, fontWeight: FontWeight.w700),
+       ),
+       content: SingleChildScrollView(
+         child: Form(
+--- a/lib/views/pago_screen.dart
++++ b/lib/views/pago_screen.dart
+@@ -13,7 +13,6 @@
+ import '../viewmodels/checkout_viewmodel.dart';
+ import 'direccion_entrega_screen.dart';
+ 
+-const Color _fondo = Color(0xFFFAF7F2);
+ const Color _naranja = Color(0xFFD3581F);
+ const Color _azul = Color(0xFF1B2A4A);
+ const Color _gris = Color(0xFF64748B);
+@@ -198,21 +197,21 @@
+                           padding: EdgeInsets.zero,
+                           alignment: Alignment.centerLeft,
+                           tooltip: 'Volver',
+-                          icon: const Icon(
++                          icon: Icon(
+                             Icons.arrow_back_ios_new,
+-                            color: _azul,
++                            color: AppThemeColors.adaptiveText,
+                             size: 23,
+                           ),
+                         ),
+                       ),
+-                      const Expanded(
++                      Expanded(
+                         child: Padding(
+-                          padding: EdgeInsets.only(right: 20),
++                          padding: const EdgeInsets.only(right: 20),
+                           child: Text(
+                             'Pago',
+                             textAlign: TextAlign.center,
+                             style: TextStyle(
+-                              color: _azul,
++                              color: AppThemeColors.adaptiveText,
+                               fontSize: 20,
+                               fontWeight: FontWeight.w700,
+                               letterSpacing: -0.4,
+@@ -223,10 +222,10 @@
+                     ],
+                   ),
+                   const SizedBox(height: 28),
+-                  const Text(
++                  Text(
+                     'Resumen del pedido',
+                     style: TextStyle(
+-                      color: _azul,
++                      color: AppThemeColors.adaptiveText,
+                       fontSize: 18,
+                       fontWeight: FontWeight.w700,
+                     ),
+@@ -246,8 +245,8 @@
+                       ),
+                       Text(
+                         moneda(cart.total),
+-                        style: const TextStyle(
+-                          color: _azul,
++                        style: TextStyle(
++                          color: AppThemeColors.adaptiveText,
+                           fontSize: 16,
+                           fontWeight: FontWeight.w700,
+                         ),
+@@ -279,7 +278,7 @@
+                           width: 48,
+                           height: 48,
+                           decoration: BoxDecoration(
+-                            color: _fondo,
++                            color: AppThemeColors.adaptiveSoft,
+                             borderRadius: BorderRadius.circular(14),
+                             border: Border.all(color: const Color(0xFFEAE4D9)),
+                           ),
+@@ -287,7 +286,7 @@
+                             recoger
+                                 ? Icons.storefront_outlined
+                                 : Icons.location_on_outlined,
+-                            color: _azul,
++                            color: AppThemeColors.adaptiveText,
+                             size: 23,
+                           ),
+                         ),
+@@ -296,10 +295,10 @@
+                           child: Column(
+                             crossAxisAlignment: CrossAxisAlignment.start,
+                             children: [
+-                              const Text(
++                              Text(
+                                 'Dirección de entrega',
+                                 style: TextStyle(
+-                                  color: _azul,
++                                  color: AppThemeColors.adaptiveText,
+                                   fontSize: 15,
+                                   fontWeight: FontWeight.w700,
+                                 ),
+@@ -333,10 +332,10 @@
+                     ),
+                   ),
+                   const SizedBox(height: 28),
+-                  const Text(
++                  Text(
+                     'Método de pago',
+                     style: TextStyle(
+-                      color: _azul,
++                      color: AppThemeColors.adaptiveText,
+                       fontSize: 18,
+                       fontWeight: FontWeight.w700,
+                     ),
+@@ -412,25 +411,25 @@
+             ),
+             Container(
+               padding: const EdgeInsets.fromLTRB(20, 14, 20, 24),
+-              decoration: const BoxDecoration(color: _fondo),
++              decoration: BoxDecoration(color: AppThemeColors.adaptiveBackground),
+               child: Column(
+                 mainAxisSize: MainAxisSize.min,
+                 children: [
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
+-                      const Text(
++                      Text(
+                         'Total a pagar',
+                         style: TextStyle(
+-                          color: _azul,
++                          color: AppThemeColors.adaptiveText,
+                           fontSize: 16,
+                           fontWeight: FontWeight.w600,
+                         ),
+                       ),
+                       Text(
+                         moneda(cart.total),
+-                        style: const TextStyle(
+-                          color: _azul,
++                        style: TextStyle(
++                          color: AppThemeColors.adaptiveText,
+                           fontSize: 21,
+                           fontWeight: FontWeight.w800,
+                         ),

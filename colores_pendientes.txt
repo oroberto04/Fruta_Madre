@@ -1,0 +1,436 @@
+lib/views/admin_screen.dart:729:      return const Color(0xFFE0F2E6);
+lib/views/carrito_screen.dart:13:const Color _fondo = Color(0xFFFAF7F2);
+lib/views/carrito_screen.dart:14:const Color _naranja = Color(0xFFE65316);
+lib/views/carrito_screen.dart:15:const Color _texto = Color(0xFF171A20);
+lib/views/carrito_screen.dart:16:const Color _gris = Color(0xFF747E8D);
+lib/views/carrito_screen.dart:17:const Color _borde = Color(0xFFE8E5E1);
+lib/views/carrito_screen.dart:67:        color: AppThemeColors.adaptiveSurface,
+lib/views/carrito_screen.dart:71:            color: Colors.black.withAlpha(10),
+lib/views/carrito_screen.dart:96:                    color: (AppThemeColors.darkActive ? Colors.white : _texto),
+lib/views/carrito_screen.dart:105:                    color: (AppThemeColors.darkActive ? Colors.white : _texto),
+lib/views/carrito_screen.dart:115:                      color: (AppThemeColors.darkActive
+lib/views/carrito_screen.dart:116:                          ? Colors.white70
+lib/views/carrito_screen.dart:129:                        color: AppThemeColors.darkActive
+lib/views/carrito_screen.dart:130:                            ? const Color(0xFF26333C)
+lib/views/carrito_screen.dart:134:                          color: (AppThemeColors.darkActive
+lib/views/carrito_screen.dart:135:                              ? Colors.white24
+lib/views/carrito_screen.dart:144:                            color: (AppThemeColors.darkActive
+lib/views/carrito_screen.dart:145:                                ? Colors.white70
+lib/views/carrito_screen.dart:156:                                color: (AppThemeColors.darkActive
+lib/views/carrito_screen.dart:157:                                    ? Colors.white
+lib/views/carrito_screen.dart:177:                        color: (AppThemeColors.darkActive
+lib/views/carrito_screen.dart:178:                            ? Colors.white70
+lib/views/carrito_screen.dart:196:        color: const Color(0xFFF1F1EF),
+lib/views/carrito_screen.dart:200:          color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+lib/views/carrito_screen.dart:209:        color: const Color(0xFFF1F1EF),
+lib/views/carrito_screen.dart:213:          color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+lib/views/carrito_screen.dart:228:              color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+lib/views/carrito_screen.dart:235:              color: (AppThemeColors.darkActive ? Colors.white : _texto),
+lib/views/carrito_screen.dart:264:            color: (AppThemeColors.darkActive ? Colors.white : _texto),
+lib/views/carrito_screen.dart:271:            color: (AppThemeColors.darkActive ? Colors.white : _texto),
+lib/views/carrito_screen.dart:312:                color: (AppThemeColors.darkActive ? Colors.white : _texto),
+lib/views/carrito_screen.dart:328:                      color: (AppThemeColors.darkActive
+lib/views/carrito_screen.dart:329:                          ? Colors.white70
+lib/views/carrito_screen.dart:338:                        color: (AppThemeColors.darkActive
+lib/views/carrito_screen.dart:339:                            ? Colors.white
+lib/views/carrito_screen.dart:348:                        color: (AppThemeColors.darkActive
+lib/views/carrito_screen.dart:349:                            ? Colors.white70
+lib/views/carrito_screen.dart:358:                        foregroundColor: Colors.white,
+lib/views/carrito_screen.dart:382:                    color: AppThemeColors.darkActive
+lib/views/carrito_screen.dart:383:                        ? const Color(0xFF202B36)
+lib/views/carrito_screen.dart:387:                        color: (AppThemeColors.darkActive
+lib/views/carrito_screen.dart:388:                            ? Colors.white24
+lib/views/carrito_screen.dart:406:                                color: (AppThemeColors.darkActive
+lib/views/carrito_screen.dart:407:                                    ? Colors.white
+lib/views/carrito_screen.dart:416:                                color: (AppThemeColors.darkActive
+lib/views/carrito_screen.dart:417:                                    ? Colors.white
+lib/views/carrito_screen.dart:433:                              foregroundColor: Colors.white,
+lib/views/checkout_screen.dart:241:                    ? const CircularProgressIndicator(color: Colors.white)
+lib/views/confirmacion_pedido_screen.dart:8:const Color _naranja = Color(0xFFD95C26);
+lib/views/confirmacion_pedido_screen.dart:9:const Color _verde = Color(0xFF449E48);
+lib/views/confirmacion_pedido_screen.dart:10:const Color _azul = Color(0xFF1A2942);
+lib/views/confirmacion_pedido_screen.dart:11:const Color _gris = Color(0xFF64748B);
+lib/views/confirmacion_pedido_screen.dart:42:      backgroundColor: AppThemeColors.adaptiveBackground,
+lib/views/confirmacion_pedido_screen.dart:135:                                color: Colors.white,
+lib/views/confirmacion_pedido_screen.dart:162:                          color: (AppThemeColors.darkActive
+lib/views/confirmacion_pedido_screen.dart:163:                              ? Colors.white70
+lib/views/confirmacion_pedido_screen.dart:176:                          color: AppThemeColors.adaptiveSurface,
+lib/views/confirmacion_pedido_screen.dart:178:                          border: Border.all(color: const Color(0xFFF0ECE4)),
+lib/views/confirmacion_pedido_screen.dart:195:                                    color: Color(0xFFF8F8F7),
+lib/views/confirmacion_pedido_screen.dart:213:                                          color: (AppThemeColors.darkActive
+lib/views/confirmacion_pedido_screen.dart:214:                                              ? Colors.white70
+lib/views/confirmacion_pedido_screen.dart:236:                                    color: (AppThemeColors.darkActive
+lib/views/confirmacion_pedido_screen.dart:237:                                        ? Colors.white70
+lib/views/confirmacion_pedido_screen.dart:249:                                color: Color(0xFFF0ECE4),
+lib/views/confirmacion_pedido_screen.dart:259:                                    color: Color(0xFFF8F8F7),
+lib/views/confirmacion_pedido_screen.dart:277:                                          color: (AppThemeColors.darkActive
+lib/views/confirmacion_pedido_screen.dart:278:                                              ? Colors.white70
+lib/views/confirmacion_pedido_screen.dart:327:                        foregroundColor: Colors.white,
+lib/views/confirmacion_pedido_screen.dart:366:                      color: const Color(0xFFD1D5DB),
+lib/views/detalle_pedido_screen.dart:11:const Color _verde = Color(0xFF2E8540);
+lib/views/detalle_pedido_screen.dart:12:const Color _verdeOscuro = Color(0xFF1E602E);
+lib/views/detalle_pedido_screen.dart:13:const Color _gris = Color(0xFF9CA3AF);
+lib/views/detalle_pedido_screen.dart:14:const Color _texto = Color(0xFF1F2937);
+lib/views/detalle_pedido_screen.dart:15:const Color _borde = Color(0xFFF0ECE4);
+lib/views/detalle_pedido_screen.dart:97:      backgroundColor: Colors.white,
+lib/views/detalle_pedido_screen.dart:186:            backgroundColor: AppThemeColors.adaptiveBackground,
+lib/views/detalle_pedido_screen.dart:193:            backgroundColor: AppThemeColors.adaptiveBackground,
+lib/views/detalle_pedido_screen.dart:200:            backgroundColor: AppThemeColors.adaptiveBackground,
+lib/views/detalle_pedido_screen.dart:224:          backgroundColor: AppThemeColors.adaptiveBackground,
+lib/views/detalle_pedido_screen.dart:226:            backgroundColor: AppThemeColors.adaptiveBackground,
+lib/views/detalle_pedido_screen.dart:243:                    color: Colors.white,
+lib/views/detalle_pedido_screen.dart:248:                      color: Colors.white,
+lib/views/detalle_pedido_screen.dart:266:                  color: AppThemeColors.adaptiveSurface,
+lib/views/detalle_pedido_screen.dart:269:                    color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:270:                        ? Colors.white24
+lib/views/detalle_pedido_screen.dart:280:                        color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:281:                            ? Colors.white
+lib/views/detalle_pedido_screen.dart:351:                        color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:352:                            ? Colors.white70
+lib/views/detalle_pedido_screen.dart:364:                  color: AppThemeColors.adaptiveSurface,
+lib/views/detalle_pedido_screen.dart:367:                    color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:368:                        ? Colors.white24
+lib/views/detalle_pedido_screen.dart:378:                        color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:379:                            ? Colors.white
+lib/views/detalle_pedido_screen.dart:390:                          color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:391:                              ? Colors.white70
+lib/views/detalle_pedido_screen.dart:441:                            color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:442:                                ? Colors.white
+lib/views/detalle_pedido_screen.dart:466:                    color: AppThemeColors.adaptiveSurface,
+lib/views/detalle_pedido_screen.dart:469:                      color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:470:                          ? Colors.white24
+lib/views/detalle_pedido_screen.dart:480:                          color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:481:                              ? Colors.white
+lib/views/detalle_pedido_screen.dart:494:                              color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:495:                                  ? Colors.white
+lib/views/detalle_pedido_screen.dart:550:                        ? const Color(0xFFE5F4E8)
+lib/views/detalle_pedido_screen.dart:551:                        : const Color(0xFFF3F4F6),
+lib/views/detalle_pedido_screen.dart:555:                          ? const Color(0xFF8BC99A)
+lib/views/detalle_pedido_screen.dart:556:                          : const Color(0xFFE5E7EB),
+lib/views/detalle_pedido_screen.dart:571:                        ? Colors.white
+lib/views/detalle_pedido_screen.dart:582:                      color: completado ? _verde : const Color(0xFFE5E7EB),
+lib/views/detalle_pedido_screen.dart:646:        color: AppThemeColors.adaptiveSurface,
+lib/views/detalle_pedido_screen.dart:649:          color: (AppThemeColors.darkActive ? Colors.white24 : _borde),
+lib/views/detalle_pedido_screen.dart:666:              color: const Color(0xFFF3F4F6),
+lib/views/detalle_pedido_screen.dart:668:              border: Border.all(color: const Color(0xFFE5E7EB)),
+lib/views/detalle_pedido_screen.dart:677:                      color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:678:                          ? Colors.white70
+lib/views/detalle_pedido_screen.dart:685:                    color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+lib/views/detalle_pedido_screen.dart:701:                          color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:702:                              ? Colors.white
+lib/views/detalle_pedido_screen.dart:717:                        color: const Color(0xFFF9FAFB),
+lib/views/detalle_pedido_screen.dart:719:                        border: Border.all(color: const Color(0xFFE5E7EB)),
+lib/views/detalle_pedido_screen.dart:724:                          color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:725:                              ? Colors.white70
+lib/views/detalle_pedido_screen.dart:738:                    color: (AppThemeColors.darkActive ? Colors.white : _texto),
+lib/views/detalle_pedido_screen.dart:756:                              color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:757:                                  ? Colors.white70
+lib/views/detalle_pedido_screen.dart:765:                                color: (AppThemeColors.darkActive
+lib/views/detalle_pedido_screen.dart:766:                                    ? Colors.white70
+lib/views/direccion_entrega_screen.dart:5:const Color _naranja = Color(0xFFD95C24);
+lib/views/direccion_entrega_screen.dart:6:const Color _gris = Color(0xFF717D8A);
+lib/views/direccion_entrega_screen.dart:7:const Color _borde = Color(0xFFE8E4DE);
+lib/views/direccion_entrega_screen.dart:90:      backgroundColor: AppThemeColors.adaptiveBackground,
+lib/views/direccion_entrega_screen.dart:113:                              color: AppThemeColors.adaptiveText,
+lib/views/direccion_entrega_screen.dart:125:                                color: AppThemeColors.adaptiveText,
+lib/views/direccion_entrega_screen.dart:142:                        color: const Color(0xFFEDE9E1),
+lib/views/direccion_entrega_screen.dart:179:                                color: AppThemeColors.adaptiveText,
+lib/views/direccion_entrega_screen.dart:239:                          color: AppThemeColors.adaptiveText,
+lib/views/direccion_entrega_screen.dart:253:                            color: Color(0xFF717987),
+lib/views/direccion_entrega_screen.dart:257:                          fillColor: AppThemeColors.adaptiveSurface,
+lib/views/direccion_entrega_screen.dart:265:                              color: (AppThemeColors.darkActive
+lib/views/direccion_entrega_screen.dart:266:                                  ? Colors.white24
+lib/views/direccion_entrega_screen.dart:273:                              color: (AppThemeColors.darkActive
+lib/views/direccion_entrega_screen.dart:274:                                  ? Colors.white24
+lib/views/direccion_entrega_screen.dart:292:                          color: AppThemeColors.adaptiveSurface,
+lib/views/direccion_entrega_screen.dart:295:                            color: (AppThemeColors.darkActive
+lib/views/direccion_entrega_screen.dart:296:                                ? Colors.white24
+lib/views/direccion_entrega_screen.dart:311:                                color: AppThemeColors.adaptiveText,
+lib/views/direccion_entrega_screen.dart:322:                                color: (AppThemeColors.darkActive
+lib/views/direccion_entrega_screen.dart:323:                                    ? Colors.white70
+lib/views/direccion_entrega_screen.dart:342:                color: AppThemeColors.adaptiveBackground,
+lib/views/direccion_entrega_screen.dart:351:                    foregroundColor: Colors.white,
+lib/views/direccion_entrega_screen.dart:414:              color: activa ? Colors.white : _gris,
+lib/views/direccion_entrega_screen.dart:439:      color: AppThemeColors.adaptiveSurface,
+lib/views/direccion_entrega_screen.dart:451:                  : AppThemeColors.adaptiveBorder,
+lib/views/direccion_entrega_screen.dart:467:                color: seleccionada ? _naranja : const Color(0xFF9CA3AF),
+lib/views/direccion_entrega_screen.dart:478:                        color: AppThemeColors.adaptiveText,
+lib/views/direccion_entrega_screen.dart:489:                        color: (AppThemeColors.darkActive
+lib/views/direccion_entrega_screen.dart:490:                            ? Colors.white70
+lib/views/direccion_entrega_screen.dart:504:                color: seleccionada ? _naranja : const Color(0xFFD1D5DB),
+lib/views/direccion_entrega_screen.dart:555:      backgroundColor: AppThemeColors.adaptiveBackground,
+lib/views/direccion_entrega_screen.dart:559:          color: AppThemeColors.adaptiveText,
+lib/views/direccion_entrega_screen.dart:603:              color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+lib/views/direccion_entrega_screen.dart:611:            foregroundColor: Colors.white,
+lib/views/direccion_entrega_screen.dart:646:        fillColor: AppThemeColors.adaptiveSurface,
+lib/views/direccion_entrega_screen.dart:651:            color: (AppThemeColors.darkActive ? Colors.white24 : _borde),
+lib/views/lobby_screen.dart:26:  static const Color naranja = Color(0xFFD95C14);
+lib/views/lobby_screen.dart:27:  static const Color verde = Color(0xFF204E35);
+lib/views/lobby_screen.dart:28:  static const Color texto = Color(0xFF1C1917);
+lib/views/lobby_screen.dart:29:  static const Color gris = Color(0xFF78716C);
+lib/views/lobby_screen.dart:134:                              color: (AppThemeColors.darkActive
+lib/views/lobby_screen.dart:135:                                  ? Colors.white70
+lib/views/lobby_screen.dart:143:                                color: (AppThemeColors.darkActive
+lib/views/lobby_screen.dart:144:                                    ? Colors.white
+lib/views/lobby_screen.dart:171:                                color: (AppThemeColors.darkActive
+lib/views/lobby_screen.dart:172:                                    ? Colors.white
+lib/views/lobby_screen.dart:180:                                color: (AppThemeColors.darkActive
+lib/views/lobby_screen.dart:181:                                    ? Colors.white70
+lib/views/lobby_screen.dart:192:                                color: (AppThemeColors.darkActive
+lib/views/lobby_screen.dart:193:                                    ? Colors.white
+lib/views/lobby_screen.dart:201:                                color: (AppThemeColors.darkActive
+lib/views/lobby_screen.dart:202:                                    ? Colors.white70
+lib/views/lobby_screen.dart:308:                color: Color(0xFF245336),
+lib/views/lobby_screen.dart:323:                  color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/lobby_screen.dart:335:                  color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/lobby_screen.dart:348:                      color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/lobby_screen.dart:370:                            color: Colors.white,
+lib/views/lobby_screen.dart:401:          color: AppThemeColors.darkActive
+lib/views/lobby_screen.dart:402:              ? Colors.white70
+lib/views/lobby_screen.dart:403:              : const Color(0xFFA8A29E),
+lib/views/lobby_screen.dart:407:          color: AppThemeColors.darkActive
+lib/views/lobby_screen.dart:408:              ? Colors.white70
+lib/views/lobby_screen.dart:409:              : const Color(0xFFA8A29E),
+lib/views/lobby_screen.dart:422:        fillColor: AppThemeColors.darkActive
+lib/views/lobby_screen.dart:423:            ? const Color(0xFF26333C)
+lib/views/lobby_screen.dart:424:            : const Color(0xFFEFECE6),
+lib/views/lobby_screen.dart:465:                    color: Colors.white70,
+lib/views/lobby_screen.dart:480:                    color: Colors.white,
+lib/views/lobby_screen.dart:490:                    color: Color(0xFFB8D7C5),
+lib/views/lobby_screen.dart:508:                      foregroundColor: Colors.white,
+lib/views/lobby_screen.dart:539:            color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/lobby_screen.dart:587:            fondo = const Color(0xFFE5F3E9);
+lib/views/lobby_screen.dart:618:                      color: AppThemeColors.darkActive
+lib/views/lobby_screen.dart:619:                          ? Colors.white
+lib/views/lobby_screen.dart:620:                          : const Color(0xFF44403C),
+lib/views/lobby_screen.dart:640:          color: AppThemeColors.adaptiveSurface,
+lib/views/lobby_screen.dart:642:          border: Border.all(color: const Color(0xFFF0EEEB)),
+lib/views/lobby_screen.dart:669:                color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/lobby_screen.dart:678:                color: (AppThemeColors.darkActive ? Colors.white70 : gris),
+lib/views/lobby_screen.dart:709:          color: AppThemeColors.adaptiveSurface,
+lib/views/lobby_screen.dart:711:          border: Border.all(color: const Color(0xFFF0EEEB)),
+lib/views/lobby_screen.dart:731:                color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/lobby_screen.dart:740:                color: (AppThemeColors.darkActive ? Colors.white70 : gris),
+lib/views/lobby_screen.dart:777:      color: const Color(0xFFEFECE6),
+lib/views/lobby_screen.dart:779:      child: const Icon(Icons.restaurant, color: Color(0xFF9C948B), size: 38),
+lib/views/lobby_screen.dart:788:          const Icon(Icons.search_off, size: 45, color: Color(0xFFA8A29E)),
+lib/views/lobby_screen.dart:794:              color: (AppThemeColors.darkActive ? Colors.white70 : gris),
+lib/views/lobby_screen.dart:851:            color: _indice == 0 ? naranja : const Color(0xFFA8A29E),
+lib/views/lobby_screen.dart:859:            color: _indice == 1 ? naranja : const Color(0xFFA8A29E),
+lib/views/lobby_screen.dart:865:          icon: Icon(Icons.assignment_outlined, color: Color(0xFFA8A29E)),
+lib/views/lobby_screen.dart:869:          icon: Icon(Icons.person_outline, color: Color(0xFFA8A29E)),
+lib/views/login_screen.dart:8:const Color _naranja = Color(0xFFD95C14);
+lib/views/login_screen.dart:9:const Color _grisTexto = Color(0xFF717F8D);
+lib/views/login_screen.dart:10:const Color _borde = Color(0xFFE8E5DF);
+lib/views/login_screen.dart:11:const Color _bordeCampo = Color(0xFFDDD9CE);
+lib/views/login_screen.dart:83:      backgroundColor: AppThemeColors.adaptiveBackground,
+lib/views/login_screen.dart:111:                              color: AppThemeColors.adaptiveText,
+lib/views/login_screen.dart:139:                                color: AppThemeColors.adaptiveMuted,
+lib/views/login_screen.dart:153:                            bottom: BorderSide(color: Color(0xFFE7E3DC)),
+lib/views/login_screen.dart:198:                                color: AppThemeColors.adaptiveText,
+lib/views/login_screen.dart:206:                                  color: AppThemeColors.adaptiveMuted,
+lib/views/login_screen.dart:234:                                color: AppThemeColors.adaptiveText,
+lib/views/login_screen.dart:242:                                  color: AppThemeColors.adaptiveMuted,
+lib/views/login_screen.dart:256:                                    color: const Color(0xFF9CA3AF),
+lib/views/login_screen.dart:315:                                  foregroundColor: Colors.white,
+lib/views/login_screen.dart:320:                                  shadowColor: Colors.black12,
+lib/views/login_screen.dart:331:                                          color: Colors.white,
+lib/views/login_screen.dart:358:                                color: (AppThemeColors.darkActive
+lib/views/login_screen.dart:359:                                    ? Colors.white24
+lib/views/login_screen.dart:379:                                color: (AppThemeColors.darkActive
+lib/views/login_screen.dart:380:                                    ? Colors.white24
+lib/views/login_screen.dart:395:                            backgroundColor: AppThemeColors.adaptiveSurface,
+lib/views/login_screen.dart:396:                            foregroundColor: AppThemeColors.adaptiveText,
+lib/views/login_screen.dart:399:                            shadowColor: Colors.black12,
+lib/views/login_screen.dart:440:      hintStyle: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 14),
+lib/views/login_screen.dart:444:      fillColor: AppThemeColors.adaptiveSurface,
+lib/views/login_screen.dart:478:        Icon(Icons.eco_outlined, color: Color(0xFF45A536), size: 44),
+lib/views/login_screen.dart:486:                  color: Color(0xFF45A536),
+lib/views/login_screen.dart:493:                  color: AppThemeColors.adaptiveText,
+lib/views/login_screen.dart:516:        color: Color(0xFF374151),
+lib/views/login_screen.dart:571:        color: Color(0xFF4285F4),
+lib/views/menu_screen.dart:24:  static const Color crema = Color(0xFFFAF7F2);
+lib/views/menu_screen.dart:25:  static const Color naranja = Color(0xFFD9531E);
+lib/views/menu_screen.dart:26:  static const Color texto = Color(0xFF1C2430);
+lib/views/menu_screen.dart:27:  static const Color gris = Color(0xFF717D8A);
+lib/views/menu_screen.dart:28:  static const Color chip = Color(0xFFECE7DF);
+lib/views/menu_screen.dart:133:                              color: (AppThemeColors.darkActive
+lib/views/menu_screen.dart:134:                                  ? Colors.white
+lib/views/menu_screen.dart:188:              color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/menu_screen.dart:202:                    color: Color(0xFF245336),
+lib/views/menu_screen.dart:218:              color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/menu_screen.dart:230:                  color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/menu_screen.dart:252:                        color: Colors.white,
+lib/views/menu_screen.dart:272:        hintStyle: const TextStyle(color: Color(0xFF9CA3AF)),
+lib/views/menu_screen.dart:275:          color: Color(0xFF9CA3AF),
+lib/views/menu_screen.dart:288:        fillColor: const Color(0xFFEFECE6),
+lib/views/menu_screen.dart:327:              color: activa ? Colors.white : const Color(0xFF374151),
+lib/views/menu_screen.dart:346:      color: Colors.white,
+lib/views/menu_screen.dart:355:            border: Border.all(color: const Color(0xFFF0ECE4)),
+lib/views/menu_screen.dart:382:                  color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/menu_screen.dart:396:                        color: (AppThemeColors.darkActive
+lib/views/menu_screen.dart:397:                            ? Colors.white
+lib/views/menu_screen.dart:413:                        child: Icon(Icons.add, color: Colors.white, size: 20),
+lib/views/menu_screen.dart:431:          const Icon(Icons.search_off, color: Color(0xFF9CA3AF), size: 42),
+lib/views/menu_screen.dart:436:              color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/menu_screen.dart:445:              color: (AppThemeColors.darkActive ? Colors.white70 : gris),
+lib/views/menu_screen.dart:473:              color: (AppThemeColors.darkActive ? Colors.white70 : gris),
+lib/views/menu_screen.dart:480:                color: (AppThemeColors.darkActive ? Colors.white : texto),
+lib/views/menu_screen.dart:488:                foregroundColor: Colors.white,
+lib/views/menu_screen.dart:524:          icon: Icon(Icons.home_outlined, color: Color(0xFF8A95A0)),
+lib/views/menu_screen.dart:532:          icon: Icon(Icons.receipt_long_outlined, color: Color(0xFF8A95A0)),
+lib/views/menu_screen.dart:536:          icon: Icon(Icons.person_outline, color: Color(0xFF8A95A0)),
+lib/views/pago_screen.dart:16:const Color _naranja = Color(0xFFD3581F);
+lib/views/pago_screen.dart:17:const Color _azul = Color(0xFF1B2A4A);
+lib/views/pago_screen.dart:18:const Color _gris = Color(0xFF64748B);
+lib/views/pago_screen.dart:19:const Color _borde = Color(0xFFF0ECE4);
+lib/views/pago_screen.dart:180:      backgroundColor: AppThemeColors.adaptiveBackground,
+lib/views/pago_screen.dart:202:                            color: AppThemeColors.adaptiveText,
+lib/views/pago_screen.dart:214:                              color: AppThemeColors.adaptiveText,
+lib/views/pago_screen.dart:228:                      color: AppThemeColors.adaptiveText,
+lib/views/pago_screen.dart:240:                          color: (AppThemeColors.darkActive
+lib/views/pago_screen.dart:241:                              ? Colors.white70
+lib/views/pago_screen.dart:249:                          color: AppThemeColors.adaptiveText,
+lib/views/pago_screen.dart:260:                      color: AppThemeColors.adaptiveSurface,
+lib/views/pago_screen.dart:263:                        color: (AppThemeColors.darkActive
+lib/views/pago_screen.dart:264:                            ? Colors.white24
+lib/views/pago_screen.dart:281:                            color: AppThemeColors.adaptiveSoft,
+lib/views/pago_screen.dart:283:                            border: Border.all(color: const Color(0xFFEAE4D9)),
+lib/views/pago_screen.dart:289:                            color: AppThemeColors.adaptiveText,
+lib/views/pago_screen.dart:301:                                  color: AppThemeColors.adaptiveText,
+lib/views/pago_screen.dart:310:                                  color: (AppThemeColors.darkActive
+lib/views/pago_screen.dart:311:                                      ? Colors.white70
+lib/views/pago_screen.dart:338:                      color: AppThemeColors.adaptiveText,
+lib/views/pago_screen.dart:347:                      color: AppThemeColors.adaptiveSurface,
+lib/views/pago_screen.dart:350:                        color: (AppThemeColors.darkActive
+lib/views/pago_screen.dart:351:                            ? Colors.white24
+lib/views/pago_screen.dart:369:                          colorIcono: const Color(0xFFEEF2F6),
+lib/views/pago_screen.dart:370:                          colorBorde: const Color(0xFFCBD5E1),
+lib/views/pago_screen.dart:380:                          colorIcono: const Color(0xFF009EE3),
+lib/views/pago_screen.dart:381:                          colorBorde: const Color(0xFF009EE3),
+lib/views/pago_screen.dart:392:                          colorIcono: const Color(0xFFEDF7ED),
+lib/views/pago_screen.dart:393:                          colorBorde: const Color(0xFFC8E6C9),
+lib/views/pago_screen.dart:394:                          colorSimbolo: const Color(0xFF2E7D32),
+lib/views/pago_screen.dart:415:                color: AppThemeColors.adaptiveBackground,
+lib/views/pago_screen.dart:426:                          color: AppThemeColors.adaptiveText,
+lib/views/pago_screen.dart:434:                          color: AppThemeColors.adaptiveText,
+lib/views/pago_screen.dart:449:                        foregroundColor: Colors.white,
+lib/views/pago_screen.dart:463:                                color: Colors.white,
+lib/views/pago_screen.dart:525:                color: activo ? _naranja : const Color(0xFFCBD5E1),
+lib/views/pago_screen.dart:539:                  color: iconoBlanco ? Colors.white : colorSimbolo,
+lib/views/pago_screen.dart:548:                    color: Color(0xFF1A202C),
+lib/views/pedidos_screen.dart:77:  static const Color _naranja = Color(0xFFD95B16);
+lib/views/pedidos_screen.dart:78:  static const Color _gris = Color(0xFF8E877D);
+lib/views/pedidos_screen.dart:79:  static const Color _borde = Color(0xFFEFE9DF);
+lib/views/pedidos_screen.dart:96:      return const Color(0xFFD83A3A);
+lib/views/pedidos_screen.dart:102:      return const Color(0xFF249547);
+lib/views/pedidos_screen.dart:106:      return const Color(0xFF3478C8);
+lib/views/pedidos_screen.dart:116:      return const Color(0xFFFDEEED);
+lib/views/pedidos_screen.dart:122:      return const Color(0xFFEAF7EE);
+lib/views/pedidos_screen.dart:126:      return const Color(0xFFEAF2FC);
+lib/views/pedidos_screen.dart:129:    return const Color(0xFFFEF4E8);
+lib/views/pedidos_screen.dart:300:                          color: const Color(0xFFECE7DF),
+lib/views/pedidos_screen.dart:377:                color: seleccionada ? Colors.white : const Color(0xFF666056),
+lib/views/pedidos_screen.dart:401:                color: const Color(0xFFF3EFEA),
+lib/views/pedidos_screen.dart:453:      color: Colors.white,
+lib/views/pedidos_screen.dart:465:                color: Colors.black.withAlpha(8),
+lib/views/pedidos_screen.dart:530:                    color: Color(0xFFB5AFA4),
+lib/views/pedidos_screen.dart:578:                child: Divider(height: 1, color: Color(0xFFF5F2EC)),
+lib/views/pedidos_screen.dart:586:                      color: const Color(0xFFFFF0E5),
+lib/views/perfil_screen.dart:16:      ? const Color(0xFF202B36)
+lib/views/perfil_screen.dart:17:      : Colors.white;
+lib/views/perfil_screen.dart:20:      Theme.of(context).brightness == Brightness.dark ? Colors.white : _oscuro;
+lib/views/perfil_screen.dart:23:      Theme.of(context).brightness == Brightness.dark ? Colors.white70 : _gris;
+lib/views/perfil_screen.dart:26:      Theme.of(context).brightness == Brightness.dark ? Colors.white12 : _borde;
+lib/views/perfil_screen.dart:30:  static const Color _fondo = Color(0xFFFAF7F2);
+lib/views/perfil_screen.dart:31:  static const Color _naranja = Color(0xFFD95B16);
+lib/views/perfil_screen.dart:32:  static const Color _oscuro = Color(0xFF142036);
+lib/views/perfil_screen.dart:33:  static const Color _gris = Color(0xFF8E877D);
+lib/views/perfil_screen.dart:34:  static const Color _borde = Color(0xFFEFE9DF);
+lib/views/perfil_screen.dart:35:  static const Color _rojo = Color(0xFFD83A3A);
+lib/views/perfil_screen.dart:44:      backgroundColor: esOscuro ? const Color(0xFF121820) : _fondo,
+lib/views/perfil_screen.dart:46:        backgroundColor: esOscuro ? const Color(0xFF121820) : _fondo,
+lib/views/perfil_screen.dart:47:        foregroundColor: esOscuro ? Colors.white : _oscuro,
+lib/views/perfil_screen.dart:175:                  side: const BorderSide(color: Color(0xFFF1D7D4)),
+lib/views/perfil_screen.dart:176:                  backgroundColor: AppThemeColors.adaptiveSurface,
+lib/views/perfil_screen.dart:220:            color: Colors.black.withAlpha(8),
+lib/views/perfil_screen.dart:232:              color: const Color(0xFFFFEBDD),
+lib/views/perfil_screen.dart:284:            color: Color(0xFF249547),
+lib/views/perfil_screen.dart:306:              color: const Color(0xFFFFEBDD),
+lib/views/perfil_screen.dart:346:                foregroundColor: Colors.white,
+lib/views/perfil_screen.dart:389:      child: Divider(height: 1, thickness: 1, color: Color(0xFFF4F0E9)),
+lib/views/perfil_screen.dart:416:                      ? const Color(0xFFFDEEED)
+lib/views/perfil_screen.dart:417:                      : const Color(0xFFFFF0E5),
+lib/views/perfil_screen.dart:450:                color: Color(0xFFB5AFA4),
+lib/views/perfil_screen.dart:477:        backgroundColor: AppThemeColors.adaptiveSurface,
+lib/views/perfil_screen.dart:488:            color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+lib/views/perfil_screen.dart:498:                color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+lib/views/personalizar_screen.dart:14:const Color _naranja = Color(0xFFE65316);
+lib/views/personalizar_screen.dart:15:const Color _texto = Color(0xFF171A18);
+lib/views/personalizar_screen.dart:16:const Color _gris = Color(0xFF747A7E);
+lib/views/personalizar_screen.dart:17:const Color _borde = Color(0xFFE7E2DC);
+lib/views/personalizar_screen.dart:139:      color: AppThemeColors.adaptiveSurface,
+lib/views/personalizar_screen.dart:163:          color: AppThemeColors.adaptiveSurface,
+lib/views/personalizar_screen.dart:166:            color: activa ? _naranja : AppThemeColors.adaptiveBorder,
+lib/views/personalizar_screen.dart:171:              color: Colors.black.withAlpha(8),
+lib/views/personalizar_screen.dart:185:              color: activa ? _naranja : const Color(0xFFD0D5DA),
+lib/views/personalizar_screen.dart:193:                  color: (AppThemeColors.darkActive ? Colors.white : _texto),
+lib/views/personalizar_screen.dart:204:                  color: (AppThemeColors.darkActive ? Colors.white : _texto),
+lib/views/personalizar_screen.dart:234:                      color: (AppThemeColors.darkActive
+lib/views/personalizar_screen.dart:235:                          ? Colors.white
+lib/views/personalizar_screen.dart:244:                      color: (AppThemeColors.darkActive
+lib/views/personalizar_screen.dart:245:                          ? Colors.white70
+lib/views/personalizar_screen.dart:254:                      color: (AppThemeColors.darkActive
+lib/views/personalizar_screen.dart:255:                          ? Colors.white70
+lib/views/personalizar_screen.dart:303:      color: AppThemeColors.adaptiveSurface,
+lib/views/personalizar_screen.dart:314:              color: (AppThemeColors.darkActive ? Colors.white24 : _borde),
+lib/views/personalizar_screen.dart:328:      backgroundColor: AppThemeColors.adaptiveBackground,
+lib/views/personalizar_screen.dart:413:                          color: AppThemeColors.adaptiveBackground,
+lib/views/personalizar_screen.dart:431:                                      color: (AppThemeColors.darkActive
+lib/views/personalizar_screen.dart:432:                                          ? Colors.white
+lib/views/personalizar_screen.dart:443:                                    color: (AppThemeColors.darkActive
+lib/views/personalizar_screen.dart:444:                                        ? Colors.white
+lib/views/personalizar_screen.dart:452:                              color: (AppThemeColors.darkActive
+lib/views/personalizar_screen.dart:453:                                  ? Colors.white24
+lib/views/personalizar_screen.dart:462:                                color: (AppThemeColors.darkActive
+lib/views/personalizar_screen.dart:463:                                    ? Colors.white
+lib/views/personalizar_screen.dart:474:                                    color: (AppThemeColors.darkActive
+lib/views/personalizar_screen.dart:475:                                        ? Colors.white70
+lib/views/personalizar_screen.dart:496:                    color: AppThemeColors.adaptiveSurface,
+lib/views/personalizar_screen.dart:499:                        color: Colors.black.withAlpha(15),
+lib/views/personalizar_screen.dart:547:                                color: (AppThemeColors.darkActive
+lib/views/personalizar_screen.dart:548:                                    ? Colors.white
+lib/views/personalizar_screen.dart:562:                              foregroundColor: Colors.white,
+lib/views/portada_screen.dart:11:  static const Color fondo = Color(0xFFF6EFE5);
+lib/views/portada_screen.dart:12:  static const Color naranja = Color(0xFFD85718);
+lib/views/portada_screen.dart:13:  static const Color verde = Color(0xFF588147);
+lib/views/portada_screen.dart:14:  static const Color texto = Color(0xFF1F1914);
+lib/views/portada_screen.dart:15:  static const Color secundario = Color(0xFF776E65);
+lib/views/portada_screen.dart:50:      backgroundColor: oscuro ? const Color(0xFF121820) : fondo,
+lib/views/portada_screen.dart:56:            colors: AppThemeColors.darkActive
+lib/views/portada_screen.dart:58:                    Color(0xFF263B32),
+lib/views/portada_screen.dart:59:                    Color(0xFF1C2830),
+lib/views/portada_screen.dart:60:                    Color(0xFF121820),
+lib/views/portada_screen.dart:63:                    Color(0xFFD6EBCE),
+lib/views/portada_screen.dart:64:                    Color(0xFFFFFCF7),
+lib/views/portada_screen.dart:65:                    Color(0xFFF6EFE5),
+lib/views/portada_screen.dart:119:                                      color: Color(0xFF132644),
+lib/views/portada_screen.dart:135:                                color: (AppThemeColors.darkActive
+lib/views/portada_screen.dart:136:                                    ? Colors.white
+lib/views/portada_screen.dart:152:                                color: (AppThemeColors.darkActive
+lib/views/portada_screen.dart:153:                                    ? Colors.white70
+lib/views/portada_screen.dart:171:                                    color: const Color(0xFFE89246)
+lib/views/portada_screen.dart:190:                                    color: Color(0xFFE9D8C1),
+lib/views/portada_screen.dart:213:                                  foregroundColor: Colors.white,
+lib/views/portada_screen.dart:245:                                      AppThemeColors.adaptiveSurface,
+lib/views/portada_screen.dart:246:                                  foregroundColor: AppThemeColors.adaptiveText,
+lib/views/portada_screen.dart:248:                                    color: Color(0xFFE9DFCE),
+lib/views/portada_screen.dart:312:      (const Color(0xFF608B4E), const Rect.fromLTWH(-20, -18, 82, 115)),
+lib/views/portada_screen.dart:313:      (const Color(0xFF75A461), const Rect.fromLTWH(25, -25, 76, 105)),
+lib/views/portada_screen.dart:314:      (const Color(0xFF4D743D), const Rect.fromLTWH(-28, 28, 63, 104)),
+lib/views/portada_screen.dart:362:      color: const Color(0xFF628F50).withAlpha(45),
+lib/widgets/dish_card.dart:14:      color: Color(0xFFE9E4D8),
+lib/widgets/dish_card.dart:15:      child: Center(child: Icon(Icons.restaurant, color: Colors.black26)),
+lib/widgets/dish_card.dart:50:              color: Colors.black12,
+lib/widgets/pedido_card.dart:37:          BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 3)),
+lib/widgets/pedido_card.dart:53:                  color: AppThemeColors.adaptiveMuted,

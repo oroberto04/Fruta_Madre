@@ -1,0 +1,51 @@
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+
+import "../core/tema_controller.dart";
+
+class AparienciaScreen extends StatelessWidget {
+  const AparienciaScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final tema = context.watch<TemaController>();
+
+    return Scaffold(
+      appBar: AppBar(title: const Text("Apariencia")),
+      body: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          const Text("Selecciona la apariencia de NutriCampus."),
+          const SizedBox(height: 20),
+          RadioGroup<ThemeMode>(
+            groupValue: tema.modo,
+            onChanged: (valor) {
+              if (valor != null) {
+                context.read<TemaController>().cambiarModo(valor);
+              }
+            },
+            child: const Column(
+              children: [
+                RadioListTile<ThemeMode>(
+                  title: Text("Modo claro"),
+                  subtitle: Text("Usar colores claros"),
+                  value: ThemeMode.light,
+                ),
+                RadioListTile<ThemeMode>(
+                  title: Text("Modo oscuro"),
+                  subtitle: Text("Usar colores oscuros"),
+                  value: ThemeMode.dark,
+                ),
+                RadioListTile<ThemeMode>(
+                  title: Text("Automático"),
+                  subtitle: Text("Seguir el tema del dispositivo"),
+                  value: ThemeMode.system,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

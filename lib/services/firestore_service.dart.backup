@@ -1,0 +1,203 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../models/item_carrito.dart';
+import '../models/modificador.dart';
+import '../models/platillo.dart';
+import '../models/categoria.dart';
+
+import 'package:flutter/foundation.dart';
+
+class FirestoreService {
+  final _db = FirebaseFirestore.instance;
+
+  Future<List<Platillo>> obtenerPlatillos() async {
+    final snap = await _db.collection('platillos').orderBy('orden').get();
+
+    return snap.docs.map((d) => Platillo.fromMap(d.id, d.data())).toList();
+  }
+
+  Future<List<Modificador>> obtenerModificadores(String platilloId) async {
+    final snap = await _db
+        .collection('modificadores')
+        .where('platilloId', isEqualTo: platilloId)
+        .get();
+
+    final lista = snap.docs
+        .map((d) => Modificador.fromMap(d.id, d.data()))
+        .toList();
+
+    lista.sort((a, b) => a.orden.compareTo(b.orden));
+
+    return lista;
+  }
+
+  // Crear un pedido.
+  Future<String> crearPedido({
+    required String uid,
+    required List<ItemCarrito> items,
+    required double total,
+    required Map<String, dynamic> entrega,
+  }) async {
+    final ref = await _db.collection('pedidos').add({
+      'usuarioId': uid,
+      'items': items.map((i) => i.toMap()).toList(),
+      'total': total,
+      'estado': 'pendiente_pago',
+      'entrega': entrega,
+      'creado': FieldValue.serverTimestamp(),
+    });
+
+    return ref.id;
+  }
+
+  // Escuchar un pedido en tiempo real.
+  // Conserva este método para la pantalla de confirmación de pago.
+  Stream<Map<String, dynamic>?> pedidoStream(String id) {
+    return _db.collection('pedidos').doc(id).snapshots().map((snap) {
+      if (!snap.exists) return null;
+
+      return {...snap.data()!, 'id': snap.id};
+    });
+  }
+
+  // Escuchar un pedido individual para el detalle y seguimiento.
+  Stream<Map<String, dynamic>?> observarPedido(String pedidoId) {
+    return _db.collection('pedidos').doc(pedidoId).snapshots().map((snap) {
+      if (!snap.exists) return null;
+
+      return {...snap.data()!, 'id': snap.id};
+    });
+  }
+
+  // Obtener los pedidos del usuario actual en tiempo real.
+  Stream<List<Map<String, dynamic>>> pedidosDeUsuario(String uid) {
+    return _db
+        .collection('pedidos')
+        .where('usuarioId', isEqualTo: uid)
+        .snapshots()
+        .map(_ordenar);
+  }
+
+  // Obtener todos los pedidos para el panel de administración.
+  Stream<List<Map<String, dynamic>>> todosLosPedidos() {
+    return _db.collection('pedidos').snapshots().map(_ordenar);
+  }
+
+  // Cambiar el estado de un pedido desde administración.
+  Future<void> cambiarEstado(String pedidoId, String estado) {
+    return _db.collection('pedidos').doc(pedidoId).update({'estado': estado});
+  }
+
+  // Ordenar del pedido más reciente al más antiguo.
+  List<Map<String, dynamic>> _ordenar(
+    QuerySnapshot<Map<String, dynamic>> snap,
+  ) {
+    int tiempo(dynamic valor) {
+      if (valor is Timestamp) {
+        return valor.millisecondsSinceEpoch;
+      }
+
+      return 0;
+    }
+
+    final lista = snap.docs
+        .map((doc) => {...doc.data(), 'id': doc.id})
+        .toList();
+
+    lista.sort((a, b) => tiempo(b['creado']).compareTo(tiempo(a['creado'])));
+
+    return lista;
+  }
+
+  // Obtener categorías activas para mostrarlas en la aplicación.
+
+  Future<List<Categoria>> obtenerCategorias() async {
+    debugPrint(
+      'PROYECTO FIREBASE: ${FirebaseFirestore.instance.app.options.projectId}',
+    );
+    debugPrint('APP FIREBASE: ${FirebaseFirestore.instance.app.name}');
+
+    final snap = await _db.collection('categorias').get();
+
+    debugPrint('BASE DE DATOS: ${_db.app.options.projectId}');
+    debugPrint('RUTA CONSULTADA: ${_db.collection('categorias').path}');
+    debugPrint('TOTAL DOCUMENTOS: ${snap.size}');
+
+    debugPrint('DOCUMENTOS RECIBIDOS: ${snap.docs.length}');
+
+    for (final doc in snap.docs) {
+      debugPrint('DOCUMENTO: ${doc.id} - ${doc.data()}');
+    }
+
+    final categorias = snap.docs
+        .map((doc) => Categoria.fromMap(doc.id, doc.data()))
+        .where((categoria) => categoria.activo)
+        .toList();
+
+    debugPrint('CATEGORÍAS ACTIVAS: ${categorias.length}');
+
+    categorias.sort((a, b) => a.orden.compareTo(b.orden));
+    return categorias;
+  }
+
+  // Obtener todas las categorías para el panel de administración,
+  // incluidas las que están inactivas.
+  Future<List<Categoria>> obtenerTodasLasCategorias() async {
+    final snap = await _db.collection('categorias').get();
+
+    final categorias = snap.docs
+        .map((doc) => Categoria.fromMap(doc.id, doc.data()))
+        .toList();
+
+    categorias.sort((a, b) => a.orden.compareTo(b.orden));
+
+    return categorias;
+  }
+
+  // Crear una categoría nueva.
+  Future<String> crearCategoria(Categoria categoria) async {
+    final ref = await _db.collection('categorias').add(categoria.toMap());
+
+    return ref.id;
+  }
+
+  // Actualizar los datos de una categoría existente.
+  Future<void> actualizarCategoria(Categoria categoria) async {
+    await _db
+        .collection('categorias')
+        .doc(categoria.id)
+        .update(categoria.toMap());
+  }
+
+  // Activar o desactivar una categoría.
+  Future<void> cambiarEstadoCategoria(String categoriaId, bool activo) async {
+    await _db.collection('categorias').doc(categoriaId).update({
+      'activo': activo,
+    });
+  }
+
+  // Eliminar una categoría.
+  Future<void> eliminarCategoria(String categoriaId) async {
+    await _db.collection('categorias').doc(categoriaId).delete();
+  }
+
+  // Crear un platillo.
+  Future<String> crearPlatillo(Platillo platillo) async {
+    final ref = await _db.collection('platillos').add({
+      ...platillo.toMap(),
+      'orden': DateTime.now().millisecondsSinceEpoch,
+    });
+
+    return ref.id;
+  }
+
+  // Actualizar un platillo existente.
+  Future<void> actualizarPlatillo(Platillo platillo) async {
+    await _db.collection('platillos').doc(platillo.id).update(platillo.toMap());
+  }
+
+  // Eliminar un platillo.
+  Future<void> eliminarPlatillo(String platilloId) async {
+    await _db.collection('platillos').doc(platilloId).delete();
+  }
+}

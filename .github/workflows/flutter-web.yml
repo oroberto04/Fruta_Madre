@@ -1,0 +1,67 @@
+name: Verificar NutriCampus Web y servidor
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - integracion-jam-companeros
+
+permissions:
+  contents: read
+
+jobs:
+  calidad-flutter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar proyecto
+        uses: actions/checkout@v4
+
+      - name: Configurar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.47.7'
+          cache: true
+
+      - name: Resolver dependencias
+        run: flutter pub get
+
+      - name: Analisis estatico
+        run: flutter analyze
+
+      - name: Pruebas del cliente y pedidos
+        run: flutter test
+
+      - name: Compilar version Web
+        run: flutter build web --release
+
+      - name: Guardar compilacion
+        uses: actions/upload-artifact@v4
+        with:
+          name: nutricampus-web
+          path: build/web/
+
+      - name: Compilar APK Android para comprobar integracion nativa
+        run: flutter build apk --debug
+
+      - name: Guardar APK de prueba
+        uses: actions/upload-artifact@v4
+        with:
+          name: nutricampus-android-debug
+          path: build/app/outputs/flutter-apk/app-debug.apk
+
+  sintaxis-servidor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar proyecto
+        uses: actions/checkout@v4
+
+      - name: Probar seguridad de webhooks y preferencias
+        run: npm test --prefix servidor_pagos
+
+      - name: Verificar sintaxis del servidor
+        run: |
+          node --check servidor_pagos/index.js
+          node --check servidor_pagos/control_preferencias.js
+          node --check servidor_pagos/seguridad_webhook.js
+          node --check servidor_pagos/diagnostico_preferencias.js

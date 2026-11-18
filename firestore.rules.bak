@@ -1,0 +1,97 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Identificar a los Superusuarios (Desarrolladores del proyecto)
+    function esSuperUsuario() {
+      return request.auth != null && request.auth.uid in [
+        'UID_DESARROLLADOR_1',
+        'UID_DESARROLLADOR_2',
+        'UID_DESARROLLADOR_3',
+        'UID_DESARROLLADOR_4'
+      ];
+    }
+
+    // 2. Administradores de la app (Dueños de la cafetería)
+    function esAdmin() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol == 'admin';
+    }
+
+    // 3. Operadores de la app (Empleados de la cafetería)
+    function esOperador() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol == 'operador';
+    }
+
+    // --- ACCESO ABSOLUTO PARA DESARROLLADORES ---
+    match /{document=**} {
+      allow read, write: if esSuperUsuario();
+    }
+
+    // --- REGLAS NORMALES PARA LA APP ---
+
+    // Colección USUARIOS
+    match /usuarios/{userId} {
+      allow read: if request.auth != null;
+      // Solo el propio usuario edita su cuenta, o el dueño de la cafetería
+      allow write: if request.auth != null && (request.auth.uid == userId || esAdmin());
+    }
+
+    // Colección PLATILLOS (Menú)
+    match /platillos/{platilloId} {
+      allow read: if true;
+      // Dueños y empleados pueden modificar el menú (ej. marcar agotado)
+      allow write: if esAdmin() || esOperador();
+    }
+
+    // Colección PEDIDOS
+    match /pedidos/{pedidoId} {
+      // Clientes pueden crear y ver sus pedidos
+      allow read, create: if request.auth != null;
+      // Dueños y empleados pueden avanzar el estado del pedido
+      allow update: if esAdmin() || esOperador();
+      // Solo el dueño (y ustedes como devs) pueden borrar un pedido
+      allow delete: if esAdmin();
+    }
+
+
+    // Colección CATEGORÍAS
+    match /categorias/{categoriaId} {
+      // Los usuarios pueden consultar las categorías del menú.
+      allow read: if true;
+
+      // Solo administradores y operadores pueden modificarlas.
+      allow write: if esAdmin();
+    }
+
+
+    // Colección MODIFICADORES
+    match /modificadores/{modId} {
+      allow read: if true;
+      allow write: if esAdmin() || esOperador();
+    }
+    // Colección NOTIFICACIONES
+    match /notificaciones/{notificacionId} {
+      allow read: if request.auth != null &&
+        resource.data.usuarioId == request.auth.uid;
+
+      allow create: if (esAdmin() || esOperador()) &&
+        request.resource.data.usuarioId is string &&
+        request.resource.data.pedidoId is string &&
+        request.resource.data.titulo is string &&
+        request.resource.data.mensaje is string &&
+        request.resource.data.leida == false &&
+        request.resource.data.creado == request.time;
+
+      allow update: if request.auth != null &&
+        resource.data.usuarioId == request.auth.uid &&
+        request.resource.data.diff(resource.data)
+          .affectedKeys().hasOnly(['leida']) &&
+        request.resource.data.leida is bool;
+
+      allow delete: if false;
+    }
+
+  }
+}

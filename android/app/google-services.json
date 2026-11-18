@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "212491163555",
+    "project_id": "nutricampus-13102",
+    "storage_bucket": "nutricampus-13102.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:212491163555:android:b21148632e7b8c0d506c16",
+        "android_client_info": {
+          "package_name": "com.nutricampus.nutricampus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "212491163555-mid1lk0vubnf96rg737paiocu40psag2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nutricampus.nutricampus",
+            "certificate_hash": "cba77e285f78b0f99745916258025f2a99ef8b28"
+          }
+        },
+        {
+          "client_id": "212491163555-soc3n2rbhhm4g8fvu75ub34l4rn978j7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3hc3-aaLe5ImMBxIaV34U3YvY9UAx4zw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "212491163555-soc3n2rbhhm4g8fvu75ub34l4rn978j7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "212491163555-c3nrbmg6o5rf49dsq82adl38oemdb55l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nutricampus.nutricampus"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

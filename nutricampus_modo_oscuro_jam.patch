@@ -1,0 +1,1444 @@
+--- a/lib/main.dart
++++ b/lib/main.dart
+@@ -57,12 +57,15 @@
+       theme: buildTheme(),
+       darkTheme: buildTheme(brightness: Brightness.dark),
+       themeMode: tema.modo,
+-      builder: (context, child) => Center(
+-        child: ConstrainedBox(
+-          constraints: const BoxConstraints(maxWidth: 480),
+-          child: child,
+-        ),
+-      ),
++      builder: (context, child) {
++        AppThemeColors.darkActive = Theme.of(context).brightness == Brightness.dark;
++        return Center(
++          child: ConstrainedBox(
++            constraints: const BoxConstraints(maxWidth: 480),
++            child: child,
++          ),
++        );
++      },
+       home: const PortadaScreen(),
+     );
+   }
+--- a/lib/widgets/pedido_card.dart
++++ b/lib/widgets/pedido_card.dart
+@@ -49,7 +49,7 @@
+               ),
+               Text(
+                 fecha,
+-                style: const TextStyle(color: Colors.black54, fontSize: 12),
++                style: TextStyle(color: AppThemeColors.adaptiveMuted, fontSize: 12),
+               ),
+             ],
+           ),
+--- a/lib/views/personalizar_screen.dart
++++ b/lib/views/personalizar_screen.dart
+@@ -1,3 +1,4 @@
++import '../core/theme.dart';
+ import 'package:flutter/material.dart';
+ import 'package:provider/provider.dart';
+ 
+@@ -159,7 +160,7 @@
+         duration: const Duration(milliseconds: 160),
+         padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 15),
+         decoration: BoxDecoration(
+-          color: Colors.white,
++          color: AppThemeColors.adaptiveSurface,
+           borderRadius: BorderRadius.circular(17),
+           border: Border.all(
+             color: activa ? _naranja : _borde,
+@@ -188,8 +189,8 @@
+             Expanded(
+               child: Text(
+                 opcion.nombre,
+-                style: const TextStyle(
+-                  color: _texto,
++                style: TextStyle(
++                  color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                   fontSize: 14,
+                   fontWeight: FontWeight.w500,
+                 ),
+@@ -199,8 +200,8 @@
+               const SizedBox(width: 5),
+               Text(
+                 '+${moneda(opcion.precioExtra)}',
+-                style: const TextStyle(
+-                  color: _texto,
++                style: TextStyle(
++                  color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                   fontWeight: FontWeight.w700,
+                   fontSize: 12,
+                 ),
+@@ -227,22 +228,22 @@
+                 Expanded(
+                   child: Text(
+                     mod.categoria,
+-                    style: const TextStyle(
++                    style: TextStyle(
+                       fontSize: 17,
+                       fontWeight: FontWeight.w700,
+-                      color: _texto,
++                      color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                     ),
+                   ),
+                 ),
+                 if (mod.obligatorio)
+-                  const Text(
++                  Text(
+                     'Obligatorio',
+-                    style: TextStyle(color: _gris, fontSize: 12),
++                    style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris), fontSize: 12),
+                   ),
+                 if (mod.multiple && !mod.obligatorio)
+-                  const Text(
++                  Text(
+                     'Opcional · Puedes elegir varios',
+-                    style: TextStyle(color: _gris, fontSize: 11),
++                    style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris), fontSize: 11),
+                   ),
+               ],
+             ),
+@@ -297,7 +298,7 @@
+           height: 43,
+           decoration: BoxDecoration(
+             borderRadius: BorderRadius.circular(11),
+-            border: Border.all(color: _borde),
++            border: Border.all(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+           ),
+           child: Icon(icono, color: habilitado ? _naranja : _borde, size: 22),
+         ),
+@@ -310,7 +311,7 @@
+     final p = widget.platillo;
+ 
+     return Scaffold(
+-      backgroundColor: _fondo,
++      backgroundColor: AppThemeColors.adaptiveBackground,
+       body: FutureBuilder<List<Modificador>>(
+         future: _futuro,
+         builder: (context, snapshot) {
+@@ -409,43 +410,43 @@
+                                 Expanded(
+                                   child: Text(
+                                     p.nombre,
+-                                    style: const TextStyle(
++                                    style: TextStyle(
+                                       fontSize: 27,
+                                       height: 1.15,
+                                       fontWeight: FontWeight.w800,
+-                                      color: _texto,
++                                      color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                                     ),
+                                   ),
+                                 ),
+                                 const SizedBox(width: 12),
+                                 Text(
+                                   moneda(p.precioBase),
+-                                  style: const TextStyle(
++                                  style: TextStyle(
+                                     fontSize: 22,
+                                     fontWeight: FontWeight.w800,
+-                                    color: _texto,
++                                    color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                                   ),
+                                 ),
+                               ],
+                             ),
+                             const SizedBox(height: 15),
+-                            const Divider(color: _borde),
++                            Divider(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+                             const SizedBox(height: 18),
+-                            const Text(
++                            Text(
+                               'Elige tus ingredientes',
+                               style: TextStyle(
+                                 fontSize: 21,
+                                 fontWeight: FontWeight.w800,
+-                                color: _texto,
++                                color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                               ),
+                             ),
+                             const SizedBox(height: 22),
+                             if (_mods.isEmpty)
+-                              const Padding(
++                              Padding(
+                                 padding: EdgeInsets.symmetric(vertical: 20),
+                                 child: Text(
+                                   'Este platillo no tiene opciones adicionales.',
+-                                  style: TextStyle(color: _gris, fontSize: 15),
++                                  style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris), fontSize: 15),
+                                 ),
+                               ),
+                             for (final mod in _mods) _seccion(mod),
+@@ -463,7 +464,7 @@
+                 child: Container(
+                   padding: const EdgeInsets.fromLTRB(20, 14, 20, 20),
+                   decoration: BoxDecoration(
+-                    color: Colors.white,
++                    color: AppThemeColors.adaptiveSurface,
+                     boxShadow: [
+                       BoxShadow(
+                         color: Colors.black.withAlpha(15),
+@@ -511,10 +512,10 @@
+                             const Spacer(),
+                             Text(
+                               moneda(_precioTotal),
+-                              style: const TextStyle(
++                              style: TextStyle(
+                                 fontSize: 23,
+                                 fontWeight: FontWeight.w800,
+-                                color: _texto,
++                                color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                               ),
+                             ),
+                           ],
+--- a/lib/views/portada_screen.dart
++++ b/lib/views/portada_screen.dart
+@@ -1,3 +1,4 @@
++import '../core/theme.dart';
+ import 'package:flutter/material.dart';
+ 
+ import 'lobby_screen.dart';
+@@ -47,11 +48,13 @@
+     return Scaffold(
+       backgroundColor: oscuro ? const Color(0xFF121820) : fondo,
+       body: Container(
+-        decoration: const BoxDecoration(
++        decoration: BoxDecoration(
+           gradient: RadialGradient(
+             center: Alignment(0, -0.15),
+             radius: 1.2,
+-            colors: [Color(0xFFD6EBCE), Color(0xFFFFFCF7), Color(0xFFF6EFE5)],
++            colors: AppThemeColors.darkActive
++                ? const [Color(0xFF263B32), Color(0xFF1C2830), Color(0xFF121820)]
++                : const [Color(0xFFD6EBCE), Color(0xFFFFFCF7), Color(0xFFF6EFE5)],
+             stops: [0.0, 0.45, 1.0],
+           ),
+         ),
+@@ -115,12 +118,12 @@
+ 
+                             const SizedBox(height: 8),
+ 
+-                            const Text(
++                            Text(
+                               'Comida que impulsa\ntu mejor versión',
+                               textAlign: TextAlign.center,
+                               style: TextStyle(
+                                 fontFamily: 'Plus Jakarta Sans',
+-                                color: texto,
++                                color: (AppThemeColors.darkActive ? Colors.white : texto),
+                                 fontSize: 25,
+                                 height: 1.22,
+                                 fontWeight: FontWeight.w800,
+@@ -130,12 +133,12 @@
+ 
+                             const SizedBox(height: 10),
+ 
+-                            const Text(
++                            Text(
+                               'Opciones saludables y deliciosas,\nhechas para tu día.',
+                               textAlign: TextAlign.center,
+                               style: TextStyle(
+                                 fontFamily: 'Plus Jakarta Sans',
+-                                color: secundario,
++                                color: (AppThemeColors.darkActive ? Colors.white70 : secundario),
+                                 fontSize: 14,
+                                 height: 1.38,
+                                 fontWeight: FontWeight.w500,
+@@ -225,8 +228,8 @@
+                               child: OutlinedButton(
+                                 onPressed: () => _login(context),
+                                 style: OutlinedButton.styleFrom(
+-                                  backgroundColor: const Color(0xFFFFF8EE),
+-                                  foregroundColor: const Color(0xFF231B15),
++                                  backgroundColor: AppThemeColors.adaptiveSurface,
++                                  foregroundColor: AppThemeColors.adaptiveText,
+                                   side: const BorderSide(
+                                     color: Color(0xFFE9DFCE),
+                                   ),
+--- a/lib/views/checkout_screen.dart
++++ b/lib/views/checkout_screen.dart
+@@ -1,3 +1,4 @@
++import '../core/theme.dart';
+ import 'package:flutter/material.dart';
+ import 'package:provider/provider.dart';
+ 
+--- a/lib/views/avisos_screen.dart
++++ b/lib/views/avisos_screen.dart
+@@ -1,3 +1,4 @@
++import '../core/theme.dart';
+ import 'package:flutter/material.dart';
+ 
+ class AvisosScreen extends StatelessWidget {
+--- a/lib/views/lobby_screen.dart
++++ b/lib/views/lobby_screen.dart
+@@ -138,16 +138,16 @@
+                         child: Column(
+                           mainAxisSize: MainAxisSize.min,
+                           children: [
+-                            const Icon(
++                            Icon(
+                               Icons.cloud_off_outlined,
+                               size: 42,
+-                              color: gris,
++                              color: (AppThemeColors.darkActive ? Colors.white70 : gris),
+                             ),
+                             const SizedBox(height: 12),
+                             Text(
+                               menu.error!,
+                               textAlign: TextAlign.center,
+-                              style: const TextStyle(color: texto),
++                              style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white : texto)),
+                             ),
+                             const SizedBox(height: 12),
+                             OutlinedButton(
+@@ -165,34 +165,34 @@
+                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 28),
+                         children: [
+                           if (!_vistaMenu) ...[
+-                            const Text(
++                            Text(
+                               '¡Hola!',
+                               style: TextStyle(
+                                 fontSize: 32,
+                                 height: 1.15,
+                                 fontWeight: FontWeight.w800,
+                                 letterSpacing: -0.8,
+-                                color: texto,
++                                color: (AppThemeColors.darkActive ? Colors.white : texto),
+                               ),
+                             ),
+                             const SizedBox(height: 4),
+-                            const Text(
++                            Text(
+                               '¿Qué se te antoja hoy?',
+-                              style: TextStyle(color: gris, fontSize: 17),
++                              style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : gris), fontSize: 17),
+                             ),
+                           ] else ...[
+-                            const Text(
++                            Text(
+                               'Nuestro menú',
+                               style: TextStyle(
+                                 fontSize: 28,
+                                 fontWeight: FontWeight.w800,
+-                                color: texto,
++                                color: (AppThemeColors.darkActive ? Colors.white : texto),
+                               ),
+                             ),
+                             const SizedBox(height: 4),
+-                            const Text(
++                            Text(
+                               'Encuentra tu próximo favorito',
+-                              style: TextStyle(color: gris, fontSize: 15),
++                              style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : gris), fontSize: 15),
+                             ),
+                           ],
+                           const SizedBox(height: 20),
+@@ -308,9 +308,9 @@
+                   context,
+                   MaterialPageRoute(builder: (_) => const AvisosScreen()),
+                 ),
+-                icon: const Icon(
++                icon: Icon(
+                   Icons.notifications_none,
+-                  color: texto,
++                  color: (AppThemeColors.darkActive ? Colors.white : texto),
+                   size: 28,
+                 ),
+               ),
+@@ -320,7 +320,7 @@
+                   context,
+                   MaterialPageRoute(builder: (_) => const PerfilScreen()),
+                 ),
+-                icon: const Icon(Icons.person_outline, color: texto, size: 29),
++                icon: Icon(Icons.person_outline, color: (AppThemeColors.darkActive ? Colors.white : texto), size: 29),
+               ),
+               const SizedBox(width: 4),
+               Stack(
+@@ -329,9 +329,9 @@
+                   IconButton(
+                     tooltip: 'Carrito',
+                     onPressed: _abrirCarrito,
+-                    icon: const Icon(
++                    icon: Icon(
+                       Icons.shopping_cart_outlined,
+-                      color: texto,
++                      color: (AppThemeColors.darkActive ? Colors.white : texto),
+                       size: 28,
+                     ),
+                   ),
+@@ -513,8 +513,8 @@
+       children: [
+         Text(
+           titulo,
+-          style: const TextStyle(
+-            color: texto,
++          style: TextStyle(
++            color: (AppThemeColors.darkActive ? Colors.white : texto),
+             fontSize: 19,
+             fontWeight: FontWeight.w800,
+           ),
+@@ -587,7 +587,7 @@
+         width: 154,
+         padding: const EdgeInsets.all(9),
+         decoration: BoxDecoration(
+-          color: Colors.white,
++          color: AppThemeColors.adaptiveSurface,
+           borderRadius: BorderRadius.circular(17),
+           border: Border.all(color: const Color(0xFFF0EEEB)),
+           boxShadow: const [
+@@ -615,8 +615,8 @@
+               p.nombre,
+               maxLines: 1,
+               overflow: TextOverflow.ellipsis,
+-              style: const TextStyle(
+-                color: texto,
++              style: TextStyle(
++                color: (AppThemeColors.darkActive ? Colors.white : texto),
+                 fontWeight: FontWeight.w700,
+                 fontSize: 13,
+               ),
+@@ -624,7 +624,7 @@
+             const SizedBox(height: 3),
+             Text(
+               moneda(p.precioBase),
+-              style: const TextStyle(color: gris, fontSize: 12),
++              style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : gris), fontSize: 12),
+             ),
+             const SizedBox(height: 5),
+             const Row(
+@@ -653,7 +653,7 @@
+       child: Container(
+         padding: const EdgeInsets.all(9),
+         decoration: BoxDecoration(
+-          color: Colors.white,
++          color: AppThemeColors.adaptiveSurface,
+           borderRadius: BorderRadius.circular(17),
+           border: Border.all(color: const Color(0xFFF0EEEB)),
+         ),
+@@ -674,8 +674,8 @@
+               p.nombre,
+               maxLines: 2,
+               overflow: TextOverflow.ellipsis,
+-              style: const TextStyle(
+-                color: texto,
++              style: TextStyle(
++                color: (AppThemeColors.darkActive ? Colors.white : texto),
+                 fontSize: 13,
+                 fontWeight: FontWeight.w700,
+               ),
+@@ -683,7 +683,7 @@
+             const SizedBox(height: 4),
+             Text(
+               moneda(p.precioBase),
+-              style: const TextStyle(color: gris, fontSize: 12),
++              style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : gris), fontSize: 12),
+             ),
+             const SizedBox(height: 5),
+             const Text(
+@@ -731,10 +731,10 @@
+         children: [
+           const Icon(Icons.search_off, size: 45, color: Color(0xFFA8A29E)),
+           const SizedBox(height: 10),
+-          const Text(
++          Text(
+             'No encontramos platillos con esos criterios.',
+             textAlign: TextAlign.center,
+-            style: TextStyle(color: gris),
++            style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : gris)),
+           ),
+           TextButton(
+             onPressed: () {
+--- a/lib/views/perfil_screen.dart
++++ b/lib/views/perfil_screen.dart
+@@ -1,5 +1,6 @@
+ import 'apariencia_screen.dart';
+ 
++import '../core/theme.dart';
+ import 'package:flutter/material.dart';
+ import 'package:provider/provider.dart';
+ 
+@@ -171,7 +172,7 @@
+                 style: OutlinedButton.styleFrom(
+                   foregroundColor: _rojo,
+                   side: const BorderSide(color: Color(0xFFF1D7D4)),
+-                  backgroundColor: Colors.white,
++                  backgroundColor: AppThemeColors.adaptiveSurface,
+                   minimumSize: const Size(double.infinity, 52),
+                   shape: RoundedRectangleBorder(
+                     borderRadius: BorderRadius.circular(15),
+@@ -472,7 +473,7 @@
+     final confirmar = await showDialog<bool>(
+       context: context,
+       builder: (dialogContext) => AlertDialog(
+-        backgroundColor: Colors.white,
++        backgroundColor: AppThemeColors.adaptiveSurface,
+         title: Text(
+           'Cerrar sesión',
+           style: TextStyle(
+@@ -482,13 +483,13 @@
+         ),
+         content: Text(
+           '¿Seguro que deseas cerrar tu sesión?',
+-          style: TextStyle(color: _gris),
++          style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris)),
+         ),
+         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+         actions: [
+           TextButton(
+             onPressed: () => Navigator.pop(dialogContext, false),
+-            child: Text('Cancelar', style: TextStyle(color: _gris)),
++            child: Text('Cancelar', style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris))),
+           ),
+           TextButton(
+             onPressed: () => Navigator.pop(dialogContext, true),
+--- a/lib/views/pago_screen.dart
++++ b/lib/views/pago_screen.dart
+@@ -2,6 +2,7 @@
+ 
+ import '../services/pago_service.dart';
+ 
++import '../core/theme.dart';
+ import 'package:flutter/material.dart';
+ import 'package:provider/provider.dart';
+ 
+@@ -176,7 +177,7 @@
+         : (_entrega['direccion'] ?? 'Sin dirección seleccionada').toString();
+ 
+     return Scaffold(
+-      backgroundColor: _fondo,
++      backgroundColor: AppThemeColors.adaptiveBackground,
+       body: SafeArea(
+         child: Column(
+           children: [
+@@ -235,7 +236,7 @@
+                     children: [
+                       Text(
+                         '${cart.items.fold<int>(0, (suma, item) => suma + item.cantidad)} productos',
+-                        style: const TextStyle(color: _gris, fontSize: 15),
++                        style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris), fontSize: 15),
+                       ),
+                       Text(
+                         moneda(cart.total),
+@@ -251,9 +252,9 @@
+                   Container(
+                     padding: const EdgeInsets.all(16),
+                     decoration: BoxDecoration(
+-                      color: Colors.white,
++                      color: AppThemeColors.adaptiveSurface,
+                       borderRadius: BorderRadius.circular(20),
+-                      border: Border.all(color: _borde),
++                      border: Border.all(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+                       boxShadow: const [
+                         BoxShadow(
+                           color: Color(0x08000000),
+@@ -296,8 +297,8 @@
+                               const SizedBox(height: 4),
+                               Text(
+                                 direccion,
+-                                style: const TextStyle(
+-                                  color: _gris,
++                                style: TextStyle(
++                                  color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                                   fontSize: 13,
+                                   height: 1.4,
+                                 ),
+@@ -332,9 +333,9 @@
+                   Container(
+                     padding: const EdgeInsets.all(10),
+                     decoration: BoxDecoration(
+-                      color: Colors.white,
++                      color: AppThemeColors.adaptiveSurface,
+                       borderRadius: BorderRadius.circular(22),
+-                      border: Border.all(color: _borde),
++                      border: Border.all(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+                       boxShadow: const [
+                         BoxShadow(
+                           color: Color(0x08000000),
+--- a/lib/views/carrito_screen.dart
++++ b/lib/views/carrito_screen.dart
+@@ -64,7 +64,7 @@
+     return Container(
+       padding: const EdgeInsets.all(15),
+       decoration: BoxDecoration(
+-        color: Colors.white,
++        color: AppThemeColors.adaptiveSurface,
+         borderRadius: BorderRadius.circular(24),
+         boxShadow: [
+           BoxShadow(
+@@ -92,8 +92,8 @@
+               children: [
+                 Text(
+                   item.platillo.nombre,
+-                  style: const TextStyle(
+-                    color: _texto,
++                  style: TextStyle(
++                    color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                     fontSize: 16,
+                     fontWeight: FontWeight.w700,
+                   ),
+@@ -101,8 +101,8 @@
+                 const SizedBox(height: 5),
+                 Text(
+                   moneda(item.precioUnitario),
+-                  style: const TextStyle(
+-                    color: _texto,
++                  style: TextStyle(
++                    color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                     fontSize: 16,
+                     fontWeight: FontWeight.w700,
+                   ),
+@@ -111,8 +111,8 @@
+                   const SizedBox(height: 7),
+                   Text(
+                     item.resumen,
+-                    style: const TextStyle(
+-                      color: _gris,
++                    style: TextStyle(
++                      color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                       fontSize: 13,
+                       height: 1.5,
+                     ),
+@@ -126,14 +126,14 @@
+                       decoration: BoxDecoration(
+                         color: _fondo,
+                         borderRadius: BorderRadius.circular(22),
+-                        border: Border.all(color: _borde),
++                        border: Border.all(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+                       ),
+                       child: Row(
+                         mainAxisSize: MainAxisSize.min,
+                         children: [
+                           _controlCantidad(
+                             icono: Icons.remove,
+-                            color: _gris,
++                            color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                             accion: () => cart.cambiarCantidad(item, -1),
+                           ),
+                           SizedBox(
+@@ -141,9 +141,9 @@
+                             child: Text(
+                               '${item.cantidad}',
+                               textAlign: TextAlign.center,
+-                              style: const TextStyle(
++                              style: TextStyle(
+                                 fontWeight: FontWeight.w700,
+-                                color: _texto,
++                                color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                                 fontSize: 15,
+                               ),
+                             ),
+@@ -160,9 +160,9 @@
+                       tooltip: 'Eliminar producto',
+                       visualDensity: VisualDensity.compact,
+                       onPressed: () => _eliminar(context, cart, item),
+-                      icon: const Icon(
++                      icon: Icon(
+                         Icons.delete_outline,
+-                        color: _gris,
++                        color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                         size: 23,
+                       ),
+                     ),
+@@ -180,7 +180,7 @@
+     if (imagen == null || imagen.trim().isEmpty) {
+       return Container(
+         color: const Color(0xFFF1F1EF),
+-        child: const Icon(Icons.restaurant, size: 38, color: _gris),
++        child: Icon(Icons.restaurant, size: 38, color: (AppThemeColors.darkActive ? Colors.white70 : _gris)),
+       );
+     }
+ 
+@@ -189,7 +189,7 @@
+       fit: BoxFit.cover,
+       errorBuilder: (_, _, _) => Container(
+         color: const Color(0xFFF1F1EF),
+-        child: const Icon(Icons.restaurant, size: 38, color: _gris),
++        child: Icon(Icons.restaurant, size: 38, color: (AppThemeColors.darkActive ? Colors.white70 : _gris)),
+       ),
+     );
+   }
+@@ -200,10 +200,10 @@
+       child: Row(
+         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+         children: [
+-          Text(titulo, style: const TextStyle(color: _gris, fontSize: 16)),
++          Text(titulo, style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris), fontSize: 16)),
+           Text(
+             moneda(importe),
+-            style: const TextStyle(color: _texto, fontSize: 16),
++            style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white : _texto), fontSize: 16),
+           ),
+         ],
+       ),
+@@ -228,13 +228,13 @@
+         elevation: 0,
+         centerTitle: true,
+         leading: IconButton(
+-          icon: const Icon(Icons.arrow_back, color: _texto),
++          icon: Icon(Icons.arrow_back, color: (AppThemeColors.darkActive ? Colors.white : _texto)),
+           onPressed: () => Navigator.pop(context),
+         ),
+-        title: const Text(
++        title: Text(
+           'Mi carrito',
+           style: TextStyle(
+-            color: _texto,
++            color: (AppThemeColors.darkActive ? Colors.white : _texto),
+             fontSize: 22,
+             fontWeight: FontWeight.w800,
+           ),
+@@ -273,7 +273,7 @@
+                   ),
+                 );
+               },
+-              icon: const Icon(Icons.delete_outline, color: _texto),
++              icon: Icon(Icons.delete_outline, color: (AppThemeColors.darkActive ? Colors.white : _texto)),
+             ),
+           const SizedBox(width: 8),
+         ],
+@@ -285,25 +285,25 @@
+                 child: Column(
+                   mainAxisSize: MainAxisSize.min,
+                   children: [
+-                    const Icon(
++                    Icon(
+                       Icons.shopping_bag_outlined,
+                       size: 72,
+-                      color: _gris,
++                      color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                     ),
+                     const SizedBox(height: 18),
+-                    const Text(
++                    Text(
+                       'Tu carrito está vacío',
+                       style: TextStyle(
+                         fontSize: 21,
+                         fontWeight: FontWeight.w700,
+-                        color: _texto,
++                        color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                       ),
+                     ),
+                     const SizedBox(height: 8),
+-                    const Text(
++                    Text(
+                       'Agrega tus platillos favoritos para continuar.',
+                       textAlign: TextAlign.center,
+-                      style: TextStyle(color: _gris),
++                      style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris)),
+                     ),
+                     const SizedBox(height: 20),
+                     ElevatedButton(
+@@ -333,9 +333,9 @@
+                 ),
+                 Container(
+                   padding: const EdgeInsets.fromLTRB(22, 22, 22, 20),
+-                  decoration: const BoxDecoration(
++                  decoration: BoxDecoration(
+                     color: _fondo,
+-                    border: Border(top: BorderSide(color: _borde)),
++                    border: Border(top: BorderSide(color: (AppThemeColors.darkActive ? Colors.white24 : _borde))),
+                   ),
+                   child: SafeArea(
+                     top: false,
+@@ -347,18 +347,18 @@
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: [
+-                            const Text(
++                            Text(
+                               'Total',
+                               style: TextStyle(
+-                                color: _texto,
++                                color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                                 fontSize: 21,
+                                 fontWeight: FontWeight.w800,
+                               ),
+                             ),
+                             Text(
+                               moneda(total),
+-                              style: const TextStyle(
+-                                color: _texto,
++                              style: TextStyle(
++                                color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                                 fontSize: 23,
+                                 fontWeight: FontWeight.w800,
+                               ),
+--- a/lib/views/admin_screen.dart
++++ b/lib/views/admin_screen.dart
+@@ -1,3 +1,4 @@
++import '../core/theme.dart';
+ import 'package:flutter/material.dart';
+ import 'package:provider/provider.dart';
+ 
+--- a/lib/views/detalle_pedido_screen.dart
++++ b/lib/views/detalle_pedido_screen.dart
+@@ -1,3 +1,4 @@
++import '../core/theme.dart';
+ import 'package:flutter/material.dart';
+ import 'package:cloud_firestore/cloud_firestore.dart';
+ 
+@@ -81,22 +82,22 @@
+           .snapshots(),
+       builder: (context, snapshot) {
+         if (snapshot.hasError) {
+-          return const Scaffold(
+-            backgroundColor: _fondo,
++          return Scaffold(
++            backgroundColor: AppThemeColors.adaptiveBackground,
+             body: Center(child: Text('Error al cargar el pedido')),
+           );
+         }
+ 
+         if (!snapshot.hasData) {
+-          return const Scaffold(
+-            backgroundColor: _fondo,
++          return Scaffold(
++            backgroundColor: AppThemeColors.adaptiveBackground,
+             body: Center(child: CircularProgressIndicator(color: _verde)),
+           );
+         }
+ 
+         if (!snapshot.data!.exists) {
+-          return const Scaffold(
+-            backgroundColor: _fondo,
++          return Scaffold(
++            backgroundColor: AppThemeColors.adaptiveBackground,
+             body: Center(child: Text('El pedido no existe')),
+           );
+         }
+@@ -120,9 +121,9 @@
+             : <String, dynamic>{};
+ 
+         return Scaffold(
+-          backgroundColor: _fondo,
++          backgroundColor: AppThemeColors.adaptiveBackground,
+           appBar: AppBar(
+-            backgroundColor: _fondo,
++            backgroundColor: AppThemeColors.adaptiveBackground,
+             foregroundColor: _texto,
+             elevation: 0,
+             title: Text(
+@@ -136,17 +137,17 @@
+               Container(
+                 padding: const EdgeInsets.all(20),
+                 decoration: BoxDecoration(
+-                  color: Colors.white,
++                  color: AppThemeColors.adaptiveSurface,
+                   borderRadius: BorderRadius.circular(20),
+-                  border: Border.all(color: _borde),
++                  border: Border.all(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+                 ),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+-                    const Text(
++                    Text(
+                       'Seguimiento de tu pedido',
+                       style: TextStyle(
+-                        color: _texto,
++                        color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                         fontSize: 19,
+                         fontWeight: FontWeight.w800,
+                       ),
+@@ -212,9 +213,9 @@
+                       ),
+                     ],
+                     const SizedBox(height: 10),
+-                    const Text(
++                    Text(
+                       'El seguimiento se actualiza automáticamente.',
+-                      style: TextStyle(color: _gris, fontSize: 12),
++                      style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris), fontSize: 12),
+                     ),
+                   ],
+                 ),
+@@ -223,26 +224,26 @@
+               Container(
+                 padding: const EdgeInsets.all(18),
+                 decoration: BoxDecoration(
+-                  color: Colors.white,
++                  color: AppThemeColors.adaptiveSurface,
+                   borderRadius: BorderRadius.circular(20),
+-                  border: Border.all(color: _borde),
++                  border: Border.all(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+                 ),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+-                    const Text(
++                    Text(
+                       'Resumen del pedido',
+                       style: TextStyle(
+-                        color: _texto,
++                        color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                         fontSize: 17,
+                         fontWeight: FontWeight.w800,
+                       ),
+                     ),
+                     const SizedBox(height: 14),
+                     if (items.isEmpty)
+-                      const Text(
++                      Text(
+                         'No hay productos registrados en este pedido.',
+-                        style: TextStyle(color: _gris),
++                        style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris)),
+                       )
+                     else
+                       ...items.map((item) {
+@@ -287,10 +288,10 @@
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+-                        const Text(
++                        Text(
+                           'Total',
+                           style: TextStyle(
+-                            color: _texto,
++                            color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                             fontSize: 16,
+                             fontWeight: FontWeight.w700,
+                           ),
+@@ -313,17 +314,17 @@
+                 Container(
+                   padding: const EdgeInsets.all(18),
+                   decoration: BoxDecoration(
+-                    color: Colors.white,
++                    color: AppThemeColors.adaptiveSurface,
+                     borderRadius: BorderRadius.circular(20),
+-                    border: Border.all(color: _borde),
++                    border: Border.all(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+                   ),
+                   child: Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+-                      const Text(
++                      Text(
+                         'Datos de entrega',
+                         style: TextStyle(
+-                          color: _texto,
++                          color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                           fontSize: 17,
+                           fontWeight: FontWeight.w800,
+                         ),
+@@ -334,7 +335,7 @@
+                           padding: const EdgeInsets.only(bottom: 8),
+                           child: Text(
+                             '${entry.key}: ${entry.value is Map || entry.value is List ? entry.value.toString() : entry.value ?? ''}',
+-                            style: const TextStyle(color: _texto, fontSize: 13),
++                            style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white : _texto), fontSize: 13),
+                           ),
+                         ),
+                       ),
+@@ -482,9 +483,9 @@
+     return Container(
+       padding: const EdgeInsets.all(12),
+       decoration: BoxDecoration(
+-        color: Colors.white,
++        color: AppThemeColors.adaptiveSurface,
+         borderRadius: BorderRadius.circular(18),
+-        border: Border.all(color: _borde),
++        border: Border.all(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+         boxShadow: const [
+           BoxShadow(
+             color: Color(0x06000000),
+@@ -510,9 +511,9 @@
+                     imagen,
+                     fit: BoxFit.cover,
+                     errorBuilder: (_, _, _) =>
+-                        const Icon(Icons.restaurant, color: _gris, size: 28),
++                        Icon(Icons.restaurant, color: (AppThemeColors.darkActive ? Colors.white70 : _gris), size: 28),
+                   )
+-                : const Icon(Icons.restaurant, color: _gris, size: 28),
++                : Icon(Icons.restaurant, color: (AppThemeColors.darkActive ? Colors.white70 : _gris), size: 28),
+           ),
+           const SizedBox(width: 14),
+           Expanded(
+@@ -525,8 +526,8 @@
+                     Expanded(
+                       child: Text(
+                         nombre,
+-                        style: const TextStyle(
+-                          color: _texto,
++                        style: TextStyle(
++                          color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                           fontSize: 13,
+                           fontWeight: FontWeight.w700,
+                           height: 1.3,
+@@ -546,8 +547,8 @@
+                       ),
+                       child: Text(
+                         'x$cantidad',
+-                        style: const TextStyle(
+-                          color: _gris,
++                        style: TextStyle(
++                          color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                           fontSize: 11,
+                           fontWeight: FontWeight.w700,
+                         ),
+@@ -558,8 +559,8 @@
+                 const SizedBox(height: 5),
+                 Text(
+                   moneda(precio),
+-                  style: const TextStyle(
+-                    color: _texto,
++                  style: TextStyle(
++                    color: (AppThemeColors.darkActive ? Colors.white : _texto),
+                     fontSize: 12,
+                     fontWeight: FontWeight.w700,
+                   ),
+@@ -572,15 +573,15 @@
+                       child: Row(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+-                          const Padding(
++                          Padding(
+                             padding: EdgeInsets.only(top: 5, right: 6),
+-                            child: Icon(Icons.circle, size: 4, color: _gris),
++                            child: Icon(Icons.circle, size: 4, color: (AppThemeColors.darkActive ? Colors.white70 : _gris)),
+                           ),
+                           Expanded(
+                             child: Text(
+                               ingrediente,
+-                              style: const TextStyle(
+-                                color: _gris,
++                              style: TextStyle(
++                                color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                                 fontSize: 11,
+                                 height: 1.3,
+                               ),
+--- a/lib/views/confirmacion_pedido_screen.dart
++++ b/lib/views/confirmacion_pedido_screen.dart
+@@ -1,3 +1,4 @@
++import '../core/theme.dart';
+ import 'package:flutter/material.dart';
+ import 'package:flutter/services.dart';
+ 
+@@ -38,7 +39,7 @@
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+-      backgroundColor: _fondo,
++      backgroundColor: AppThemeColors.adaptiveBackground,
+       body: SafeArea(
+         child: Column(
+           children: [
+@@ -154,10 +155,10 @@
+ 
+                       const SizedBox(height: 8),
+ 
+-                      const Text(
++                      Text(
+                         'Gracias por tu compra',
+                         textAlign: TextAlign.center,
+-                        style: TextStyle(color: _gris, fontSize: 15),
++                        style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris), fontSize: 15),
+                       ),
+ 
+                       const SizedBox(height: 32),
+@@ -167,7 +168,7 @@
+                         width: double.infinity,
+                         padding: const EdgeInsets.all(18),
+                         decoration: BoxDecoration(
+-                          color: Colors.white,
++                          color: AppThemeColors.adaptiveSurface,
+                           borderRadius: BorderRadius.circular(20),
+                           border: Border.all(color: const Color(0xFFF0ECE4)),
+                           boxShadow: const [
+@@ -201,10 +202,10 @@
+                                     crossAxisAlignment:
+                                         CrossAxisAlignment.start,
+                                     children: [
+-                                      const Text(
++                                      Text(
+                                         'Número de pedido',
+                                         style: TextStyle(
+-                                          color: _gris,
++                                          color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                                           fontSize: 12,
+                                         ),
+                                       ),
+@@ -223,9 +224,9 @@
+                                 IconButton(
+                                   tooltip: 'Copiar número de pedido',
+                                   onPressed: () => _copiarPedido(context),
+-                                  icon: const Icon(
++                                  icon: Icon(
+                                     Icons.copy_rounded,
+-                                    color: _gris,
++                                    color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                                     size: 20,
+                                   ),
+                                 ),
+@@ -256,7 +257,7 @@
+                                   ),
+                                 ),
+                                 const SizedBox(width: 12),
+-                                const Expanded(
++                                Expanded(
+                                   child: Column(
+                                     crossAxisAlignment:
+                                         CrossAxisAlignment.start,
+@@ -264,7 +265,7 @@
+                                       Text(
+                                         'Tiempo estimado',
+                                         style: TextStyle(
+-                                          color: _gris,
++                                          color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                                           fontSize: 12,
+                                         ),
+                                       ),
+--- a/lib/views/menu_screen.dart
++++ b/lib/views/menu_screen.dart
+@@ -124,13 +124,13 @@
+                       child: ListView(
+                         padding: const EdgeInsets.fromLTRB(16, 10, 16, 24),
+                         children: [
+-                          const Text(
++                          Text(
+                             'Nuestro menú',
+                             style: TextStyle(
+                               fontSize: 23,
+                               fontWeight: FontWeight.w800,
+                               letterSpacing: -0.5,
+-                              color: texto,
++                              color: (AppThemeColors.darkActive ? Colors.white : texto),
+                             ),
+                           ),
+                           const SizedBox(height: 14),
+@@ -181,7 +181,7 @@
+                 Navigator.pop(context);
+               }
+             },
+-            icon: const Icon(Icons.arrow_back, color: texto, size: 23),
++            icon: Icon(Icons.arrow_back, color: (AppThemeColors.darkActive ? Colors.white : texto), size: 23),
+           ),
+           Expanded(
+             child: Center(
+@@ -207,7 +207,7 @@
+               FocusScope.of(context).requestFocus(FocusNode());
+               FocusScope.of(context).nextFocus();
+             },
+-            icon: const Icon(Icons.search, color: texto, size: 22),
++            icon: Icon(Icons.search, color: (AppThemeColors.darkActive ? Colors.white : texto), size: 22),
+           ),
+           Stack(
+             clipBehavior: Clip.none,
+@@ -215,9 +215,9 @@
+               IconButton(
+                 tooltip: 'Carrito',
+                 onPressed: _abrirCarrito,
+-                icon: const Icon(
++                icon: Icon(
+                   Icons.shopping_bag_outlined,
+-                  color: texto,
++                  color: (AppThemeColors.darkActive ? Colors.white : texto),
+                   size: 23,
+                 ),
+               ),
+@@ -368,8 +368,8 @@
+                 platillo.nombre,
+                 maxLines: 2,
+                 overflow: TextOverflow.ellipsis,
+-                style: const TextStyle(
+-                  color: texto,
++                style: TextStyle(
++                  color: (AppThemeColors.darkActive ? Colors.white : texto),
+                   fontSize: 12,
+                   height: 1.25,
+                   fontWeight: FontWeight.w600,
+@@ -382,8 +382,8 @@
+                     child: Text(
+                       moneda(platillo.precioBase),
+                       maxLines: 1,
+-                      style: const TextStyle(
+-                        color: texto,
++                      style: TextStyle(
++                        color: (AppThemeColors.darkActive ? Colors.white : texto),
+                         fontSize: 12,
+                         fontWeight: FontWeight.w800,
+                       ),
+@@ -418,18 +418,18 @@
+         children: [
+           const Icon(Icons.search_off, color: Color(0xFF9CA3AF), size: 42),
+           const SizedBox(height: 12),
+-          const Text(
++          Text(
+             'No encontramos platillos.',
+             style: TextStyle(
+-              color: texto,
++              color: (AppThemeColors.darkActive ? Colors.white : texto),
+               fontSize: 15,
+               fontWeight: FontWeight.w600,
+             ),
+           ),
+           const SizedBox(height: 5),
+-          const Text(
++          Text(
+             'Prueba otra búsqueda o categoría.',
+-            style: TextStyle(color: gris, fontSize: 13),
++            style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : gris), fontSize: 13),
+           ),
+           TextButton(
+             onPressed: () {
+@@ -452,12 +452,12 @@
+         child: Column(
+           mainAxisSize: MainAxisSize.min,
+           children: [
+-            const Icon(Icons.cloud_off_outlined, size: 42, color: gris),
++            Icon(Icons.cloud_off_outlined, size: 42, color: (AppThemeColors.darkActive ? Colors.white70 : gris)),
+             const SizedBox(height: 12),
+             Text(
+               mensaje,
+               textAlign: TextAlign.center,
+-              style: const TextStyle(color: texto),
++              style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white : texto)),
+             ),
+             const SizedBox(height: 12),
+             ElevatedButton(
+--- a/lib/views/login_screen.dart
++++ b/lib/views/login_screen.dart
+@@ -1,3 +1,4 @@
++import '../core/theme.dart';
+ import 'package:flutter/material.dart';
+ import 'package:provider/provider.dart';
+ 
+@@ -354,8 +355,8 @@
+                         padding: const EdgeInsets.only(top: 20, bottom: 16),
+                         child: Row(
+                           children: [
+-                            const Expanded(
+-                              child: Divider(color: _borde, thickness: 1),
++                            Expanded(
++                              child: Divider(color: (AppThemeColors.darkActive ? Colors.white24 : _borde), thickness: 1),
+                             ),
+                             Padding(
+                               padding: const EdgeInsets.symmetric(
+@@ -370,8 +371,8 @@
+                                 ),
+                               ),
+                             ),
+-                            const Expanded(
+-                              child: Divider(color: _borde, thickness: 1),
++                            Expanded(
++                              child: Divider(color: (AppThemeColors.darkActive ? Colors.white24 : _borde), thickness: 1),
+                             ),
+                           ],
+                         ),
+@@ -383,7 +384,7 @@
+                         child: OutlinedButton(
+                           onPressed: _iniciarConGoogle,
+                           style: OutlinedButton.styleFrom(
+-                            backgroundColor: Colors.white,
++                            backgroundColor: AppThemeColors.adaptiveSurface,
+                             foregroundColor: const Color(0xFF374151),
+                             side: const BorderSide(color: _bordeCampo),
+                             elevation: 1,
+@@ -432,7 +433,7 @@
+       prefixIcon: prefijo,
+       suffixIcon: sufijo,
+       filled: true,
+-      fillColor: Colors.white,
++      fillColor: AppThemeColors.adaptiveSurface,
+       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+       border: OutlineInputBorder(
+         borderRadius: BorderRadius.circular(16),
+--- a/lib/views/direccion_entrega_screen.dart
++++ b/lib/views/direccion_entrega_screen.dart
+@@ -1,3 +1,4 @@
++import '../core/theme.dart';
+ import 'package:flutter/material.dart';
+ 
+ const Color _fondo = Color(0xFFFAF7F2);
+@@ -88,7 +89,7 @@
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+-      backgroundColor: _fondo,
++      backgroundColor: AppThemeColors.adaptiveBackground,
+       body: SafeArea(
+         child: Column(
+           children: [
+@@ -262,11 +263,11 @@
+                           ),
+                           border: OutlineInputBorder(
+                             borderRadius: BorderRadius.circular(24),
+-                            borderSide: const BorderSide(color: _borde),
++                            borderSide: BorderSide(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+                           ),
+                           enabledBorder: OutlineInputBorder(
+                             borderRadius: BorderRadius.circular(24),
+-                            borderSide: const BorderSide(color: _borde),
++                            borderSide: BorderSide(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+                           ),
+                           focusedBorder: OutlineInputBorder(
+                             borderRadius: BorderRadius.circular(24),
+@@ -284,9 +285,9 @@
+                         decoration: BoxDecoration(
+                           color: _superficie,
+                           borderRadius: BorderRadius.circular(20),
+-                          border: Border.all(color: _borde),
++                          border: Border.all(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+                         ),
+-                        child: const Column(
++                        child: Column(
+                           children: [
+                             Icon(
+                               Icons.storefront_outlined,
+@@ -308,7 +309,7 @@
+                               'de entrega de NutriCampus.',
+                               textAlign: TextAlign.center,
+                               style: TextStyle(
+-                                color: _gris,
++                                color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                                 fontSize: 14,
+                                 height: 1.5,
+                               ),
+@@ -470,8 +471,8 @@
+                       '${direccion.calle}\n'
+                       '${direccion.colonia}\n'
+                       'C.P. ${direccion.codigoPostal}',
+-                      style: const TextStyle(
+-                        color: _gris,
++                      style: TextStyle(
++                        color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                         fontSize: 12,
+                         height: 1.65,
+                       ),
+@@ -535,7 +536,7 @@
+   @override
+   Widget build(BuildContext context) {
+     return AlertDialog(
+-      backgroundColor: _fondo,
++      backgroundColor: AppThemeColors.adaptiveBackground,
+       title: const Text(
+         'Agregar dirección',
+         style: TextStyle(color: _oscuro, fontWeight: FontWeight.w700),
+@@ -577,7 +578,7 @@
+       actions: [
+         TextButton(
+           onPressed: () => Navigator.of(context).pop(),
+-          child: const Text('Cancelar', style: TextStyle(color: _gris)),
++          child: Text('Cancelar', style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris))),
+         ),
+         ElevatedButton(
+           onPressed: _guardar,
+@@ -618,11 +619,11 @@
+         hintText: pista,
+         counterText: '',
+         filled: true,
+-        fillColor: Colors.white,
++        fillColor: AppThemeColors.adaptiveSurface,
+         border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+         enabledBorder: OutlineInputBorder(
+           borderRadius: BorderRadius.circular(14),
+-          borderSide: const BorderSide(color: _borde),
++          borderSide: BorderSide(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+         ),
+         focusedBorder: OutlineInputBorder(
+           borderRadius: BorderRadius.circular(14),
+--- a/lib/views/pedidos_screen.dart
++++ b/lib/views/pedidos_screen.dart
+@@ -244,23 +244,23 @@
+         ),
+       ),
+       body: uid == null
+-          ? const Center(
++          ? Center(
+               child: Text(
+                 'Inicia sesión para ver tus pedidos',
+-                style: TextStyle(color: _gris),
++                style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris)),
+               ),
+             )
+           : StreamBuilder<List<Map<String, dynamic>>>(
+               stream: db.pedidosDeUsuario(uid),
+               builder: (context, snap) {
+                 if (snap.hasError) {
+-                  return const Center(
++                  return Center(
+                     child: Padding(
+                       padding: EdgeInsets.all(24),
+                       child: Text(
+                         'No pudimos cargar tus pedidos. Intenta de nuevo.',
+                         textAlign: TextAlign.center,
+-                        style: TextStyle(color: _gris),
++                        style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris)),
+                       ),
+                     ),
+                   );
+@@ -426,7 +426,7 @@
+                   ? 'Aquí aparecerán tus pedidos entregados o cancelados.'
+                   : 'Cuando realices un pedido, podrás consultar aquí su estado.',
+               textAlign: TextAlign.center,
+-              style: const TextStyle(color: _gris, fontSize: 13, height: 1.5),
++              style: TextStyle(color: (AppThemeColors.darkActive ? Colors.white70 : _gris), fontSize: 13, height: 1.5),
+             ),
+           ],
+         ),
+@@ -455,7 +455,7 @@
+           padding: const EdgeInsets.all(16),
+           decoration: BoxDecoration(
+             borderRadius: BorderRadius.circular(18),
+-            border: Border.all(color: _borde),
++            border: Border.all(color: (AppThemeColors.darkActive ? Colors.white24 : _borde)),
+             boxShadow: [
+               BoxShadow(
+                 color: Colors.black.withAlpha(8),
+@@ -487,8 +487,8 @@
+                         const SizedBox(height: 5),
+                         Text(
+                           _fechaPedido(pedido),
+-                          style: const TextStyle(
+-                            color: _gris,
++                          style: TextStyle(
++                            color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                             fontSize: 12,
+                             fontWeight: FontWeight.w500,
+                           ),
+@@ -569,11 +569,11 @@
+                     ),
+                   ),
+                   const SizedBox(width: 10),
+-                  const Expanded(
++                  Expanded(
+                     child: Text(
+                       'Ver detalle y seguimiento',
+                       style: TextStyle(
+-                        color: _gris,
++                        color: (AppThemeColors.darkActive ? Colors.white70 : _gris),
+                         fontSize: 12,
+                         fontWeight: FontWeight.w500,
+                       ),
+--- a/lib/core/tema_controller.dart
++++ b/lib/core/tema_controller.dart
+@@ -15,7 +15,8 @@
+     _modo = switch (guardado) {
+       "light" => ThemeMode.light,
+       "dark" => ThemeMode.dark,
+-      _ => ThemeMode.system,
++      "system" => ThemeMode.system,
++      _ => ThemeMode.light,
+     };
+ 
+     notifyListeners();
+--- a/lib/core/theme.dart
++++ b/lib/core/theme.dart
+@@ -11,6 +11,15 @@
+ }
+ 
+ class AppThemeColors {
++  // Updated by MaterialApp.builder whenever the selected theme changes.
++  static bool darkActive = false;
++  static Color get adaptiveText => darkActive ? Colors.white : AppColors.ink;
++  static Color get adaptiveMuted => darkActive ? Colors.white70 : const Color(0xFF747E8D);
++  static Color get adaptiveSurface => darkActive ? const Color(0xFF202B36) : Colors.white;
++  static Color get adaptiveBackground => darkActive ? const Color(0xFF121820) : AppColors.cream;
++  static Color get adaptiveBorder => darkActive ? Colors.white24 : const Color(0xFFE8E5E1);
++  static Color get adaptiveSoft => darkActive ? const Color(0xFF26333C) : const Color(0xFFF3E2C4);
++
+   static Color icono(BuildContext context) =>
+       Theme.of(context).brightness == Brightness.dark
+       ? Colors.white

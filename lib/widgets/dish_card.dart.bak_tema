@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import '../core/formato.dart';
+import '../core/theme.dart';
+import '../models/platillo.dart';
+
+class DishImage extends StatelessWidget {
+  final String path;
+  const DishImage(this.path, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const placeholder = ColoredBox(
+      color: Color(0xFFE9E4D8),
+      child: Center(child: Icon(Icons.restaurant, color: Colors.black26)),
+    );
+    
+    if (path.startsWith('http')) {
+      return Image.network(path, fit: BoxFit.cover, errorBuilder: (_, _, _) => placeholder);
+    }
+    return Image.asset(path, fit: BoxFit.cover, errorBuilder: (_, _, _) => placeholder);
+  }
+}
+
+class DishCard extends StatelessWidget {
+  final Platillo platillo;
+  final VoidCallback onTap;
+
+  const DishCard({super.key, required this.platillo, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: const [
+            BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 4)),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: SizedBox.expand(child: DishImage(platillo.imagen))),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    platillo.nombre,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  Text(moneda(platillo.precioBase), style: const TextStyle(color: AppColors.forest)),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: onTap,
+                      style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(36)),
+                      child: const Text('Elegir'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

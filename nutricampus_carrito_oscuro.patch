@@ -1,0 +1,24 @@
+--- a/lib/views/carrito_screen.dart
++++ b/lib/views/carrito_screen.dart
+@@ -126,7 +126,9 @@
+                     Container(
+                       height: 38,
+                       decoration: BoxDecoration(
+-                        color: _fondo,
++                        color: AppThemeColors.darkActive
++                            ? const Color(0xFF26333C)
++                            : _fondo,
+                         borderRadius: BorderRadius.circular(22),
+                         border: Border.all(
+                           color: (AppThemeColors.darkActive
+@@ -377,7 +379,9 @@
+                 Container(
+                   padding: const EdgeInsets.fromLTRB(22, 22, 22, 20),
+                   decoration: BoxDecoration(
+-                    color: _fondo,
++                    color: AppThemeColors.darkActive
++                        ? const Color(0xFF202B36)
++                        : _fondo,
+                     border: Border(
+                       top: BorderSide(
+                         color: (AppThemeColors.darkActive

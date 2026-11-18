@@ -1,0 +1,20 @@
+{
+  "name": "servidor_pagos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "firebase-admin": "^14.5.0",
+    "mercadopago": "^2.13.0"
+  }
+}

@@ -1,0 +1,100 @@
+﻿rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Identificar a los Superusuarios (Desarrolladores del proyecto)
+    function esSuperUsuario() {
+      return request.auth != null && request.auth.uid in [
+        'UID_DESARROLLADOR_1',
+        'UID_DESARROLLADOR_2',
+        'UID_DESARROLLADOR_3',
+        'UID_DESARROLLADOR_4'
+      ];
+    }
+
+    // 2. Administradores de la app (DueÃ±os de la cafeterÃ­a)
+    function esAdmin() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol == 'admin';
+    }
+
+    // 3. Operadores de la app (Empleados de la cafeterÃ­a)
+    function esOperador() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol == 'operador';
+    }
+
+    // --- ACCESO ABSOLUTO PARA DESARROLLADORES ---
+    match /{document=**} {
+      allow read, write: if esSuperUsuario();
+    }
+
+    // --- REGLAS NORMALES PARA LA APP ---
+
+    // ColecciÃ³n USUARIOS
+    match /usuarios/{userId} {
+      allow read: if request.auth != null;
+      // Solo el propio usuario edita su cuenta, o el dueÃ±o de la cafeterÃ­a
+      allow create: if request.auth != null && request.auth.uid == userId && request.resource.data.rol == "cliente";
+      allow update: if esAdmin() || (request.auth != null && request.auth.uid == userId && request.resource.data.rol == resource.data.rol);
+      allow delete: if esAdmin();
+    }
+
+    // ColecciÃ³n PLATILLOS (MenÃº)
+    match /platillos/{platilloId} {
+      allow read: if true;
+      // DueÃ±os y empleados pueden modificar el menÃº (ej. marcar agotado)
+      allow write: if esAdmin() || esOperador();
+    }
+
+    // ColecciÃ³n PEDIDOS
+    match /pedidos/{pedidoId} {
+      // Clientes pueden crear y ver sus pedidos
+      allow read, create: if request.auth != null;
+      // DueÃ±os y empleados pueden avanzar el estado del pedido
+      allow update: if esAdmin() || esOperador();
+      // Solo el dueÃ±o (y ustedes como devs) pueden borrar un pedido
+      allow delete: if esAdmin();
+    }
+
+
+    // ColecciÃ³n CATEGORÃAS
+    match /categorias/{categoriaId} {
+      // Los usuarios pueden consultar las categorÃ­as del menÃº.
+      allow read: if true;
+
+      // Solo administradores y operadores pueden modificarlas.
+      allow write: if esAdmin();
+    }
+
+
+    // ColecciÃ³n MODIFICADORES
+    match /modificadores/{modId} {
+      allow read: if true;
+      allow write: if esAdmin() || esOperador();
+    }
+    // ColecciÃ³n NOTIFICACIONES
+    match /notificaciones/{notificacionId} {
+      allow read: if request.auth != null &&
+        resource.data.usuarioId == request.auth.uid;
+
+      allow create: if (esAdmin() || esOperador()) &&
+        request.resource.data.usuarioId is string &&
+        request.resource.data.pedidoId is string &&
+        request.resource.data.titulo is string &&
+        request.resource.data.mensaje is string &&
+        request.resource.data.leida == false &&
+        request.resource.data.creado == request.time;
+
+      allow update: if request.auth != null &&
+        resource.data.usuarioId == request.auth.uid &&
+        request.resource.data.diff(resource.data)
+          .affectedKeys().hasOnly(['leida']) &&
+        request.resource.data.leida is bool;
+
+      allow delete: if false;
+    }
+
+  }
+}
+

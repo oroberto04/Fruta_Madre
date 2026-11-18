@@ -1,0 +1,69 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
+class LogoGlobal extends StatelessWidget {
+  final String logoOriginal;
+  final double? width;
+  final double? height;
+  final BoxFit fit;
+  final Widget? respaldo;
+
+  const LogoGlobal({
+    super.key,
+    required this.logoOriginal,
+    this.width,
+    this.height,
+    this.fit = BoxFit.contain,
+    this.respaldo,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      stream: FirebaseFirestore.instance
+          .collection('configuracion')
+          .doc('apariencia')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData && !snapshot.hasError) {
+          return SizedBox(width: width, height: height);
+        }
+        if (snapshot.hasData && snapshot.data!.metadata.isFromCache) {
+          return SizedBox(width: width, height: height);
+        }
+
+        final datos = snapshot.data?.data();
+        final logoBase64 = datos?['logoBase64'];
+        if (logoBase64 is String && logoBase64.isNotEmpty) {
+          try {
+            final Uint8List bytes = base64Decode(logoBase64);
+            return Image.memory(
+              bytes,
+              width: width,
+              height: height,
+              fit: fit,
+              gaplessPlayback: true,
+              errorBuilder: (_, _, _) => _original(),
+            );
+          } catch (_) {
+            return _original();
+          }
+        }
+        return _original();
+      },
+    );
+  }
+
+  Widget _original() {
+    return Image.network(
+      logoOriginal,
+      width: width,
+      height: height,
+      fit: fit,
+      errorBuilder: (_, _, _) => respaldo ?? const Text('NutriCampus'),
+    );
+  }
+}
