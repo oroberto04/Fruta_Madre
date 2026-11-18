@@ -275,6 +275,8 @@ $estadoEntrega = [
                     $estadoPagoVisual = [
                         'pendiente' => ['Pendiente', 'bg-amber-100 text-amber-800'],
                         'pagado' => ['Pagado', 'bg-green-100 text-green-800'],
+                        'aprobado_prueba' => ['Pago aprobado (prueba)', 'bg-green-100 text-green-800'],
+                        'aprobado' => ['Pago aprobado', 'bg-green-100 text-green-800'],
                         'rechazado' => ['Rechazado', 'bg-red-100 text-red-800'],
                     ];
 
@@ -427,7 +429,17 @@ $estadoEntrega = [
                                         <?= htmlspecialchars($tipoServicio, ENT_QUOTES, 'UTF-8') ?>
                                     </p>
 
-                                    <?php if (!empty($pedido['calle_numero'])): ?>
+                                    <?php if ($tipoServicio === 'recoger'): ?>
+    <p class="mt-2 text-sm font-bold text-green-800">
+        Recoger en tienda: no requiere dirección domiciliaria.
+    </p>
+<?php elseif (empty($pedido['calle_numero'])): ?>
+    <p class="mt-2 text-sm font-bold text-red-700">
+        Entrega a domicilio sin dirección registrada. Revisar con el cliente.
+    </p>
+<?php endif; ?>
+
+<?php if (!empty($pedido['calle_numero'])): ?>
 
                                         <div class="mt-3 p-3 bg-[#fff8f0] border border-gray-300 rounded-lg">
 

@@ -323,6 +323,7 @@ public function listarPedidosUsuario(int $idUsuario): array
             p.id_pedido,
             p.fecha_pedido,
             p.estado_pedido,
+            p.tipo_servicio,
             p.subtotal,
             p.total,
 

@@ -615,6 +615,7 @@ $direccionCompleta = trim(implode(', ', array_filter([
 ], static fn($valor) => trim((string) $valor) !== '')));
 
 $hayDireccion = $direccionCompleta !== '';
+$esRecoger = strtolower(trim((string) ($pedido['tipo_servicio'] ?? ''))) === 'recoger';
 $productosPedido = is_array($pedido['productos'] ?? null)
     ? $pedido['productos']
     : [];
@@ -694,10 +695,10 @@ $totalUnidades = (int) ($pedido['cantidad_productos'] ?? 0);
                 <div class="flex min-h-64 flex-col items-center justify-center p-8 text-center">
                     <span class="material-symbols-outlined text-5xl text-primary">location_on</span>
                     <h4 class="display mt-3 text-lg font-extrabold uppercase">
-                        Sin entrega a domicilio registrada
+                        <?= $esRecoger ? 'Recoger en tienda' : 'Falta la dirección' ?>
                     </h4>
                     <p class="mt-2 max-w-md text-sm leading-6 text-on-surface-variant">
-                        Este pedido no tiene una entrega a domicilio registrada. Si elegiste recoger en tienda, no necesitas proporcionar una dirección.
+                        <?= $esRecoger ? 'Tu pedido se recoge en el establecimiento; no necesita dirección de domicilio.' : 'Este pedido no tiene una dirección domiciliaria registrada. Contacta al establecimiento para corregirla.' ?>
                     </p>
                 </div>
             <?php endif; ?>
@@ -743,7 +744,7 @@ $totalUnidades = (int) ($pedido['cantidad_productos'] ?? 0);
             <p class="display mt-1 text-lg font-extrabold leading-snug">
                 <?= $hayDireccion
                     ? $esc($pedido['calle_numero'] ?? 'Dirección registrada')
-                    : 'Sin entrega domiciliaria' ?>
+                    : ($esRecoger ? 'Recoger en tienda' : 'Dirección pendiente') ?>
             </p>
 
             <p class="text-sm leading-5 text-on-surface-variant">
