@@ -860,6 +860,10 @@ if (!in_array($metodoPago, $metodosPermitidos, true)) {
 public function misPedidos(): void
 
 {
+    if (empty($_SESSION['csrf_pedidos'])) {
+        $_SESSION['csrf_pedidos'] = bin2hex(random_bytes(32));
+    }
+
 
     if (empty($_SESSION['usuario']['id_usuario'])) {
 
