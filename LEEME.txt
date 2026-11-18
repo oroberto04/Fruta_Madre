@@ -1,0 +1,1 @@
+Extrae tests/seguridad_pagos_regresion.php en la raiz de Fruta_Madre y ejecuta php tests/seguridad_pagos_regresion.php. Solo lectura, no modifica base de datos ni hace llamadas a Mercado Pago.

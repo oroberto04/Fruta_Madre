@@ -1,0 +1,10 @@
+.git
+.env
+.env.*
+!.env.example
+app/config/database.php
+node_modules
+*.log
+*.zip
+integracion/referencia-stitch
+database/backups

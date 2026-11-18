@@ -26,3 +26,8 @@ node_modules/
 *.backup
 !database/schema.sql
 !database/seed.sql
+!database/migraciones/*.sql
+
+# Respaldos locales antes de integrar Stitch
+.frutamadre-backups/
+!database/migraciones/*.sql

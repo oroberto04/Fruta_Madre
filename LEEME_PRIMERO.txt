@@ -1,0 +1,22 @@
+FRUTA MADRE - PAQUETE DE INTEGRACIÓN MERCADO PAGO TEST
+
+NO ES UNA APLICACIÓN INDEPENDIENTE: se instala en el repositorio
+https://github.com/oroberto04/Fruta_Madre, rama desarrollo.
+
+1) Clona el repositorio en Git Bash. Usa tu cuenta con permisos de escritura.
+2) Crea la rama integracion-jam-mercadopago-pruebas desde origin/desarrollo.
+3) Extrae este ZIP en la RAIZ del repositorio.
+4) Ejecuta: node integracion/instalar.mjs --verificar
+5) Ejecuta: node integracion/instalar.mjs
+6) Ejecuta: php tests/mercadopago_pruebas_test.php
+7) Comprueba los cambios y usa git add, commit y push.
+
+Comandos completos y los 3 datos que deberás introducir en Render:
+docs/FRUTA_MADRE_MERCADOPAGO_PRUEBAS.md
+
+NUNCA PEGUES LOS TOKENS TEST EN CODIGO, GITHUB O CHAT.
+
+El diseño Stitch recibido se entrega en integracion/referencia-stitch.
+Un ZIP era idéntico al otro; se conserva solo una copia.
+
+Este paquete no crea un servidor Render ni da permisos GitHub automáticamente.

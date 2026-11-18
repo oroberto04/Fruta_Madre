@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: fruta-madre-jam-pruebas
+    runtime: docker
+    plan: free
+    repo: https://github.com/oroberto04/Fruta_Madre
+    branch: integracion-jam-mercadopago-pruebas
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /salud.php
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: MP_ACCESS_TOKEN_TEST
+        sync: false
+      - key: FRUTA_MADRE_URL
+        sync: false
