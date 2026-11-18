@@ -131,7 +131,8 @@ if (!$pedidoSeleccionado && !empty($pedidos)) {
 $metodosPago = [
     'efectivo' => 'Efectivo',
     'tarjeta' => 'Tarjeta',
-    'transferencia' => 'Transferencia bancaria'
+    'transferencia' => 'Transferencia bancaria',
+    'mercadopago_prueba' => 'Mercado Pago (prueba)'
 ];
 ?>
 
@@ -418,7 +419,7 @@ $metodosPago = [
                 <?php foreach ($pedidos as $pedido): ?>
                     <?php
                     $id = (int) $pedido['id_pedido'];
-                    $numeroPedido = $numerosPedidos[$id] ?? $id;
+                    $numeroPedido = $id;
                     $estado = $estadoInfo($pedido['estado_pedido'] ?? '');
                     $esSeleccionado = $pedidoSeleccionado &&
                         (int) $pedidoSeleccionado['id_pedido'] === $id;
@@ -496,7 +497,7 @@ $metodosPago = [
                     <?php
                     $pedido = $pedidoSeleccionado;
                     $idPedido = (int) $pedido['id_pedido'];
-                    $numeroPedidoDetalle = $numerosPedidos[$idPedido] ?? $idPedido;
+                    $numeroPedidoDetalle = $idPedido;
                     $estadoActual = strtolower(trim((string) ($pedido['estado_pedido'] ?? 'pendiente')));
                     $infoEstado = $estadoInfo($estadoActual);
                     $metodo = $metodosPago[$pedido['metodo_pago'] ?? ''] ?? 'No especificado';
@@ -937,6 +938,25 @@ $totalUnidades = (int) ($pedido['cantidad_productos'] ?? 0);
 </section>
 
 
+                            <!-- ACCIONES DE PEDIDO -->
+                            <?php if ($estadoActual === 'pendiente'): ?>
+                                <div class="mt-4 flex flex-wrap gap-3">
+                                    <?php if (($pedido['metodo_pago'] ?? '') === 'mercadopago_prueba' && $estadoPago === 'pendiente'): ?>
+                                    <form method="post" action="index.php?accion=reintentar-pago-mp-prueba">
+                                        <input type="hidden" name="id_pedido" value="<?= $idPedido ?>">
+                                        <input type="hidden" name="token" value="<?= $esc($_SESSION['csrf_pedidos']) ?>">
+                                        <button type="submit" class="rounded-xl bg-primary px-5 py-3 text-sm font-extrabold text-white">Reintentar pago</button>
+                                    </form>
+                                    <?php endif; ?>
+                                    <?php if ($estadoPago === 'pendiente'): ?>
+                                    <form method="post" action="index.php?accion=cancelar-mi-pedido" onsubmit="return confirm('¿Cancelar el pedido #<?= $idPedido ?>?');">
+                                        <input type="hidden" name="id_pedido" value="<?= $idPedido ?>">
+                                        <input type="hidden" name="token" value="<?= $esc($_SESSION['csrf_pedidos']) ?>">
+                                        <button type="submit" class="rounded-xl border-2 border-red-700 px-5 py-3 text-sm font-extrabold text-red-700">Cancelar pedido</button>
+                                    </form>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
                             <!-- ACCIONES -->
                             <div class="mt-6 flex flex-wrap gap-3">
                                 <a href="index.php?accion=catalogo"
@@ -954,7 +974,7 @@ $totalUnidades = (int) ($pedido['cantidad_productos'] ?? 0);
 
                             <p class="mt-5 text-xs leading-5 text-on-surface-variant">
                                 Si necesitas modificar o cancelar este pedido, comunícate con el establecimiento.
-                                La cancelación automática todavía no está habilitada.
+                                La cancelación está disponible únicamente antes de confirmar el pago y comenzar la preparación.
                             </p>
                         </div>
                     </div>

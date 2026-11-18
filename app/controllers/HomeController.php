@@ -800,6 +800,10 @@ if (!in_array($metodoPago, $metodosPermitidos, true)) {
 
         $pedidoModel = new PedidoModel();
 
+        if (empty($_SESSION['csrf_pedidos'])) {
+            $_SESSION['csrf_pedidos'] = bin2hex(random_bytes(32));
+        }
+
         $idPedido = $pedidoModel->crearPedido(
 
             (int) $_SESSION['usuario']['id_usuario'],

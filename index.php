@@ -256,6 +256,13 @@ if ($accion === 'imagen-producto-stitch') {
 } elseif ($accion === 'pagar') {
     $controller->continuarAlPago();
 
+} elseif ($metodo === 'POST' && $accion === 'cancelar-mi-pedido') {
+    require_once __DIR__ . '/app/controllers/PedidosClienteAcciones.php';
+    PedidosClienteAcciones::cancelar();
+
+} elseif ($metodo === 'POST' && $accion === 'reintentar-pago-mp-prueba') {
+    require_once __DIR__ . '/app/controllers/PedidosClienteAcciones.php';
+    PedidosClienteAcciones::reintentar();
 } elseif ($accion === 'mis-pedidos') {
     $controller->misPedidos();
 
