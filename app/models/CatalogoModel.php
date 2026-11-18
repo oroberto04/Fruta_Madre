@@ -21,7 +21,7 @@ class CatalogoModel
                 p.descripcion,
                 p.ingredientes,
                 p.precio,
-                p.imagen_url,
+                COALESCE(NULLIF(TRIM(p.imagen_url), ''), 'public/images/productos/catalogo_' || p.id_producto || '.svg') AS imagen_url,
                 p.stock_disponible,
                 c.nombre_categoria
             FROM producto p
@@ -63,7 +63,7 @@ class CatalogoModel
             p.descripcion,
             p.ingredientes,
             p.precio,
-            p.imagen_url,
+            COALESCE(NULLIF(TRIM(p.imagen_url), ''), 'public/images/productos/catalogo_' || p.id_producto || '.svg') AS imagen_url,
             p.stock_disponible,
             c.nombre_categoria
         FROM producto p

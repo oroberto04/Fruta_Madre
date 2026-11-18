@@ -274,7 +274,14 @@ public function agregarAlCarrito($id)
 
     }
 
-    $_SESSION['carrito'][$id] = $cantidadActual + 1;
+    $cantidadSolicitada = filter_var($_POST['cantidad'] ?? 1, FILTER_VALIDATE_INT);
+    if ($cantidadSolicitada === false || $cantidadSolicitada < 1 || $cantidadSolicitada > 100) {
+        $responder(false, 'Cantidad inválida.', 422);
+    }
+    if ($cantidadActual + $cantidadSolicitada > $stock) {
+        $responder(false, 'No hay suficientes unidades disponibles.', 409);
+    }
+    $_SESSION['carrito'][$id] = $cantidadActual + $cantidadSolicitada;
 
     $responder(true, 'Producto agregado al carrito.');
 

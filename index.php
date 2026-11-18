@@ -231,7 +231,7 @@ if ($accion === 'imagen-producto-stitch') {
 } elseif ($metodo === 'POST' && $accion === 'guardar-datos') {
     $controller->guardarDatosPedido();
 
-} elseif ($metodo === 'POST' && $accion === 'agregar') {
+} elseif ($metodo === 'POST' && in_array($accion, ['agregar', 'agregarAlCarrito'], true)) {
     $controller->agregarAlCarrito(
         (int) ($_POST['id_producto'] ?? 0)
     );

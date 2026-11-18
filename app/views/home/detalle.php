@@ -7,10 +7,11 @@ $idProducto = (int)($producto['id_producto'] ?? 0);
 $precio = (float)($producto['precio'] ?? 0);
 $stock = (int)($producto['stock_disponible'] ?? 0);
 $cantidadCarrito = array_sum($_SESSION['carrito'] ?? []);
+$usuarioAutenticado = !empty($_SESSION['usuario']['id_usuario']);
 $esc = static fn($v) => htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 
 if ($imagen === '') {
-    $imagen = 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&w=1200&q=85';
+    $imagen = 'public/images/productos/catalogo_' . $idProducto . '.svg';
 }
 ?>
 <!DOCTYPE html>
@@ -750,10 +751,11 @@ async function handleAddToCart() {
     formData.append('extras', JSON.stringify(extras));
 
     try {
-        const response = await fetch('index.php?accion=agregarAlCarrito', {
+        const response = await fetch('index.php?accion=agregar', {
             method: 'POST',
             body: formData,
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            credentials: 'same-origin',
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json'}
         });
 
         if (response.redirected) {
@@ -767,14 +769,14 @@ async function handleAddToCart() {
                 result = await response.clone().json();
             } catch (_) {}
 
-            if (result && result.success === false) {
+            if (!result || result.exito !== true) {
                 showToast(result.mensaje || 'No se pudo agregar el producto.', 'error');
                 return;
             }
 
-            showToast('¡Listo! Se envió la solicitud para agregar al carrito.');
+            showToast(result.mensaje || 'Producto agregado al carrito.');
             const cartCount = document.getElementById('cart-count');
-            cartCount.textContent = Number(cartCount.textContent || 0) + quantity;
+            cartCount.textContent = Number(result.cantidad || 0);
             return;
         }
 
@@ -784,7 +786,7 @@ async function handleAddToCart() {
     }
 }
 
-function handleBuyNow() {
+async function handleBuyNow() {
     if (currentMode === 'package') {
         handleReservePackage();
         return;
@@ -798,14 +800,27 @@ function handleBuyNow() {
     const extras = [...document.querySelectorAll('.product-extra:checked')]
         .map(item => item.dataset.name);
 
-    const params = new URLSearchParams({
-        id_producto: String(PRODUCT.id),
-        cantidad: String(quantity),
-        tamano: currentSize,
-        extras: JSON.stringify(extras)
-    });
-
-    window.location.href = 'index.php?accion=login&continuar=compra&' + params.toString();
+    const formData = new FormData();
+    formData.append('id_producto', PRODUCT.id);
+    formData.append('cantidad', quantity);
+    formData.append('tamano', currentSize);
+    formData.append('extras', JSON.stringify(extras));
+    try {
+        const response = await fetch('index.php?accion=agregar', {
+            method: 'POST',
+            body: formData,
+            credentials: 'same-origin',
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json'}
+        });
+        const result = await response.json();
+        if (!response.ok || result.exito !== true) {
+            showToast(result.mensaje || 'No se pudo agregar el producto.', 'error');
+            return;
+        }
+        window.location.href = 'index.php?accion=continuar';
+    } catch (error) {
+        showToast('No se pudo completar la compra. Intenta de nuevo.', 'error');
+    }
 }
 
 function handleReservePackage() {
@@ -864,12 +879,12 @@ document.getElementById('search-input').addEventListener('keydown', function (ev
 });
 
 document.getElementById('main-product-image').addEventListener('error', function () {
-    this.src = 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&w=1200&q=85';
+    this.onerror = null; this.src = 'public/images/productos/catalogo_<?= $idProducto ?>.svg';
 });
 
 document.querySelectorAll('.thumbnail-btn img').forEach(img => {
     img.addEventListener('error', function () {
-        this.src = 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&w=500&q=80';
+        this.onerror = null; this.src = 'public/images/productos/catalogo_<?= $idProducto ?>.svg';
     });
 });
 
