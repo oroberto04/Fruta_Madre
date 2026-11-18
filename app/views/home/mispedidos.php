@@ -694,10 +694,10 @@ $totalUnidades = (int) ($pedido['cantidad_productos'] ?? 0);
                 <div class="flex min-h-64 flex-col items-center justify-center p-8 text-center">
                     <span class="material-symbols-outlined text-5xl text-primary">location_on</span>
                     <h4 class="display mt-3 text-lg font-extrabold uppercase">
-                        Falta la dirección
+                        Sin entrega a domicilio registrada
                     </h4>
                     <p class="mt-2 max-w-md text-sm leading-6 text-on-surface-variant">
-                        Este pedido no tiene una dirección domiciliaria registrada.
+                        Este pedido no tiene una entrega a domicilio registrada. Si elegiste recoger en tienda, no necesitas proporcionar una dirección.
                     </p>
                 </div>
             <?php endif; ?>
@@ -743,7 +743,7 @@ $totalUnidades = (int) ($pedido['cantidad_productos'] ?? 0);
             <p class="display mt-1 text-lg font-extrabold leading-snug">
                 <?= $hayDireccion
                     ? $esc($pedido['calle_numero'] ?? 'Dirección registrada')
-                    : 'Dirección pendiente' ?>
+                    : 'Sin entrega domiciliaria' ?>
             </p>
 
             <p class="text-sm leading-5 text-on-surface-variant">
@@ -779,7 +779,7 @@ $totalUnidades = (int) ($pedido['cantidad_productos'] ?? 0);
                     Por confirmar
                 </p>
                 <p class="text-sm leading-5 text-on-surface-variant">
-                    El establecimiento aún no registra un horario de entrega.
+                    El horario está pendiente de confirmación. Si elegiste recoger en tienda, consulta el horario de recogida con el negocio.
                 </p>
             <?php endif; ?>
 
