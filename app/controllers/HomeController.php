@@ -873,6 +873,19 @@ public function misPedidos(): void
 
         $pedidoModel = new PedidoModel();
 
+        // Recuperar pagos TEST confirmados si el webhook no llegó.
+        require_once __DIR__ . '/../services/ConciliadorMercadoPagoPruebas.php';
+        if (MercadoPagoPruebas::habilitado()) {
+            foreach (ConciliadorMercadoPagoPruebas::pendientes(
+                (int) $_SESSION['usuario']['id_usuario'], 5
+            ) as $pendienteId) {
+                try {
+                    ConciliadorMercadoPagoPruebas::conciliar($pendienteId);
+                } catch (Throwable $e) {
+                    error_log('Conciliación MP TEST: ' . $e->getMessage());
+                }
+            }
+        }
         $pedidos = $pedidoModel->listarPedidosUsuario(
 
             (int) $_SESSION['usuario']['id_usuario']
