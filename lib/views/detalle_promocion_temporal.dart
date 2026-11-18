@@ -168,8 +168,8 @@ class _DetallePromocionTemporalState extends State<DetallePromocionTemporal> {
                   style: TextStyle(
                     fontSize: 18, fontWeight: FontWeight.w800,
                     color: AppThemeColors.esOscuro(context)
-                        ? const Color(0xFFB7DBBA)
-                        : const Color(0xFF14432A),
+                        ? const Color(0xFFB8F1B0)
+                        : const Color(0xFF2F612F),
                   ))
               else
                 Text(
@@ -194,9 +194,9 @@ class _DetallePromocionTemporalState extends State<DetallePromocionTemporal> {
                     ? 'Verificando promoción...'
                     : 'Agregar al carrito'),
                 style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF317451),
+                  backgroundColor: const Color(0xFF2F612F),
                   foregroundColor: Colors.white,
-                  disabledBackgroundColor: const Color(0xFF516272),
+                  disabledBackgroundColor: const Color(0xFF6B6F5F),
                   disabledForegroundColor: Colors.white,
                 ),
               ),

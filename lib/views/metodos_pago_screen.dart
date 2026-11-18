@@ -6,7 +6,7 @@ import '../core/theme.dart';
 class MetodosPagoScreen extends StatelessWidget {
   const MetodosPagoScreen({super.key});
 
-  static const Color naranja = Color(0xFFD95B16);
+  static const Color naranja = Color(0xFF2F612F);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class MetodosPagoScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               height: 1.5,
-              color: oscuro ? Colors.white70 : Colors.grey[600],
+              color: oscuro ? Colors.white70 : Color(0xFF6B6F5F),
             ),
           ),
           const SizedBox(height: 25),
@@ -79,7 +79,7 @@ class MetodosPagoScreen extends StatelessWidget {
             titulo: 'Efectivo',
             descripcion: 'Consulta si esta opción está disponible para tu pedido.',
             etiqueta: 'Según disponibilidad',
-            color: const Color(0xFF279568),
+            color: const Color(0xFF477A45),
           ),
 
           const SizedBox(height: 25),
@@ -88,8 +88,8 @@ class MetodosPagoScreen extends StatelessWidget {
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               color: oscuro
-                  ? const Color(0xFF202B36)
-                  : const Color(0xFFFFF0E5),
+                  ? const Color(0xFF251F14)
+                  : const Color(0xFFFDF2DE),
               borderRadius: BorderRadius.circular(18),
             ),
             child: Row(
@@ -117,7 +117,7 @@ class MetodosPagoScreen extends StatelessWidget {
                       Text(
                         'Los pagos digitales se procesan mediante plataformas de pago. NutriCampus no solicita que compartas tu contraseña bancaria.',
                         style: TextStyle(
-                          color: oscuro ? Colors.white70 : Colors.black54,
+                          color: oscuro ? Colors.white70 : Color(0x8A201B0F),
                           fontSize: 12,
                           height: 1.5,
                         ),
@@ -140,7 +140,7 @@ class MetodosPagoScreen extends StatelessWidget {
         fontSize: 11,
         fontWeight: FontWeight.w800,
         letterSpacing: 1.2,
-        color: oscuro ? Colors.white60 : Colors.grey[600],
+        color: oscuro ? Colors.white60 : Color(0xFF6B6F5F),
       ),
     );
   }
@@ -161,7 +161,7 @@ class MetodosPagoScreen extends StatelessWidget {
         color: AppThemeColors.adaptiveSurface,
         borderRadius: BorderRadius.circular(17),
         border: Border.all(
-          color: oscuro ? Colors.white12 : const Color(0xFFEFE9DF),
+          color: oscuro ? Colors.white12 : const Color(0xFFF2E7D2),
         ),
       ),
       child: Row(
@@ -192,7 +192,7 @@ class MetodosPagoScreen extends StatelessWidget {
                 Text(
                   descripcion,
                   style: TextStyle(
-                    color: oscuro ? Colors.white70 : Colors.grey[600],
+                    color: oscuro ? Colors.white70 : Color(0xFF6B6F5F),
                     fontSize: 12,
                     height: 1.4,
                   ),
@@ -211,7 +211,7 @@ class MetodosPagoScreen extends StatelessWidget {
           ),
           const Icon(
             Icons.check_circle_outline,
-            color: Color(0xFF279568),
+            color: Color(0xFF477A45),
             size: 21,
           ),
         ],

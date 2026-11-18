@@ -5,7 +5,7 @@ import '../core/theme.dart';
 class AyudaScreen extends StatelessWidget {
   const AyudaScreen({super.key});
 
-  static const naranja = Color(0xFFD95B16);
+  static const naranja = Color(0xFF2F612F);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class AyudaScreen extends StatelessWidget {
           Text(
             'Encuentra respuestas a las preguntas más frecuentes sobre NutriCampus.',
             style: TextStyle(
-              color: oscuro ? Colors.white70 : Colors.grey[600],
+              color: oscuro ? Colors.white70 : Color(0xFF6B6F5F),
               fontSize: 13,
               height: 1.5,
             ),
@@ -72,7 +72,7 @@ class AyudaScreen extends StatelessWidget {
           Text(
             'CONTACTO',
             style: TextStyle(
-              color: oscuro ? Colors.white60 : Colors.grey[600],
+              color: oscuro ? Colors.white60 : Color(0xFF6B6F5F),
               fontSize: 11,
               fontWeight: FontWeight.w800,
               letterSpacing: 1.2,
@@ -86,7 +86,7 @@ class AyudaScreen extends StatelessWidget {
               color: AppThemeColors.adaptiveSurface,
               borderRadius: BorderRadius.circular(18),
               border: Border.all(
-                color: oscuro ? Colors.white12 : const Color(0xFFEFE9DF),
+                color: oscuro ? Colors.white12 : const Color(0xFFF2E7D2),
               ),
             ),
             child: Column(
@@ -110,7 +110,7 @@ class AyudaScreen extends StatelessWidget {
                 Text(
                   'Comunícate con el equipo de NutriCampus para recibir asistencia.',
                   style: TextStyle(
-                    color: oscuro ? Colors.white70 : Colors.grey[600],
+                    color: oscuro ? Colors.white70 : Color(0xFF6B6F5F),
                     fontSize: 12,
                     height: 1.5,
                   ),
@@ -132,7 +132,7 @@ class AyudaScreen extends StatelessWidget {
             child: Text(
               'NutriCampus · Centro de ayuda',
               style: TextStyle(
-                color: oscuro ? Colors.white38 : Colors.grey[500],
+                color: oscuro ? Colors.white38 : Color(0xFFA9A592),
                 fontSize: 11,
               ),
             ),
@@ -155,12 +155,12 @@ class AyudaScreen extends StatelessWidget {
         border: Border.all(
           color: Theme.of(context).brightness == Brightness.dark
               ? Colors.white12
-              : const Color(0xFFEFE9DF),
+              : const Color(0xFFF2E7D2),
         ),
       ),
       child: ExpansionTile(
         iconColor: naranja,
-        collapsedIconColor: Colors.grey,
+        collapsedIconColor: Color(0xFFA9A592),
         title: Text(
           pregunta,
           style: TextStyle(
@@ -176,7 +176,7 @@ class AyudaScreen extends StatelessWidget {
             style: TextStyle(
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.white70
-                  : Colors.grey[700],
+                  : Color(0xFF6B6F5F),
               fontSize: 12,
               height: 1.6,
             ),

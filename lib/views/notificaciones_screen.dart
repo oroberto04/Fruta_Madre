@@ -10,7 +10,7 @@ import '../viewmodels/auth_viewmodel.dart';
 import 'detalle_pedido_screen.dart';
 import 'ayuda_contacto_screen.dart';
 
-const _naranjaAvisos = Color(0xFFD95C14);
+const _naranjaAvisos = Color(0xFF2F612F);
 
 class NotificacionesScreen extends StatelessWidget {
   const NotificacionesScreen({super.key});

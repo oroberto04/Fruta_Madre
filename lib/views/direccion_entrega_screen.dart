@@ -13,11 +13,11 @@ import '../viewmodels/auth_viewmodel.dart';
 
 
 
-const Color _naranja = Color(0xFFD95C24);
+const Color _naranja = Color(0xFF2F612F);
 
-const Color _gris = Color(0xFF717D8A);
+const Color _gris = Color(0xFF6B6F5F);
 
-const Color _borde = Color(0xFFE8E4DE);
+const Color _borde = Color(0xFFE6DAC4);
 
 
 
@@ -570,7 +570,7 @@ class _DireccionEntregaScreenState extends State<DireccionEntregaScreen> {
                       if (_cargando)
                         const Center(child: CircularProgressIndicator())
                       else if (_errorCarga != null)
-                        Text(_errorCarga!, style: const TextStyle(color: Colors.red))
+                        Text(_errorCarga!, style: const TextStyle(color: Color(0xFFBA1A1A)))
                       else if (_direcciones.isEmpty)
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 18),
@@ -754,7 +754,7 @@ class _DireccionEntregaScreenState extends State<DireccionEntregaScreen> {
                               const CircularProgressIndicator(color: _naranja)
                             else if (_errorPunto != null)
                               Text(_errorPunto!, textAlign: TextAlign.center,
-                                style: const TextStyle(color: Colors.red))
+                                style: const TextStyle(color: Color(0xFFBA1A1A)))
                             else if (_puntoRecogida == null ||
                                      _puntoRecogida!['activo'] != true)
                               const Text(
@@ -1082,7 +1082,7 @@ class _TarjetaDireccion extends StatelessWidget {
 
                 Icons.location_on,
 
-                color: seleccionada ? _naranja : const Color(0xFF9CA3AF),
+                color: seleccionada ? _naranja : const Color(0xFFA9A592),
 
                 size: 25,
 
@@ -1151,7 +1151,7 @@ class _TarjetaDireccion extends StatelessWidget {
                 IconButton(
                   tooltip: 'Eliminar dirección',
                   onPressed: onEliminar,
-                  icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                  icon: const Icon(Icons.delete_outline, color: Color(0xFFBA1A1A)),
                 ),
               if (!modoGestion) Icon(
 
@@ -1161,7 +1161,7 @@ class _TarjetaDireccion extends StatelessWidget {
 
                     : Icons.radio_button_unchecked,
 
-                color: seleccionada ? _naranja : const Color(0xFFD1D5DB),
+                color: seleccionada ? _naranja : const Color(0xFFE6DAC4),
 
                 size: 25,
 

@@ -11,10 +11,10 @@ import '../viewmodels/cart_viewmodel.dart';
 import '../viewmodels/menu_viewmodel.dart';
 import '../widgets/dish_card.dart';
 
-const Color _naranja = Color(0xFFE65316);
-const Color _texto = Color(0xFF171A18);
-const Color _gris = Color(0xFF747A7E);
-const Color _borde = Color(0xFFE7E2DC);
+const Color _naranja = Color(0xFF2F612F);
+const Color _texto = Color(0xFF201B0F);
+const Color _gris = Color(0xFF6B6F5F);
+const Color _borde = Color(0xFFE6DAC4);
 
 class PersonalizarScreen extends StatefulWidget {
   final Platillo platillo;
@@ -182,7 +182,7 @@ class _PersonalizarScreenState extends State<PersonalizarScreen> {
                   : (activa
                         ? Icons.radio_button_checked
                         : Icons.radio_button_unchecked),
-              color: activa ? _naranja : const Color(0xFFD0D5DA),
+              color: activa ? _naranja : const Color(0xFFE6DAC4),
               size: 22,
             ),
             const SizedBox(width: 9),

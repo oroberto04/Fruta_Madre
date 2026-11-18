@@ -16,9 +16,9 @@ import '../viewmodels/checkout_viewmodel.dart';
 import 'direccion_entrega_screen.dart';
 import 'pedidos_screen.dart';
 
-const Color _naranja = Color(0xFFD3581F);
-const Color _gris = Color(0xFF64748B);
-const Color _borde = Color(0xFFF0ECE4);
+const Color _naranja = Color(0xFF2F612F);
+const Color _gris = Color(0xFF6B6F5F);
+const Color _borde = Color(0xFFE6DAC4);
 
 class PagoScreen extends StatefulWidget {
   final Map<String, dynamic> entrega;
@@ -476,8 +476,8 @@ class _PagoScreenState extends State<PagoScreen> {
                           titulo: 'Efectivo al recibir',
                           icono: Icons.payments_outlined,
                           colorIcono: AppThemeColors.esOscuro(context)
-                              ? const Color(0xFF244536)
-                              : const Color(0xFFEDF7ED),
+                              ? const Color(0xFF2F612F)
+                              : const Color(0xFFD8EED5),
                           colorBorde: AppThemeColors.borde(context),
                           onTap: (valor) {
                             if (_pedidoIdPendiente != null) {
@@ -510,7 +510,7 @@ class _PagoScreenState extends State<PagoScreen> {
                     const SizedBox(height: 16),
                     Text(
                       checkout.error!,
-                      style: const TextStyle(color: Colors.red),
+                      style: const TextStyle(color: Color(0xFFBA1A1A)),
                     ),
                   ],
                 ],
@@ -649,7 +649,7 @@ class _MetodoPago extends StatelessWidget {
                 activo
                     ? Icons.radio_button_checked
                     : Icons.radio_button_unchecked,
-                color: activo ? _naranja : const Color(0xFFCBD5E1),
+                color: activo ? _naranja : const Color(0xFFE6DAC4),
                 size: 25,
               ),
               const SizedBox(width: 16),

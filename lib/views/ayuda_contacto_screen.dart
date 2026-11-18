@@ -148,8 +148,8 @@ class _AyudaContactoScreenState extends State<AyudaContactoScreen> {
       clipBehavior: Clip.antiAlias,
       child: ExpansionTile(
         iconColor: AppThemeColors.esOscuro(context)
-            ? const Color(0xFFE65C12)
-            : const Color(0xFF17623D),
+            ? const Color(0xFF2F612F)
+            : const Color(0xFF2F612F),
         collapsedIconColor: AppThemeColors.secundario(context),
         title: Text(titulo, style: TextStyle(
           color: AppThemeColors.texto(context),
@@ -205,8 +205,8 @@ class _AyudaContactoScreenState extends State<AyudaContactoScreen> {
             children: [
               Icon(Icons.support_agent_rounded,
                   color: AppThemeColors.esOscuro(context)
-                      ? const Color(0xFFE65C12)
-                      : const Color(0xFF17623D),
+                      ? const Color(0xFF2F612F)
+                      : const Color(0xFF2F612F),
                   size: 34),
               const SizedBox(height: 12),
               Text('¿Necesitas más ayuda?', style: TextStyle(
@@ -221,7 +221,7 @@ class _AyudaContactoScreenState extends State<AyudaContactoScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   dense: true,
-                  leading: const Icon(Icons.email_outlined, color: Color(0xFF14432A)),
+                  leading: const Icon(Icons.email_outlined, color: Color(0xFF2F612F)),
                   title: const Text('Correo de contacto'),
                   subtitle: Text(correo),
                   onTap: () => _abrirContacto(Uri(scheme: 'mailto', path: correo)),
@@ -230,7 +230,7 @@ class _AyudaContactoScreenState extends State<AyudaContactoScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   dense: true,
-                  leading: const Icon(Icons.phone_outlined, color: Color(0xFF14432A)),
+                  leading: const Icon(Icons.phone_outlined, color: Color(0xFF2F612F)),
                   title: const Text('Teléfono de contacto'),
                   subtitle: Text(telefono),
                   onTap: () => _abrirContacto(Uri(scheme: 'tel', path: telefono)),
@@ -239,7 +239,7 @@ class _AyudaContactoScreenState extends State<AyudaContactoScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   dense: true,
-                  leading: const Icon(Icons.location_on_outlined, color: Color(0xFF14432A)),
+                  leading: const Icon(Icons.location_on_outlined, color: Color(0xFF2F612F)),
                   title: const Text('Dirección'),
                   subtitle: Text(direccion),
                 ),
@@ -247,7 +247,7 @@ class _AyudaContactoScreenState extends State<AyudaContactoScreen> {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   dense: true,
-                  leading: const Icon(Icons.access_time_outlined, color: Color(0xFF14432A)),
+                  leading: const Icon(Icons.access_time_outlined, color: Color(0xFF2F612F)),
                   title: const Text('Horario de atención'),
                   subtitle: Text(horario),
                 ),
@@ -587,14 +587,14 @@ class _EditorContactoOficialState extends State<_EditorContactoOficial> {
                 )),
               const SizedBox(height: 12),
               if (_error != null)
-                Text(_error!, style: const TextStyle(color: Colors.red)),
+                Text(_error!, style: const TextStyle(color: Color(0xFFBA1A1A))),
               const SizedBox(height: 10),
               SizedBox(width: double.infinity,
                 child: FilledButton.icon(
                   style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFF317451),
+                    backgroundColor: const Color(0xFF2F612F),
                     foregroundColor: Colors.white,
-                    disabledBackgroundColor: const Color(0xFF516272),
+                    disabledBackgroundColor: const Color(0xFF6B6F5F),
                     disabledForegroundColor: Colors.white,
                   ),
                   onPressed: _guardando ? null : _guardar,

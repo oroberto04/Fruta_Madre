@@ -13,7 +13,7 @@ class AvisosScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
           ListTile(
-            leading: Icon(Icons.notifications_active, color: Colors.green),
+            leading: Icon(Icons.notifications_active, color: Color(0xFF477A45)),
             title: Text('¡Bienvenido a NutriCampus!'),
             subtitle: Text(
               'Explora el menú y personaliza tus platillos favoritos.',
@@ -25,7 +25,7 @@ class AvisosScreen extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.restaurant_menu, color: Colors.orange),
+            leading: Icon(Icons.restaurant_menu, color: Color(0xFFB55107)),
             title: Text('Horario de pedidos'),
             subtitle: Text('Recuerda hacer tus pedidos antes de las 3:00 PM.'),
             trailing: Text(

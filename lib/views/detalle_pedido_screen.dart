@@ -11,11 +11,11 @@ import '../services/firestore_service.dart';
 import '../services/pago_service.dart';
 import '../core/pedido_acciones.dart';
 
-const Color _naranja = Color(0xFFD95C14);
-const Color _naranjaOscuro = Color(0xFFB94A0D);
-const Color _gris = Color(0xFF9CA3AF);
-const Color _texto = Color(0xFF1F2937);
-const Color _borde = Color(0xFFF0ECE4);
+const Color _naranja = Color(0xFF2F612F);
+const Color _naranjaOscuro = Color(0xFF254B25);
+const Color _gris = Color(0xFF6B6F5F);
+const Color _texto = Color(0xFF201B0F);
+const Color _borde = Color(0xFFE6DAC4);
 
 class DetallePedidoScreen extends StatelessWidget {
   final String pedidoId;
@@ -229,7 +229,7 @@ class DetallePedidoScreen extends StatelessWidget {
                             ? FontWeight.bold
                             : FontWeight.normal,
                         color: opcion['valor'] == 'cancelado'
-                            ? (AppThemeColors.esOscuro(context) ? const Color(0xFFFFB7B7) : Colors.red)
+                            ? (AppThemeColors.esOscuro(context) ? const Color(0xFFFFD9DE) : Color(0xFFBA1A1A))
                             : AppThemeColors.texto(context),
                       ),
                     ),
@@ -258,7 +258,7 @@ class DetallePedidoScreen extends StatelessWidget {
                         messenger.showSnackBar(
                           SnackBar(
                             content: Text('Firebase (${e.code}): ${e.message ?? 'No se pudo guardar el estado.'}'),
-                            backgroundColor: Colors.red,
+                            backgroundColor: Color(0xFFBA1A1A),
                             duration: const Duration(seconds: 10),
                           ),
                         );
@@ -269,7 +269,7 @@ class DetallePedidoScreen extends StatelessWidget {
                         messenger.showSnackBar(
                           SnackBar(
                             content: Text('No se pudo cambiar el estado: $e'),
-                            backgroundColor: Colors.red,
+                            backgroundColor: Color(0xFFBA1A1A),
                             duration: const Duration(seconds: 10),
                           ),
                         );
@@ -470,7 +470,7 @@ class DetallePedidoScreen extends StatelessWidget {
                                 ? 'Mercado Pago confirmó la devolución.'
                                 : 'La devolución está en revisión. No vuelvas a pagar.',
                         style: const TextStyle(
-                          color: Colors.red,
+                          color: Color(0xFFBA1A1A),
                           fontWeight: FontWeight.w600,
                         ),
                       )
@@ -714,7 +714,7 @@ class _PasoSeguimiento extends StatelessWidget {
         ? AppThemeColors.texto(context)
         : AppThemeColors.secundario(context);
     final colorActivo = AppThemeColors.esOscuro(context)
-        ? const Color(0xFFB6E5C2)
+        ? const Color(0xFFB8F1B0)
         : _naranja;
 
     return IntrinsicHeight(
@@ -733,13 +733,13 @@ class _PasoSeguimiento extends StatelessWidget {
                         ? _naranja
                         : completado
                         ? (AppThemeColors.esOscuro(context)
-                            ? const Color(0xFF244536)
-                            : const Color(0xFFE5F4E8))
+                            ? const Color(0xFF2F612F)
+                            : const Color(0xFFD8EED5))
                         : AppThemeColors.superficieSuave(context),
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: completado
-                          ? const Color(0xFF8BC99A)
+                          ? const Color(0xFF7FAE7A)
                           : AppThemeColors.borde(context),
                     ),
                     boxShadow: activo

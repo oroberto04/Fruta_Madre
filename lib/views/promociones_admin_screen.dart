@@ -50,8 +50,8 @@ class _PromocionesAdminScreenState
   bool _cargando = true;
   bool _guardando = false;
 
-  static const Color naranja = Color(0xFF17623D);
-  static const Color verde = Color(0xFF204E35);
+  static const Color naranja = Color(0xFF2F612F);
+  static const Color verde = Color(0xFF2F612F);
 
   @override
   void initState() {
@@ -350,7 +350,7 @@ class _PromocionesAdminScreenState
           TextButton(onPressed: () => Navigator.pop(dialogContext, false),
               child: const Text('Cancelar')),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: Color(0xFFBA1A1A)),
             onPressed: () => Navigator.pop(dialogContext, true),
             child: const Text('Eliminar'),
           ),
@@ -388,14 +388,14 @@ class _PromocionesAdminScreenState
         labelText: etiqueta,
         hintText: sugerencia,
         fillColor: Theme.of(context).brightness == Brightness.dark
-            ? const Color(0xFF26333C) : Colors.white,
+            ? const Color(0xFF2E281A) : Colors.white,
         labelStyle: TextStyle(
           color: Theme.of(context).brightness == Brightness.dark
               ? Colors.white70 : verde,
         ),
         floatingLabelStyle: TextStyle(
           color: Theme.of(context).brightness == Brightness.dark
-              ? const Color(0xFFB7DBBA) : verde,
+              ? const Color(0xFFB8F1B0) : verde,
         ),
         border: const OutlineInputBorder(),
       ),
@@ -405,7 +405,7 @@ class _PromocionesAdminScreenState
   Widget _formulario() {
     return Card(
       color: Theme.of(context).brightness == Brightness.dark
-          ? const Color(0xFF202B36) : const Color(0xFFEAF2E8),
+          ? const Color(0xFF251F14) : const Color(0xFFD8EED5),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -456,7 +456,7 @@ class _PromocionesAdminScreenState
               style: TextStyle(
                 fontSize: 12,
                 color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white70 : const Color(0xFF375642),
+                    ? Colors.white70 : const Color(0xFF2F612F),
               ),
             ),
             const SizedBox(height: 10),
@@ -486,8 +486,8 @@ class _PromocionesAdminScreenState
                   errorBuilder: (_, _, _) => Container(
                     height: 100,
                     color: Theme.of(context).brightness == Brightness.dark
-                        ? const Color(0xFF26333C)
-                        : const Color(0xFFE8F3E9),
+                        ? const Color(0xFF2E281A)
+                        : const Color(0xFFD8EED5),
                     alignment: Alignment.center,
                     child: Text(
                       'Esta URL no muestra una imagen. Prueba otra '
@@ -549,7 +549,7 @@ class _PromocionesAdminScreenState
                   'ya no se podrá comprar.',
                   style: TextStyle(
                     color: Theme.of(context).brightness == Brightness.dark
-                        ? const Color(0xFFB7DBBA)
+                        ? const Color(0xFFB8F1B0)
                         : verde,
                     fontSize: 13,
                   ),
@@ -609,7 +609,7 @@ class _PromocionesAdminScreenState
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? const Color(0xFFB7DBBA)
+                          ? const Color(0xFFB8F1B0)
                           : verde,
                     ),
                   ),
@@ -620,7 +620,7 @@ class _PromocionesAdminScreenState
                   child: Text(
                     'El destino anterior ya no coincide con el catálogo. '
                     'Selecciona el correcto antes de guardar.',
-                    style: TextStyle(color: Colors.deepOrangeAccent,
+                    style: TextStyle(color: Color(0xFFAC2D50),
                         fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -764,7 +764,7 @@ class _PromocionesAdminScreenState
         destinoResuelto != destinoGuardado;
     return Card(
       color: Theme.of(context).brightness == Brightness.dark
-          ? const Color(0xFF202B36) : const Color(0xFFEAF2E8),
+          ? const Color(0xFF251F14) : const Color(0xFFD8EED5),
       margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -780,8 +780,8 @@ class _PromocionesAdminScreenState
                   width: 85,
                   height: 85,
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? const Color(0xFF26333C)
-                      : const Color(0xFFE8F3E9),
+                      ? const Color(0xFF2E281A)
+                      : const Color(0xFFD8EED5),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -819,7 +819,7 @@ class _PromocionesAdminScreenState
                     style: TextStyle(
                       fontSize: 11,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? const Color(0xFFB7DBBA) : verde,
+                          ? const Color(0xFFB8F1B0) : verde,
                     ),
                   ),
                   if (tipo == 'evento' && datos['precioEvento'] is num)
@@ -833,14 +833,14 @@ class _PromocionesAdminScreenState
                     ),
                   if (requiereCorregir)
                     const Text('Destino incorrecto: edita y selecciona el platillo o categoría correcta.',
-                      style: TextStyle(color: Colors.deepOrange, fontWeight: FontWeight.bold)),
+                      style: TextStyle(color: Color(0xFFAC2D50), fontWeight: FontWeight.bold)),
                   if (enlaceDesactualizado)
                     const Text('El producto cambió de ID. Pulsa Editar y Guardar para actualizar el enlace.',
-                      style: TextStyle(color: Colors.deepOrange)),
+                      style: TextStyle(color: Color(0xFFAC2D50))),
                   if (destacada)
                     Text('★ Destacada', style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? const Color(0xFFB7DBBA)
+                          ? const Color(0xFFB8F1B0)
                           : naranja,
                       fontWeight: FontWeight.bold, fontSize: 12)),
                   Wrap(
@@ -854,13 +854,13 @@ class _PromocionesAdminScreenState
                       IconButton(
                         tooltip: 'Eliminar',
                         onPressed: () => _eliminarPromocion(id, coleccion),
-                        icon: const Icon(Icons.delete_outline, color: Colors.red),
+                        icon: const Icon(Icons.delete_outline, color: Color(0xFFBA1A1A)),
                       ),
                       Switch(
                         value: activa,
                         activeThumbColor:
                             Theme.of(context).brightness == Brightness.dark
-                                ? const Color(0xFFB7DBBA) : verde,
+                                ? const Color(0xFFB8F1B0) : verde,
                         onChanged: (value) => _cambiarEstado(id, coleccion, value),
                       ),
                     ],

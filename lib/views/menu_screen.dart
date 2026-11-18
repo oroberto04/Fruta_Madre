@@ -22,11 +22,11 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  static const Color crema = Color(0xFFFAF7F2);
-  static const Color naranja = Color(0xFFD9531E);
-  static const Color texto = Color(0xFF1C2430);
-  static const Color gris = Color(0xFF717D8A);
-  static const Color chip = Color(0xFFECE7DF);
+  static const Color crema = Color(0xFFFFF8F0);
+  static const Color naranja = Color(0xFF2F612F);
+  static const Color texto = Color(0xFF201B0F);
+  static const Color gris = Color(0xFF6B6F5F);
+  static const Color chip = Color(0xFFF2E7D2);
 
   static const String logoUrl =
       'https://lh3.googleusercontent.com/aida-public/AB6AXuCjbAgfGqAs-6sgaqbwR0AzAFhuj9ClHm6ujyl7z3UWOXttcpvkL69rlBx3XAPw1yVqowoGpFfA7s7v_tpjpcaNzb2mHf0pDaMONDErGI5ktPBTLpQn81HtToC9i8N9OczsoF8zBZDcfSFt2nqbSf_PM-4G3egRc_JDK5VZ_gGojvhxA97dV9etzXeg72leq17CotkHJOWfvhHQJEVfWeisRs3aZ9NjCopzvqq5-zTgW2pBtrSIcJIrHDb6fpku8VfcvlU';
@@ -203,8 +203,8 @@ class _MenuScreenState extends State<MenuScreen> {
                   'NutriCampus',
                   style: TextStyle(
                     color: AppThemeColors.esOscuro(context)
-                        ? const Color(0xFFFFB27A)
-                        : const Color(0xFFB94A0D),
+                        ? const Color(0xFFFFDBCA)
+                        : const Color(0xFF2F612F),
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
@@ -439,7 +439,7 @@ class _MenuScreenState extends State<MenuScreen> {
       padding: const EdgeInsets.symmetric(vertical: 45),
       child: Column(
         children: [
-          const Icon(Icons.search_off, color: Color(0xFF9CA3AF), size: 42),
+          const Icon(Icons.search_off, color: Color(0xFFA9A592), size: 42),
           const SizedBox(height: 12),
           Text(
             'No encontramos platillos.',
@@ -468,8 +468,8 @@ class _MenuScreenState extends State<MenuScreen> {
               'Ver todos',
               style: TextStyle(
                 color: AppThemeColors.esOscuro(context)
-                    ? const Color(0xFFB7DBBA)
-                    : const Color(0xFF17623D),
+                    ? const Color(0xFFB8F1B0)
+                    : const Color(0xFF2F612F),
                 fontWeight: FontWeight.w700,
               ),
             ),

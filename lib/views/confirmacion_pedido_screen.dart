@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 
 import 'detalle_pedido_screen.dart';
 
-const Color _naranja = Color(0xFFD95C14);
-const Color _gris = Color(0xFF64748B);
+const Color _naranja = Color(0xFF2F612F);
+const Color _gris = Color(0xFF6B6F5F);
 
 class ConfirmacionPedidoScreen extends StatelessWidget {
   final String pedidoId;

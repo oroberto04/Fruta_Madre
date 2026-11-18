@@ -19,7 +19,7 @@ import 'ayuda_contacto_screen.dart';
 class PerfilScreen extends StatelessWidget {
   Color _colorTarjeta(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
-      ? const Color(0xFF202B36)
+      ? const Color(0xFF251F14)
       : Colors.white;
 
   Color _colorTexto(BuildContext context) =>
@@ -33,11 +33,11 @@ class PerfilScreen extends StatelessWidget {
 
   const PerfilScreen({super.key});
 
-  static const Color _fondo = Color(0xFFFAF7F2);
-  static const Color _naranja = Color(0xFF14432A);
-  static const Color _oscuro = Color(0xFF142036);
-  static const Color _gris = Color(0xFF8E877D);
-  static const Color _rojo = Color(0xFFD83A3A);
+  static const Color _fondo = Color(0xFFFFF8F0);
+  static const Color _naranja = Color(0xFF2F612F);
+  static const Color _oscuro = Color(0xFF201B0F);
+  static const Color _gris = Color(0xFF6B6F5F);
+  static const Color _rojo = Color(0xFFBA1A1A);
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +46,9 @@ class PerfilScreen extends StatelessWidget {
     final email = auth.email?.trim() ?? '';
 
     return Scaffold(
-      backgroundColor: esOscuro ? const Color(0xFF121820) : _fondo,
+      backgroundColor: esOscuro ? const Color(0xFF17130A) : _fondo,
       appBar: AppBar(
-        backgroundColor: esOscuro ? const Color(0xFF121820) : _fondo,
+        backgroundColor: esOscuro ? const Color(0xFF17130A) : _fondo,
         foregroundColor: esOscuro ? Colors.white : _oscuro,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -88,8 +88,8 @@ class PerfilScreen extends StatelessWidget {
                   label: const Text('Conectar Google para usar mi nombre y foto'),
                   style: TextButton.styleFrom(
                     foregroundColor: AppThemeColors.esOscuro(context)
-                        ? const Color(0xFFB7DBBA)
-                        : const Color(0xFF14432A),
+                        ? const Color(0xFFB8F1B0)
+                        : const Color(0xFF2F612F),
                   ),
                 ),
               ],
@@ -238,8 +238,8 @@ class PerfilScreen extends StatelessWidget {
                 style: OutlinedButton.styleFrom(
                   foregroundColor: _rojo,
                   side: BorderSide(color: AppThemeColors.esOscuro(context)
-                      ? const Color(0xFF9A5E65)
-                      : const Color(0xFFF1D7D4)),
+                      ? const Color(0xFFAC2D50)
+                      : const Color(0xFFFFD9DE)),
                   backgroundColor: AppThemeColors.tarjeta(context),
                   minimumSize: const Size(double.infinity, 52),
                   shape: RoundedRectangleBorder(
@@ -294,7 +294,7 @@ class PerfilScreen extends StatelessWidget {
                 ),
               ),
               if (error != null) Text(error!,
-                  style: const TextStyle(color: Colors.redAccent)),
+                  style: const TextStyle(color: Color(0xFFBA1A1A))),
             ],
           ),
           actions: [
@@ -393,7 +393,7 @@ class PerfilScreen extends StatelessWidget {
                         : Icon(
                             Icons.person_rounded,
                             color: AppThemeColors.esOscuro(context)
-                                ? const Color(0xFFB7DBBA) : _naranja,
+                                ? const Color(0xFFB8F1B0) : _naranja,
                             size: 34,
                           ),
                   ),
@@ -401,7 +401,7 @@ class PerfilScreen extends StatelessWidget {
                     right: 0, bottom: 0,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: Color(0xFF317451), shape: BoxShape.circle),
+                        color: Color(0xFF2F612F), shape: BoxShape.circle),
                       child: Padding(
                         padding: EdgeInsets.all(3),
                         child: Icon(Icons.camera_alt_rounded,
@@ -466,7 +466,7 @@ class PerfilScreen extends StatelessWidget {
           const SizedBox(width: 6),
           const Icon(
             Icons.verified_user_outlined,
-            color: Color(0xFF249547),
+            color: Color(0xFF477A45),
             size: 23,
           ),
         ],
@@ -600,13 +600,13 @@ class PerfilScreen extends StatelessWidget {
                   color: AppThemeColors.esOscuro(context)
                       ? AppThemeColors.superficieSuave(context)
                       : (colorIcono == _rojo
-                          ? const Color(0xFFFDEEED)
-                          : const Color(0xFFFFF0E5)),
+                          ? const Color(0xFFFFEEF0)
+                          : const Color(0xFFFDF2DE)),
                   borderRadius: BorderRadius.circular(13),
                 ),
                 child: Icon(icono,
                   color: AppThemeColors.esOscuro(context) && colorIcono != _rojo
-                      ? const Color(0xFFB7DBBA) : colorIcono,
+                      ? const Color(0xFFB8F1B0) : colorIcono,
                   size: 22),
               ),
               const SizedBox(width: 13),

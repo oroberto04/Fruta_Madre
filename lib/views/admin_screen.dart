@@ -86,12 +86,12 @@ class AdminScreen extends StatelessWidget {
           bottom: TabBar(
             isScrollable: true,
             labelColor: AppThemeColors.esOscuro(context)
-                ? const Color(0xFFB7DBBA)
-                : const Color(0xFF17623D),
+                ? const Color(0xFFB8F1B0)
+                : const Color(0xFF2F612F),
             unselectedLabelColor: AppThemeColors.secundario(context),
             indicatorColor: AppThemeColors.esOscuro(context)
-                ? const Color(0xFFB7DBBA)
-                : const Color(0xFF17623D),
+                ? const Color(0xFFB8F1B0)
+                : const Color(0xFF2F612F),
             tabs: [
               Tab(icon: Icon(Icons.receipt_long), text: 'Pedidos'),
               Tab(icon: Icon(Icons.category), text: 'Categorías'),
@@ -120,7 +120,7 @@ class _PedidosAdmin extends StatelessWidget {
 
   const _PedidosAdmin({required this.db});
 
-  static const Color naranja = Color(0xFF17623D);
+  static const Color naranja = Color(0xFF2F612F);
   static const List<int> opcionesMinutos = [10, 15, 20, 30, 40, 45, 60, 90];
 
   bool _puedeEstimar(String estado) =>
@@ -536,7 +536,7 @@ class _PedidosAdmin extends StatelessWidget {
                         ? 'Modificar tiempo estimado' : 'Asignar tiempo estimado'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppThemeColors.esOscuro(context)
-                          ? const Color(0xFFE65C12)
+                          ? const Color(0xFF2F612F)
                           : naranja,
                     ),
                   ),
@@ -1276,7 +1276,7 @@ class _CategoriasAdminState extends State<_CategoriasAdmin> {
       final valor = hexadecimal.replaceFirst('#', '');
       return Color(int.parse('FF$valor', radix: 16));
     } catch (_) {
-      return const Color(0xFFFFF0E2);
+      return const Color(0xFFFDF2DE);
     }
   }
 

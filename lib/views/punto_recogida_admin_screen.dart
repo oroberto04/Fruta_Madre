@@ -14,7 +14,7 @@ class PuntoRecogidaAdminScreen extends StatefulWidget {
 }
 
 class _PuntoRecogidaAdminScreenState extends State<PuntoRecogidaAdminScreen> {
-  static const naranja = Color(0xFFD95C24);
+  static const naranja = Color(0xFF2F612F);
   final _formKey = GlobalKey<FormState>();
   final _nombre = TextEditingController();
   final _direccion = TextEditingController();
@@ -119,7 +119,7 @@ class _PuntoRecogidaAdminScreenState extends State<PuntoRecogidaAdminScreen> {
                 ),
                 const SizedBox(height: 20),
                 if (_error != null) ...[
-                  Text(_error!, style: const TextStyle(color: Colors.red)),
+                  Text(_error!, style: const TextStyle(color: Color(0xFFBA1A1A))),
                   TextButton(onPressed: () {
                     setState(() { _cargando = true; _error = null; });
                     _cargar();

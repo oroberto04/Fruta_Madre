@@ -81,7 +81,7 @@ class _RecuperarPasswordScreenState extends State<RecuperarPasswordScreen> {
                 if (vm.error != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 12),
-                    child: Text(vm.error!, style: TextStyle(color: Colors.red.shade700)),
+                    child: Text(vm.error!, style: TextStyle(color: Color(0xFFBA1A1A))),
                   ),
                 const SizedBox(height: 32),
                 SizedBox(
@@ -90,7 +90,7 @@ class _RecuperarPasswordScreenState extends State<RecuperarPasswordScreen> {
                   child: ElevatedButton(
                     onPressed: vm.cargando ? null : _enviar,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFD95C14),
+                      backgroundColor: const Color(0xFF2F612F),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),

@@ -16,7 +16,7 @@ class ContenidoAdminScreen extends StatefulWidget {
 }
 
 class _ContenidoAdminScreenState extends State<ContenidoAdminScreen> {
-  static const _naranja = Color(0xFF14432A);
+  static const _naranja = Color(0xFF2F612F);
   final _db = FirebaseFirestore.instance;
   final _imagenes = ImagenContenidoService();
   bool _ocupado = false;

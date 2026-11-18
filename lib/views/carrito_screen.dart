@@ -11,11 +11,11 @@ import '../viewmodels/cart_viewmodel.dart';
 import 'checkout_screen.dart';
 import 'login_screen.dart';
 
-const Color _fondo = Color(0xFFFAF7F2);
-const Color _naranja = Color(0xFFE65316);
-const Color _texto = Color(0xFF171A20);
-const Color _gris = Color(0xFF747E8D);
-const Color _borde = Color(0xFFE8E5E1);
+const Color _fondo = Color(0xFFFFF8F0);
+const Color _naranja = Color(0xFF2F612F);
+const Color _texto = Color(0xFF201B0F);
+const Color _gris = Color(0xFF6B6F5F);
+const Color _borde = Color(0xFFE6DAC4);
 
 class CarritoScreen extends StatelessWidget {
   const CarritoScreen({super.key});
@@ -128,7 +128,7 @@ class CarritoScreen extends StatelessWidget {
                       height: 38,
                       decoration: BoxDecoration(
                         color: AppThemeColors.esOscuro(context)
-                            ? const Color(0xFF26333C)
+                            ? const Color(0xFF2E281A)
                             : _fondo,
                         borderRadius: BorderRadius.circular(22),
                         border: Border.all(
@@ -381,7 +381,7 @@ class CarritoScreen extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(22, 22, 22, 20),
                   decoration: BoxDecoration(
                     color: AppThemeColors.esOscuro(context)
-                        ? const Color(0xFF202B36)
+                        ? const Color(0xFF251F14)
                         : _fondo,
                     border: Border(
                       top: BorderSide(

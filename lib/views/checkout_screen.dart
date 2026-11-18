@@ -199,7 +199,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       backgroundColor: AppThemeColors.fondo(context),
 
       appBar: AppBar(
-        backgroundColor: const Color(0xFFD95C14), 
+        backgroundColor: const Color(0xFF2F612F), 
         foregroundColor: Colors.white,
         title: const Text('Entrega y pago', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
@@ -241,8 +241,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             const SizedBox(height: 16),
             OutlinedButton.icon(
               style: OutlinedButton.styleFrom(
-                foregroundColor: const Color(0xFFD95C14),
-                side: const BorderSide(color: Color(0xFFD95C14)),
+                foregroundColor: const Color(0xFF2F612F),
+                side: const BorderSide(color: Color(0xFF2F612F)),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -259,9 +259,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             SegmentedButton<bool>(
               style: SegmentedButton.styleFrom(
 
-                selectedBackgroundColor: const Color(0xFFD95C14).withValues(alpha: 0.15),
+                selectedBackgroundColor: const Color(0xFF2F612F).withValues(alpha: 0.15),
 
-                selectedForegroundColor: const Color(0xFFD95C14),
+                selectedForegroundColor: const Color(0xFF2F612F),
 
                 backgroundColor: AppThemeColors.tarjeta(context),
 
@@ -353,7 +353,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFFD95C14),
+                    color: Color(0xFF2F612F),
                   ),
                 ),
               ],
@@ -363,7 +363,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               height: 52,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFD95C14),
+                  backgroundColor: const Color(0xFF2F612F),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),

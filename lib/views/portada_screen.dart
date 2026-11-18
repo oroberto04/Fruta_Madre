@@ -12,11 +12,11 @@ import 'login_screen.dart';
 class PortadaScreen extends StatelessWidget {
   const PortadaScreen({super.key});
 
-  static const Color fondo = Color(0xFFFBF7EF);
-  static const Color naranja = Color(0xFF145535);
-  static const Color acento = Color(0xFF17623D);
-  static const Color texto = Color(0xFF1F1914);
-  static const Color secundario = Color(0xFF776E65);
+  static const Color fondo = Color(0xFFFFF8F0);
+  static const Color naranja = Color(0xFF2F612F);
+  static const Color acento = Color(0xFF477A45);
+  static const Color texto = Color(0xFF201B0F);
+  static const Color secundario = Color(0xFF6B6F5F);
 
   static const String logoUrl =
       'https://lh3.googleusercontent.com/aida-public/AB6AXuA9kOC6AyPe7qWLSgh7kJ6LyDL0tkVKwEbmACLmFx01JBtRKyz1z5d3xd9koDLeEyasjWz-M6cTaiXocd2AhZQf6VaSFVk4lVZNRoLBIac6ets54_FXwSW2J5ambpTVsBe7s0RHAn7IR2ECn4_5v3-o5elVUAosxnSutnjSDLgQHaif-NsjlpmlXD-Gdhp1vX-IfkeNFLNPAs5ebSMib0x_B1VdG8RzvpenVVnhAB64nXu7QKc5WZ8nlVtVyLr0-melYgQ';
@@ -56,7 +56,7 @@ class PortadaScreen extends StatelessWidget {
   Widget _construirPortada(BuildContext context) {
     final oscuro = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: oscuro ? const Color(0xFF121820) : fondo,
+      backgroundColor: oscuro ? const Color(0xFF17130A) : fondo,
       body: Container(
         decoration: BoxDecoration(
           gradient: RadialGradient(
@@ -64,14 +64,14 @@ class PortadaScreen extends StatelessWidget {
             radius: 1.2,
             colors: AppThemeColors.esOscuro(context)
                 ? const [
-                    Color(0xFF382A26),
-                    Color(0xFF1C2830),
-                    Color(0xFF121820),
+                    Color(0xFF201B0F),
+                    Color(0xFF1D1810),
+                    Color(0xFF17130A),
                   ]
                 : const [
-                    Color(0xFFE0F2E6),
-                    Color(0xFFF7FBF7),
-                    Color(0xFFFBF7EF),
+                    Color(0xFFD8EED5),
+                    Color(0xFFEEF8EA),
+                    Color(0xFFFFF8F0),
                   ],
             stops: [0.0, 0.45, 1.0],
           ),
@@ -127,7 +127,7 @@ class PortadaScreen extends StatelessWidget {
                                     style: TextStyle(
                                       color: AppThemeColors.esOscuro(context)
                                           ? Colors.white
-                                          : const Color(0xFF14432A),
+                                          : const Color(0xFF2F612F),
                                       fontSize: 30,
                                       fontWeight: FontWeight.w800,
                                     ),
@@ -179,7 +179,7 @@ class PortadaScreen extends StatelessWidget {
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color(0xFF529A69)
+                                    color: const Color(0xFF477A45)
                                         .withAlpha(65),
                                     blurRadius: 32,
                                     spreadRadius: 7,
@@ -208,7 +208,7 @@ class PortadaScreen extends StatelessWidget {
                                       height: ladoPlatillo,
                                       fit: BoxFit.cover,
                                       errorBuilder: (_, _, _) => const ColoredBox(
-                                        color: Color(0xFFE2EEE4),
+                                        color: Color(0xFFD8EED5),
                                         child: Center(
                                           child: Icon(
                                             Icons.restaurant,
@@ -235,7 +235,7 @@ class PortadaScreen extends StatelessWidget {
                                   backgroundColor: naranja,
                                   foregroundColor: Colors.white,
                                   elevation: 8,
-                                  shadowColor: const Color(0x6B17623D),
+                                  shadowColor: const Color(0x6B2F612F),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
@@ -268,7 +268,7 @@ class PortadaScreen extends StatelessWidget {
                                       AppThemeColors.tarjeta(context),
                                   foregroundColor: AppThemeColors.texto(context),
                                   side: const BorderSide(
-                                    color: Color(0xFFC4D9C8),
+                                    color: Color(0xFFB8F1B0),
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
@@ -292,7 +292,7 @@ class PortadaScreen extends StatelessWidget {
                               width: 128,
                               height: 4,
                               decoration: BoxDecoration(
-                                color: const Color(0x332C241E),
+                                color: const Color(0x33201B0F),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
@@ -332,9 +332,9 @@ class _PintarHojas extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final hojas = [
-      (const Color(0xFF6EAA80), const Rect.fromLTWH(-20, -18, 82, 115)),
-      (const Color(0xFFB4D5B9), const Rect.fromLTWH(25, -25, 76, 105)),
-      (const Color(0xFF397A55), const Rect.fromLTWH(-28, 28, 63, 104)),
+      (const Color(0xFF477A45), const Rect.fromLTWH(-20, -18, 82, 115)),
+      (const Color(0xFFB8F1B0), const Rect.fromLTWH(25, -25, 76, 105)),
+      (const Color(0xFF477A45), const Rect.fromLTWH(-28, 28, 63, 104)),
     ];
 
     for (final hoja in hojas) {
@@ -364,7 +364,7 @@ class _PintarHojas extends CustomPainter {
         Offset(rect.left, rect.top),
         Offset(rect.left + rect.width * 0.8, rect.bottom),
         Paint()
-          ..color = const Color(0x66457C55)
+          ..color = const Color(0x66477A45)
           ..strokeWidth = 1.2,
       );
     }
@@ -382,7 +382,7 @@ class _HojasInferiores extends StatelessWidget {
     return Icon(
       Icons.eco_rounded,
       size: 105,
-      color: const Color(0xFF6CA783).withAlpha(45),
+      color: const Color(0xFF477A45).withAlpha(45),
     );
   }
 }

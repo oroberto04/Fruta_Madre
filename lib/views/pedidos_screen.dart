@@ -207,7 +207,7 @@ class _PedidosScreenState extends State<PedidosScreen> {
     }
   }
 
-  static const Color _naranja = Color(0xFFD95B16);
+  static const Color _naranja = Color(0xFF2F612F);
 
   int _pestanaSeleccionada = 0;
 
@@ -217,47 +217,47 @@ class _PedidosScreenState extends State<PedidosScreen> {
     final valor = estado.toLowerCase().trim();
     final oscuro = AppThemeColors.esOscuro(context);
     if (valor.contains('cancelado')) {
-      return oscuro ? const Color(0xFFFFB7B7) : const Color(0xFFD83A3A);
+      return oscuro ? const Color(0xFFFFD9DE) : const Color(0xFFBA1A1A);
     }
     if (valor.contains('entregado') ||
         valor.contains('completado') ||
         valor.contains('finalizado')) {
-      return oscuro ? const Color(0xFFB6E5C2) : const Color(0xFF249547);
+      return oscuro ? const Color(0xFFB8F1B0) : const Color(0xFF477A45);
     }
     if (valor.contains('camino') || valor.contains('reparto')) {
       return oscuro ? const Color(0xFFB4D8FF) : const Color(0xFF3478C8);
     }
-    return oscuro ? const Color(0xFFFFCC9B) : _naranja;
+    return oscuro ? const Color(0xFFFFDBCA) : _naranja;
   }
 
   Color _fondoEstado(String estado) {
     final valor = estado.toLowerCase().trim();
     if (AppThemeColors.esOscuro(context)) {
       if (valor.contains('cancelado')) {
-        return const Color(0xFF543037);
+        return const Color(0xFF8A1F40);
       }
       if (valor.contains('entregado') ||
           valor.contains('completado') ||
           valor.contains('finalizado')) {
-        return const Color(0xFF244536);
+        return const Color(0xFF2F612F);
       }
       if (valor.contains('camino') || valor.contains('reparto')) {
         return const Color(0xFF263E58);
       }
-      return const Color(0xFF493827);
+      return const Color(0xFF2C2719);
     }
     if (valor.contains('cancelado')) {
-      return const Color(0xFFFDEEED);
+      return const Color(0xFFFFEEF0);
     }
     if (valor.contains('entregado') ||
         valor.contains('completado') ||
         valor.contains('finalizado')) {
-      return const Color(0xFFEAF7EE);
+      return const Color(0xFFD8EED5);
     }
     if (valor.contains('camino') || valor.contains('reparto')) {
       return const Color(0xFFEAF2FC);
     }
-    return const Color(0xFFFEF4E8);
+    return const Color(0xFFFDF2DE);
   }
 
   String _fechaPedido(Map<String, dynamic> pedido) {

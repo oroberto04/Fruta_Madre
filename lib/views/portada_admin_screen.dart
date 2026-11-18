@@ -17,7 +17,7 @@ class PortadaAdminScreen extends StatefulWidget {
 }
 
 class _PortadaAdminScreenState extends State<PortadaAdminScreen> {
-  static const Color naranja = Color(0xFF14432A);
+  static const Color naranja = Color(0xFF2F612F);
   final _db = FirebaseFirestore.instance;
   final _imagenes = ImagenContenidoService();
   final _titulo = TextEditingController();
@@ -138,7 +138,7 @@ class _PortadaAdminScreenState extends State<PortadaAdminScreen> {
       height: 190,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: Color(0xFFE6DAC4),
         borderRadius: BorderRadius.circular(16),
       ),
       child: _fotoNueva != null

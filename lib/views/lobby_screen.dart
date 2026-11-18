@@ -30,9 +30,9 @@ class LobbyScreen extends StatefulWidget {
 }
 
 class _LobbyScreenState extends State<LobbyScreen> {
-  static const Color naranja = Color(0xFF14432A);
-  static const Color texto = Color(0xFF1C1917);
-  static const Color gris = Color(0xFF78716C);
+  static const Color naranja = Color(0xFF2F612F);
+  static const Color texto = Color(0xFF201B0F);
+  static const Color gris = Color(0xFF6B6F5F);
 
   static const String logoUrl =
       'https://lh3.googleusercontent.com/aida-public/AB6AXuCjbAgfGqAs-6sgaqbwR0AzAFhuj9ClHm6ujyl7z3UWOXttcpvkL69rlBx3XAPw1yVqowoGpFfA7s7v_tpjpcaNzb2mHf0pDaMONDErGI5ktPBTLpQn81HtToC9i8N9OczsoF8zBZDcfSFt2nqbSf_PM-4G3egRc_JDK5VZ_gGojvhxA97dV9etzXeg72leq17CotkHJOWfvhHQJEVfWeisRs3aZ9NjCopzvqq5-zTgW2pBtrSIcJIrHDb6fpku8VfcvlU';
@@ -322,8 +322,8 @@ class _LobbyScreenState extends State<LobbyScreen> {
               style: TextStyle(
                 fontSize: 19,
                 color: AppThemeColors.esOscuro(context)
-                    ? const Color(0xFFFFB27A)
-                    : const Color(0xFF14432A),
+                    ? const Color(0xFFFFDBCA)
+                    : const Color(0xFF2F612F),
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -420,13 +420,13 @@ class _LobbyScreenState extends State<LobbyScreen> {
         hintStyle: TextStyle(
           color: AppThemeColors.esOscuro(context)
               ? Colors.white70
-              : const Color(0xFFA8A29E),
+              : const Color(0xFFA9A592),
         ),
         prefixIcon: Icon(
           Icons.search,
           color: AppThemeColors.esOscuro(context)
               ? Colors.white70
-              : const Color(0xFFA8A29E),
+              : const Color(0xFFA9A592),
           size: 23,
         ),
         suffixIcon: _busqueda.text.isNotEmpty
@@ -440,8 +440,8 @@ class _LobbyScreenState extends State<LobbyScreen> {
             : null,
         filled: true,
         fillColor: AppThemeColors.esOscuro(context)
-            ? const Color(0xFF26333C)
-            : const Color(0xFFEFECE6),
+            ? const Color(0xFF2E281A)
+            : const Color(0xFFF2E7D2),
         contentPadding: const EdgeInsets.symmetric(vertical: 15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
@@ -607,15 +607,15 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
                       color: AppThemeColors.esOscuro(context)
-                          ? const Color(0xFF202B36)
-                          : const Color(0xFFE8F3E9),
+                          ? const Color(0xFF251F14)
+                          : const Color(0xFFD8EED5),
                       borderRadius: BorderRadius.circular(18),
                       border: Border.all(color: AppThemeColors.borde(context)),
                     ),
                     child: Row(
                       children: [
                         const Icon(Icons.local_offer_outlined,
-                            color: Color(0xFF79AF82), size: 28),
+                            color: Color(0xFF7FAE7A), size: 28),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
@@ -761,8 +761,8 @@ class _LobbyScreenState extends State<LobbyScreen> {
     VoidCallback? alAbrir,
     double ancho = 285,
   }) {
-    const verdeTarjeta = Color(0xFF07583E);
-    const naranjaEtiqueta = Color(0xFFF05A0B);
+    const verdeTarjeta = Color(0xFF2F612F);
+    const naranjaEtiqueta = Color(0xFF2F612F);
     final titulo = (promo['titulo'] ?? '').toString();
     final descripcion = (promo['descripcion'] ?? '').toString();
     final imagen = (promo['imagenUrl'] ?? '').toString();
@@ -795,7 +795,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                         imagen,
                         fit: BoxFit.cover,
                         errorBuilder: (_, _, _) => const ColoredBox(
-                          color: Color(0xFF274936),
+                          color: Color(0xFF2F612F),
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -813,7 +813,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                       )
                     else
                       const ColoredBox(
-                        color: Color(0xFF274936),
+                        color: Color(0xFF2F612F),
                         child: Center(
                           child: Icon(Icons.restaurant,
                             color: Colors.white70, size: 42),
@@ -853,7 +853,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                               fontWeight: FontWeight.w800)),
                           const SizedBox(height: 3),
                           Text(descripcion, maxLines: 2, overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Color(0xFFC7E0D3), fontSize: 11)),
+                            style: const TextStyle(color: Color(0xFFB8F1B0), fontSize: 11)),
                           const SizedBox(height: 4),
                           if (promo['tipoDestino'] == 'evento' &&
                               precioEvento is num)
@@ -898,7 +898,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
           onPressed: onTap,
           style: TextButton.styleFrom(
             foregroundColor: AppThemeColors.esOscuro(context)
-                ? const Color(0xFFB7DBBA) : naranja,
+                ? const Color(0xFFB8F1B0) : naranja,
             padding: EdgeInsets.zero,
             minimumSize: Size.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -938,7 +938,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
             final hex = categoria.color.replaceFirst('#', '');
             fondo = Color(int.parse('FF$hex', radix: 16));
           } catch (_) {
-            fondo = const Color(0xFFE5F2E8);
+            fondo = const Color(0xFFD8EED5);
           }
 
           return SizedBox(
@@ -952,7 +952,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     height: 61,
                     decoration: BoxDecoration(
                       color: AppThemeColors.esOscuro(context)
-                          ? const Color(0xFF355844)
+                          ? const Color(0xFF2F612F)
                           : fondo,
                       shape: BoxShape.circle,
                       border: Border.all(color: fondo.withAlpha(180)),
@@ -973,7 +973,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                       fontSize: 11,
                       color: AppThemeColors.esOscuro(context)
                           ? Colors.white
-                          : const Color(0xFF44403C),
+                          : const Color(0xFF2C2719),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -1040,13 +1040,13 @@ class _LobbyScreenState extends State<LobbyScreen> {
               children: [
                 Icon(Icons.add_circle_outline, size: 16,
                   color: AppThemeColors.esOscuro(context)
-                      ? const Color(0xFFB7DBBA) : naranja),
+                      ? const Color(0xFFB8F1B0) : naranja),
                 const SizedBox(width: 4),
                 Text(
                   'Elegir',
                   style: TextStyle(
                     color: AppThemeColors.esOscuro(context)
-                        ? const Color(0xFFB7DBBA) : naranja,
+                        ? const Color(0xFFB8F1B0) : naranja,
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
                   ),
@@ -1105,7 +1105,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
               'Personalizar  →',
               style: TextStyle(
                 color: AppThemeColors.esOscuro(context)
-                    ? const Color(0xFFB7DBBA) : naranja,
+                    ? const Color(0xFFB8F1B0) : naranja,
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
               ),
@@ -1146,7 +1146,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
       padding: const EdgeInsets.symmetric(vertical: 35),
       child: Column(
         children: [
-          const Icon(Icons.search_off, size: 45, color: Color(0xFFA8A29E)),
+          const Icon(Icons.search_off, size: 45, color: Color(0xFFA9A592)),
           const SizedBox(height: 10),
           Text(
             'No encontramos platillos con esos criterios.',
@@ -1166,7 +1166,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
               'Mostrar todos',
               style: TextStyle(
                 color: AppThemeColors.esOscuro(context)
-                    ? const Color(0xFFB7DBBA) : naranja,
+                    ? const Color(0xFFB8F1B0) : naranja,
               ),
             ),
           ),
@@ -1214,12 +1214,12 @@ class _LobbyScreenState extends State<LobbyScreen> {
             Icons.home_outlined,
             color: _indice == 0
                 ? (AppThemeColors.esOscuro(context)
-                    ? const Color(0xFFB7DBBA) : naranja)
-                : const Color(0xFFA8A29E),
+                    ? const Color(0xFFB8F1B0) : naranja)
+                : const Color(0xFFA9A592),
           ),
           selectedIcon: Icon(Icons.home,
               color: AppThemeColors.esOscuro(context)
-                  ? const Color(0xFFB7DBBA) : naranja),
+                  ? const Color(0xFFB8F1B0) : naranja),
           label: 'Inicio',
         ),
         NavigationDestination(
@@ -1227,20 +1227,20 @@ class _LobbyScreenState extends State<LobbyScreen> {
             Icons.menu_book_outlined,
             color: _indice == 1
                 ? (AppThemeColors.esOscuro(context)
-                    ? const Color(0xFFB7DBBA) : naranja)
-                : const Color(0xFFA8A29E),
+                    ? const Color(0xFFB8F1B0) : naranja)
+                : const Color(0xFFA9A592),
           ),
           selectedIcon: Icon(Icons.menu_book,
               color: AppThemeColors.esOscuro(context)
-                  ? const Color(0xFFB7DBBA) : naranja),
+                  ? const Color(0xFFB8F1B0) : naranja),
           label: 'Menú',
         ),
         const NavigationDestination(
-          icon: Icon(Icons.assignment_outlined, color: Color(0xFFA8A29E)),
+          icon: Icon(Icons.assignment_outlined, color: Color(0xFFA9A592)),
           label: 'Pedidos',
         ),
         const NavigationDestination(
-          icon: Icon(Icons.person_outline, color: Color(0xFFA8A29E)),
+          icon: Icon(Icons.person_outline, color: Color(0xFFA9A592)),
           label: 'Perfil',
         ),
       ],
