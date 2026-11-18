@@ -271,6 +271,10 @@ if ($accion === 'imagen-producto-stitch') {
     require_once __DIR__ . '/app/controllers/MercadoPagoPruebasController.php';
     (new MercadoPagoPruebasController())->resultado();
 
+} elseif ($metodo === 'POST' && $accion === 'webhook-mp-prueba') {
+    require_once __DIR__ . '/app/controllers/MercadoPagoWebhookPruebas.php';
+    MercadoPagoWebhookPruebas::atender();
+
 } elseif ($accion === 'pedido-confirmado') {
 
     $pedido = $_SESSION['pedido_creado'] ?? null;
