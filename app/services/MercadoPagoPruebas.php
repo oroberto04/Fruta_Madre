@@ -35,7 +35,14 @@ final class MercadoPagoPruebas
         if (($order['id'] ?? null) !== $idOrder || ($order['external_reference'] ?? null) !== 'FRUTA-MADRE-TEST-' . $idPedido) {
             throw new RuntimeException('La order no corresponde al pedido.');
         }
-        if (($order['live_mode'] ?? null) !== false) {
+        $liveMode = $order['live_mode'] ?? null;
+
+        if ($liveMode === true
+            || ($liveMode !== false && $liveMode !== null)
+            || ($liveMode === null && (
+                !str_starts_with($idOrder, 'ORDTST')
+                || !self::habilitado()
+            ))) {
             throw new RuntimeException('La API no confirmó que la order sea de prueba.');
         }
         if (($order['currency'] ?? null) !== 'MXN' && ($order['currency_id'] ?? null) !== 'MXN') {
